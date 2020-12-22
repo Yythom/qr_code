@@ -1,9 +1,6 @@
 
 <div align="center">
-
-[![Build Status](https://img.shields.io/badge/im-reactIm--im-brightgreen.svg)](https://github.com/Yythom/react-component)
-
-📘[项目构建](#项目构建) | 🏖[TODO LIST](#todo-list)
+📘[项目构建](#项目构建) | 
 
 </div>
 
