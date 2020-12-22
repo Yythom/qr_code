@@ -1,0 +1,77 @@
+.order_detail {
+    padding-right: 0.9rem;
+    padding-left: 0.9rem;
+    height: calc(100% - 4.4rem);
+    transform: translate(0, 4.4rem);
+    overflow-y: scroll;
+    box-sizing: border-box;
+    padding-bottom: 2rem;
+
+    .product_list {
+        width: 35.7rem;
+    }
+
+    .order_status {
+        color: rgba(9, 44, 76, 100);
+        font-size: 2rem;
+    }
+
+    .order_info,
+    .address_wrap {
+        border-radius: 2rem;
+        background-color: #fff;
+        padding: 1.6rem;
+        box-sizing: border-box;
+
+        .title {
+            color: rgba(9, 44, 76, 100);
+            font-size: 1.3rem;
+        }
+
+        i {
+            display: block;
+            height: 0.1rem;
+            width: 100%;
+            margin-top: 0.9rem;
+            background-color: rgba(229, 229, 229, 33);
+            margin-bottom: 0.9rem;
+        }
+
+        .content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(0, 0, 0, 0.46);
+            font-size: 1.2rem;
+            margin-bottom: .9rem;
+
+            span:nth-of-type(2) {
+                color: rgba(9, 44, 76, 100);
+            }
+        }
+    }
+
+    .copy {
+        display: inline-block;
+        width: 3.5rem;
+        text-align: center;
+        height: 1.6rem;
+        line-height: 1.4rem;
+        font-size: 1.2rem;
+        border-radius: 0.2rem;
+        border: 0.1rem solid rgba(0, 0, 0, 0.18);
+        margin-left: 0.3rem;
+    }
+
+    .address_wrap {
+        width: 35.7rem;
+        height: 17rem;
+        margin-top: 0.6rem;
+    }
+
+    .order_info {
+        width: 35.7rem;
+        height: 14rem;
+        margin-top: 1rem;
+    }
+}

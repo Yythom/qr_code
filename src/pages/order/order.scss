@@ -1,0 +1,125 @@
+.order_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    background-color: #f5f8fb;
+
+    .order_tabs {
+        width: 100%;
+        overflow: hidden;
+
+        .ant-tabs-nav-list {
+            width: 100%;
+            display: flex !important;
+            justify-content: space-between !important;
+        }
+
+        .ant-tabs-tab {
+            padding-left: 2rem;
+            padding-right: 2rem;
+            margin-right: 0;
+            color: rgba(0, 0, 0, .65);
+        }
+    }
+
+    .list_wrap {
+        width: 100%;
+        height: 100%;
+        // background-color: pink;
+        overflow-y: scroll;
+        box-sizing: border-box;
+        padding: 0 1.1rem;
+
+        .order_item {
+            height: 17.5rem;
+            width: 35.2rem;
+            background-color: #fff;
+            margin-bottom: 1.2rem;
+            border-radius: 0.6rem;
+            margin-right: 0;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 1.5rem 1.2rem 1rem 1rem;
+            position: relative;
+
+            .status {
+                position: absolute;
+                right: 0.7rem;
+                top: 1.65rem;
+            }
+
+            .upBtn {
+                position: absolute;
+                padding: 0rem 0.2rem;
+                height: 2rem;
+                right: 1rem;
+                bottom: 1.1rem;
+                color: rgba(87, 98, 103, 100) !important;
+                font-size: 1.2rem;
+                border-radius: 0.4rem;
+                border: 1px solid rgba(194, 195, 194, 100);
+            }
+
+            .ant-btn:focus {
+                color: rgba(87, 98, 103, 100);
+            }
+
+            .img_box {
+                width: 11.7rem;
+                height: 15rem;
+                overflow: hidden;
+                border-radius: 0.6rem;
+                margin-right: 1.2rem;
+
+                img {
+                    height: 100%;
+                }
+            }
+
+            .content {
+                height: 15rem;
+                padding-top: 0.3rem;
+                box-sizing: border-box;
+                color: rgba(9, 44, 76, 100);
+                font-size: 1.2rem;
+
+                span {
+                    color: rgba(121, 124, 128, 100);
+                    font-size: 1.2rem;
+                }
+
+                .shop_name {
+                    color: rgba(16, 16, 16, 100);
+                    font-size: 1.4rem;
+                }
+
+                .time {
+                    margin-top: 0.5rem;
+                }
+
+                .address {
+                    margin-top: 2.2rem;
+                }
+
+                .price,
+                .tprice {
+                    color: rgba(252, 161, 48, 100);
+                    font-size: 1.6rem;
+                }
+
+                .ziti {
+                    margin-top: 2.2rem;
+                }
+
+                .price {
+                    margin-top: 4rem;
+                }
+            }
+        }
+    }
+}

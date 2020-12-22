@@ -1,0 +1,89 @@
+.home_wrap {
+    // height: 100%;
+    background-color: rgb(245, 248, 251);
+    // overflow-x: hidden;
+    overflow: hidden;
+    overflow-y: scroll;
+    // padding-bottom: 4rem;
+    box-sizing: border-box;
+
+    .tab {
+        height: 3.1rem;
+        margin-top: 6rem;
+        margin-bottom: 0.4rem;
+        width: 100%;
+        text-align: center;
+        font-size: 1.6rem;
+
+        ul {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            overflow-x: scroll;
+            overflow-y: hidden;
+
+            &::-webkit-scrollbar {
+                display: none
+            }
+
+            li {
+                width: auto;
+                transition: 300ms;
+                flex-grow: 0;
+                flex-shrink: 0;
+                margin-right: 2.6rem;
+                line-height: 2.4rem;
+                color: rgb(9, 44, 76);
+
+                &:nth-of-type(1) {
+                    margin-left: 1.5rem;
+                }
+            }
+        }
+    }
+
+
+
+    .title-bg {
+        width: 100%;
+        height: 10.6rem;
+        position: relative;
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .content {
+            position: absolute;
+            top: 7.6rem;
+            left: 2.1rem;
+            width: 34.6rem;
+            height: 7.8rem;
+            border-radius: 3rem;
+            background-color: #fff;
+            border: 0.1rem solid rgba(255, 255, 255, 1);
+            box-sizing: border-box;
+            padding-left: 2.5rem;
+            padding-right: 2.5rem;
+            padding-top: 1.1rem;
+            padding-bottom: 0.8rem;
+
+            h2 {
+                margin: 0;
+                font-size: 2.4rem;
+                color: rgba(9, 44, 76, 1);
+            }
+
+            .address {
+                font-size: 1.2rem;
+                color: rgba(156, 162, 169, 1);
+
+                span,
+                svg {
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+}

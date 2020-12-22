@@ -1,0 +1,34 @@
+// * {
+//     background-color: #000;
+// }
+@import '~antd/dist/antd.css';
+
+.layout {
+    // height: 100vh;
+    padding-bottom: 4.9rem;
+    box-sizing: border-box;
+    background-color: rgb(245, 248, 251);
+    // overflow: hidden;
+}
+
+.ol,
+ul,
+dl {
+    margin-bottom: 0;
+}
+
+.loading {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    img {
+        width: 100%;
+    }
+
+    h2 {
+        text-align: center;
+        color: rgb(92, 92, 92);
+    }
+}
