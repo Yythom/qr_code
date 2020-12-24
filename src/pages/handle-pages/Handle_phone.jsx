@@ -6,6 +6,8 @@ import './style/handle.scss'
 import { useState } from 'react'
 import { Button, message } from 'antd'
 import { isMobile } from '../../utils/utils'
+import { changePhoneCodeApi, changePhoneApi } from '../../api/api'
+
 function Handle_phone(props) {
     const [flag, setFlag] = useState(false);
     const [count, setCount] = useState(0);
@@ -31,23 +33,39 @@ function Handle_phone(props) {
                 }
             }, 1000);
         }
-        go()
+        setTimeout(() => {
+            if (count_flag) {
+                go();
+            }
+        }, 0);
     }
-    const getCode = () => {
+    const getCode = async () => {
         if (!isMobile(phone)) {
             message.error('请输入正确的手机号');
             return
         }
         if (!count_flag) {
             // code 逻辑
-
-
             countDown();
+            message.loading({ content: '获取中...', duration: 0 })
+            let res = await changePhoneCodeApi()
+            if (res) {
+                message.destroy();
+                message.success('验证码获取成功')
+            }
         } else return
     }
     async function onOk() {
-
-        clear();
+        message.loading({ content: '修改中...', duration: 0 })
+        let result = await changePhoneApi(v, phone);
+        if (result) {
+            message.destroy();
+            message.success('修改成功');
+            props.setUserInfo();
+            setTimeout(() => {
+                clear();
+            }, 200);
+        }
     }
 
     function clear() {
@@ -63,7 +81,7 @@ function Handle_phone(props) {
                     <li>
                         <span>联系方式</span>
                         <div>
-                            <span style={{ verticalAlign: 'middle', }}>13314231231</span>
+                            <span style={{ verticalAlign: 'middle', }}>{props.userStore.mobile}</span>
                             <svg style={{ verticalAlign: 'middle', marginLeft: '0.4rem' }} t="1608621663428" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10354" width="14" height="14"><path d="M267.354606 72.005964c-13.515828 12.812817-13.515828 33.603329 0 46.417169l414.889265 393.579937-414.889265 393.565611c-13.515828 12.821003-13.515828 33.604352 0 46.425356 13.508665 12.81998 35.418674 12.81998 48.927339 0l432.159604-410.009118c0 0 18.33867-16.991999 18.33867-29.981848 0-11.971659-18.33867-29.989011-18.33867-29.989011L316.282968 72.005964C302.77328 59.184961 280.863271 59.184961 267.354606 72.005964z" fill="#9D9E9D" p-id="10355"></path></svg>
                         </div>
                     </li>

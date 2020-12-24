@@ -1,3 +1,7 @@
+/* eslint-disable no-undef */
+
+import { message } from "antd";
+
 /**
  * @param {jsx绑定函数} func 
  * @param {延迟} threshold 
@@ -100,4 +104,40 @@ export const systemScreen = () => {
         getScrollHeight: getScrollHeight(),
     }
     return obj
+}
+
+export function setCookie(name, value, n) {
+    var oDate = new Date();
+    oDate.setDate(oDate.getDate() + n);
+    document.cookie = name + "=" + value + ";expires=" + oDate;
+}
+
+export function getCookie(name) {
+    var str = document.cookie;
+    var arr = str.split("; ");
+    for (var i = 0; i < arr.length; i++) {
+        //console.log(arr[i]);
+        var newArr = arr[i].split("=");
+        if (newArr[0] == name) {
+            return newArr[1];
+        }
+    }
+}
+export async function getLal(address) {
+    //对指定地址进行解析
+    geocoder.getLocation(address);
+    return new Promise((resolve, reject) => {
+        geocoder.setError((err) => {
+            message.destroy();
+            setTimeout(() => {
+                message.error('地址输入错误');
+            }, 200);
+            resolve(false)
+            // console.log(address + '地址输入错误', err)
+        })
+        //设置服务请求成功的回调函数
+        geocoder.setComplete((res) => {
+            resolve(res.detail)
+        })
+    });
 }

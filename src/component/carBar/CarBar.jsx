@@ -8,6 +8,7 @@ import Input from '../Cart_input'
 import { useHistory } from 'react-router-dom'
 import { makeOrder } from '../../api/api'
 import np from 'number-precision'
+import { message } from 'antd'
 function Carbar(props) {
     const [show, setShow] = useState(false);
     const history = useHistory();
@@ -16,18 +17,37 @@ function Carbar(props) {
 
 
     function list() {
-
+        let copy = JSON.parse(JSON.stringify(cart));
+        if (copy[shop_id]) { // 删除多余的属性  调用预下单-
+            copy[shop_id].list.forEach((e, i) => {
+                for (let j = 0; j < copy[shop_id].list[i].product.length; j++) {
+                    let el = copy[shop_id].list[i].product[j];
+                    delete el.cate_id;
+                    delete el.product_name;
+                    delete el.picture;
+                    delete el.stock;
+                    delete el.sell_price;
+                    delete el.coin_price;
+                }
+            });
+            return copy[shop_id].list
+        }
+        return ''
     }
 
     async function back() {
-        // if (cart[shop_id] && cart[shop_id].list[0]) {
-        // let lists = list();
-        // await makeOrder(shop_id, lists, localStorage.getItem('table_id')); // 
-        setTimeout(() => {
-            // props.clearCart()
-            history.push('/cashier');
-        }, 200);
-        // }
+        if (cart[shop_id] && cart[shop_id].list[0]) {
+            console.log(list());
+
+            // let lists = list();
+            // await makeOrder(shop_id, lists, localStorage.getItem('table_id')); // 
+            setTimeout(() => {
+                // props.clearCart()
+                history.push('/cashier');
+            }, 200);
+        } else {
+            message.error('请先选择菜品')
+        }
     }
     // console.log(props);
     return (
@@ -55,8 +75,8 @@ function Carbar(props) {
                                 <div className='e_price'>
                                     {
                                         <p className='new'>
-                                            <span >{np.times(e.coin, e.number)}币</span>
-                                            ¥{np.times(e.price, e.number)}
+                                            <span >{np.times(e.coin_price, e.number)}币</span>
+                                            ¥{np.times(e.sell_price, e.number)}
                                         </p> // 
                                     }
                                 </div>

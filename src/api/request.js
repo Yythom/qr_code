@@ -1,5 +1,8 @@
 import axios from 'axios'
 import { baseURL, timeout } from './config'
+import { message } from 'antd';
+import { getCookie } from '../utils/utils'
+
 
 let pending = []; //声明一个数组用于存储每个请求的取消函数和axios标识
 // let cancelToken = axios.CancelToken;
@@ -21,7 +24,8 @@ export function request(config) {
         timeout,
         headers: {
             'Content-Type': 'application/json',
-            'token': '888'
+            'token': getCookie('token') || '',
+            'shop_id': localStorage.getItem('shop_id') || '',
         }
     })
 
@@ -46,9 +50,17 @@ export function request(config) {
     return new Promise((resolve, reject) => {
         instance(config).then(res => {
             if (res.code !== '0') {
-                reject(res.msg)
+                if (res.code === 'B-009-001-001') {
+                    let origin = window.location.origin;
+                    window.location.href = origin;
+                }
+                message.destroy();
+                setTimeout(() => {
+                    message.error(res.msg)
+                }, 200);
+                resolve(false)
             } else {
-                resolve(res)
+                resolve(res.result)
             }
         }).catch(err => {
             /**

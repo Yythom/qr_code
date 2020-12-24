@@ -51,8 +51,8 @@ function Input(props) {
                 Object.values(props.cart)[0].list.forEach(e => { // 购物车中的分类列表
                     e.product.forEach(el => { // 每个分类对象下的菜品列表
                         allNumber += el.number; // 购物车总数量
-                        allPrice += np.times(el.number, el.price); // 购物车总价格
-                        coin += np.times(el.number, el.coin);
+                        allPrice += np.times(el.number, el.sell_price); // 购物车总价格
+                        coin += np.times(el.number, el.coin_price);
                         productList.push(el); // 购物车商品列表
                         if (el.product_id === food.product_id) {
                             flag = true;

@@ -1,4 +1,7 @@
-// import { } from '../api/api'
+
+import { getInfoApi } from "../api/api"
+import { message } from "antd"
+import { getCookie } from "../utils/utils"
 
 
 export const mapStateToProps = (state, ownProps) => {
@@ -11,6 +14,9 @@ export const mapStateToProps = (state, ownProps) => {
 
         defaultAddress: state.defaultAddress,
         useAddress: state.useAddress,
+        _localtion: state._localtion,
+        isBrowser: state.isBrowser,
+        shop: state.shop,
     }
 }
 
@@ -19,19 +25,34 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
         activeTab: (index) => {  //tab路由状态
             dispatch({ type: 'TAB', index: index })
         },
-        setUserInfo: (info) => {
-            dispatch({ type: 'INFO', info })
+        setUserInfo: async () => {
+            if (getCookie('token')) {
+                let res = await getInfoApi();
+                if (res) {
+                    dispatch({ type: 'INFO', info: res })
+                } else {
+                    message.error('获取用户信息失败')
+                }
+            }
         },
         setShopID: (id) => {
             dispatch({ type: 'SHOPID', id })
         },
-        setAddress: (obj) => {
-            dispatch({ type: 'USEADDRESS', data: obj })
+        setAddress: (address_id) => {
+            dispatch({ type: 'USEADDRESS', data: address_id })
         },
         setDefaultAddress: (obj) => {
             dispatch({ type: 'DEFAULT', data: obj })
         },
-
+        setLocaltion: (_localtion) => {
+            dispatch({ type: 'LOCAL', _localtion })
+        },
+        setBrowser: (text) => {
+            dispatch({ type: 'BROWSER', text })
+        },
+        setShop: (shop) => {
+            dispatch({ type: 'SHOP', shop })
+        },
 
         addCart: (food, shop_id, current) => {
             dispatch({ type: 'ADDCART', food, shop_id, current })
@@ -40,9 +61,8 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch({ type: 'SETNUM', allSummary })
         },
         clearCart: () => {
-            console.log(1);
-
             localStorage.removeItem('cart');
+            localStorage.removeItem('summary');
             dispatch({ type: 'CLEAR' })
         },
     }

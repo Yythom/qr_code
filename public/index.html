@@ -10,22 +10,19 @@
   <meta name="theme-color" content="#000000" />
   <meta name="description" content="Web site created using create-react-app" />
   <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-  <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
   <title>积分商城</title>
 </head>
+<!-- <script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.3.4/vconsole.min.js"></script>
+<script>
+  var vConsole = new VConsole();
+</script> -->
+<script src="https://gw.alipayobjects.com/as/g/h5-lib/alipayjsapi/3.1.1/alipayjsapi.inc.min.js"></script>
+<script>
+  var AP = ap;
+</script>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -43,6 +40,15 @@
 </body>
 <script type="text/javascript">
   document.documentElement.style.fontSize = document.documentElement.clientWidth / 640 * 17.06666666666 + 'px';
+</script>
+
+
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=4I7BZ-HIS3P-ELWD3-L2R4G-MOYBJ-OLBXZ"></script>
+<!-- <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script> -->
+
+<script>
+  var geocoder = new qq.maps.Geocoder();
+  // var WX = wx;
 </script>
 
 </html>

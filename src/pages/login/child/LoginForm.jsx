@@ -3,8 +3,9 @@ import { Form, Input, Button, Checkbox, Statistic, message } from 'antd';
 import { mapStateToProps, mapDispatchToProps } from '../../../redux/actionCreator';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { isMobile } from '../../../utils/utils'
+import { isMobile, setCookie, getCookie } from '../../../utils/utils'
 import { useEffect } from 'react';
+import { getPhoneCodeApi, loginApi } from '../../../api/api'
 
 const layout = {
     labelCol: { span: 8 },
@@ -14,10 +15,12 @@ const layout = {
 const SubForm = (props) => {
     const history = useHistory();
     const [verifyCode, setVerifyCode] = useState('');
+    const [phone, setPhone] = useState('');
     const [flag, setFlag] = useState('');
     const [count, setCount] = useState('');
     const [type, setType] = useState('');
-    const onFinish = values => {
+
+    const onFinish = async (values) => {
         if (!values.phone) {
             message.error('请输入手机号');
         }
@@ -25,29 +28,35 @@ const SubForm = (props) => {
             message.error('验证码不能为空');
             return
         }
+        if (values.verify.length !== 6) {
+            message.error('验证码长度错误');
+            return
+        }
         if (!isMobile(values.phone)) {
             message.error('请输入正确的手机号');
             return
         }
 
-        // props.setLoading(true);
-        localStorage.setItem('info', JSON.stringify(values));
+        props.setLoading(true);
         props.setUserInfo(values);
-        setTimeout(() => {
-            // props.setLoading(false);
-            // setTimeout(() => {
-            history.replace('/home')
-            // }, 300); 
-        }, 400);
-        console.log('Success:', values);
+        let result = await loginApi(values.verify, phone);
+        if (result) {
+            setCookie('token', result.token, 20);
+            setTimeout(() => {
+                history.push('/home');
+
+            }, 300);
+        }
+        setFlag(false);
+        props.setLoading(false);
     };
 
     const onFinishFailed = errorInfo => {
         console.log('Failed:', errorInfo);
     };
     function countDown() {
-        let i = 10;
-        setFlag(true)
+        let i = 30;
+        setFlag(true);
         setCount(i--);
         function go() {
             setTimeout(() => {
@@ -55,24 +64,31 @@ const SubForm = (props) => {
                     go();
                     setCount(i);
                     i--;
-                    console.log(i);
                 } else {
                     setFlag(false)
                     console.log('结束');
                 }
             }, 1000);
         }
-        go()
+        go();
     }
 
-    const getCode = () => {
+    const getCode = async () => {
         console.log('获取验证码');
-        countDown()
-        // setVerifyCode('temp code')
+        if (phone.length === 0) {
+            message.error('请先输入手机号');
+            return
+        }
+        countDown();
+        let res = await getPhoneCodeApi(phone);
+        if (!res) {
+            message.error('登入失败')
+        }
     }
-    // useEffect(() => {
+    useEffect(() => {
+        if (getCookie('token')) history.push('/home');
+    }, [])
 
-    // }, [])
     return (
         <div className='login-form' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Form
@@ -87,15 +103,14 @@ const SubForm = (props) => {
                     name="phone"
                     className={type === 'phone' && 'active-wrap'}
                 >
-                    <Input bordered maxLength={11} onClick={() => setType('phone')} onBlur={() => setType('')} />
+                    <Input bordered placeholder='请输入' maxLength={11} onChange={(e) => setPhone(e.target.value)} onClick={() => setType('phone')} onBlur={() => setType('')} />
                 </Form.Item>
-                {console.log(type, 'type')}
                 <Form.Item
                     label="验证码"
                     name="verify"
                     className={type === 'verify' && 'active-wrap'}
                 >
-                    <Input bordered onClick={() => setType('verify')} onBlur={() => setType('')} />
+                    <Input placeholder={'六位验证码'} maxLength={6} bordered onClick={() => setType('verify')} onBlur={() => setType('')} />
                 </Form.Item>
 
                 {

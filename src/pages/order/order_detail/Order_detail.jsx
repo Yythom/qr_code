@@ -6,6 +6,7 @@ import P_list from '../../../component/child_list/P_List'
 import np from 'number-precision'
 import './order_detail.scss'
 import { message } from 'antd'
+import { orderDetailApi } from '../../../api/shopApi'
 
 function Order_detail(props) {
     const [loading, setLoading] = useState(true);
@@ -20,10 +21,10 @@ function Order_detail(props) {
                     picture: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2194993172,462542350&fm=26&gp=0.jpg',
                     address: '青青草原',
                     time: '2020-8-8 9:00',
-                    price: '888',
+                    sell_price: '888',
                     status: 1,
                     product_id: '101',
-                    coin: '30',
+                    coin_price: '30',
                     number: '3',
                     orderType: 1,
                 }, {
@@ -31,23 +32,12 @@ function Order_detail(props) {
                     picture: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2165236867,279993731&fm=26&gp=0.jpg',
                     address: '青青草原',
                     time: '2020-8-8 9:00',
-                    price: '888',
+                    sell_price: '888',
                     status: 2,
                     product_id: '102',
-                    coin: '10',
+                    coin_price: '10',
                     number: '2',
                     orderType: 2,
-                }, {
-                    product_name: '测试菜品4',
-                    picture: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fdpic.tiankong.com%2F68%2Fl7%2FQJ6774212643.jpg&refer=http%3A%2F%2Fdpic.tiankong.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611211744&t=94e3669579af351dc11d50b034386fa8',
-                    address: '青青草原',
-                    time: '2020-8-8 9:00',
-                    price: '888',
-                    status: 2,
-                    product_id: '104',
-                    orderType: 2,
-                    coin: '20',
-                    number: '1',
                 },
             ],
             is_take: 1,
@@ -81,11 +71,14 @@ function Order_detail(props) {
         }, 400);
     }
 
-    function init() {
+    async function init() {
         hideLoading(true);
         if (history.location.search) {
             let str = history.location.search.split('?order_id=');
             setOrder_id(str[1]); // query order_id
+            let res = await orderDetailApi(str[1], props.shop.shop_id);
+            console.log(res);
+
         }
         hideLoading(false);
     }

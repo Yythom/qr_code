@@ -10,7 +10,10 @@ let initState = {
         productList: [],
     },
     defaultAddress: null,
-    useAddress: null,
+    useAddress: localStorage.getItem('use_address') || '',
+    _localtion: null,
+    isBrowser: '',
+    shop: null,
 }
 function getLocal(key) {
     if (localStorage.getItem(key)) {
@@ -31,15 +34,24 @@ export const reducer = (state = initState, action) => {
             states.shop_id = action.id
             return states;
         case "USEADDRESS": // 当前使用位置
-            states.defaultAddress = action.data
+            states.useAddress = action.data
             return states;
         case "DEFAULT": // 用户默认位置
-            states.useAddress = action.data
+            states.defaultAddress = action.data
+            return states;
+        case "LOCAL": // 定位地址
+            states._localtion = action._localtion
+            return states;
+        case "BROWSER": // 浏览器
+            states.isBrowser = action.text
+            return states;
+        case "SHOP": // 浏览器
+            states.shop = action.shop
             return states;
         case 'ADDCART':
             states.cart = cart(action.food, action.shop_id, action.current, state.cart);
             localStorage.setItem('cart', JSON.stringify(states.cart))
-            console.log(states.cart, 'cart');
+            // console.log(states.cart, 'cart');
             return states;
         case 'SETNUM':
             states.cartSummary = action.allSummary; // 购物车渲染数据

@@ -6,31 +6,47 @@ import './style/handle.scss'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import default_png from '../../assets/icon/default_address.png'
+import { addAddressApi } from '../../api/api'
+import { getLal } from '../../utils/utils'
+import { message } from 'antd'
 
 function Add_address(props) {
     const history = useHistory();
-    const [isDefault, setIsDefault] = useState(false);
+    const [isDefault, setIsDefault] = useState(2);
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [ads, setAds] = useState('');
 
-    function onOk() {
-        console.log(phone, ads);
-
-        console.log('ok');
+    async function onOk() {
+        message.loading({ content: '保存中', duration: 0 });
+        let adResult = await getLal(ads);
+        if (adResult) {
+            let city = '';
+            let longitude = adResult.location.lng;
+            let latitude = adResult.location.lat;
+            let res = await addAddressApi(phone, name, ads, Number(isDefault), city, longitude, latitude, name, ads);
+            if (res) {
+                message.destroy();
+                message.success('保存成功');
+                console.log(res);
+                console.log('ok');
+                history.goBack();
+            }
+        }
     }
     function changeDefaultFn() {
-        setIsDefault(!isDefault);
+        if (isDefault === 1) {
+            setIsDefault(2);
+        } else {
+            setIsDefault(1);
+        }
     }
-    useEffect(() => {
-
-    }, [])
 
     return (
         <div className='change_address animate__fadeIn animate__animated'>
             <div className='title animate__fadeIn animate__animated'>{'新增收货地'}</div>
 
-            <div className='default' onClick={() => changeDefaultFn()}><div className='img'>{isDefault && <img src={default_png} alt="a" />}</div> <span>设为默认地址</span></div>
+            <div className='default' onClick={() => changeDefaultFn()}><div className='img'>{isDefault !== 1 && <img src={default_png} alt="a" />}</div> <span>设为默认地址</span></div>
             <div className={`item_box`}>
                 <li>
                     <span>联系人</span>
