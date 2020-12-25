@@ -67,7 +67,7 @@ function Handle_address(props) {
                         {
                             list.map((e, i) => {
                                 return (
-                                    <div key={e.address_id} className={`item_box ${e.is_default !== 1 ? 'default' : 'other'}`} onClick={() => history.push(`/change-address?address_id=${e.address_id}`)}>
+                                    <div key={e.address_id} className={`item_box ${e.is_default !== 1 ? 'default' : 'other'}`} onClick={() => history.push(`/integral/change-address?address_id=${e.address_id}`)}>
                                         <li>
                                             {i > 1 ? null : <span>{e.is_default !== 1 ? '默认收货地址' : '其他收货地址'}</span>}
                                             {
@@ -90,7 +90,7 @@ function Handle_address(props) {
                 </div> : null
             }
             <div className='btn_wrap animate__fadeIn animate__animated'>
-                <span onClick={() => { history.push('/add-address') }}>新增收获地址</span>
+                <span onClick={() => { history.push('/integral/add-address') }}>新增收获地址</span>
             </div>
         </div>
     )

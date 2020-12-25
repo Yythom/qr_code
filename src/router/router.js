@@ -15,25 +15,26 @@ import Handle_address from '../pages/handle-pages/Handle_address'
 import Handle_booked from '../pages/handle-pages/Handle_booked'
 import Change_address from '../pages/handle-pages/Change_address'
 import Add_address from '../pages/handle-pages/Add_address'
+let integral = '/integral'
 
 let router = () => {
     return {
         home: {
-            url: '/home',
+            url: integral + '/home',
             // icon: icon.Home,
             // activeIcon: icon.Active.Home,
             desc: '主页',
             page: Home
         },
         table: {
-            url: '/order',
+            url: integral + '/order',
             // icon: icon.Home,
             // activeIcon: icon.Active.Home,
             desc: '订单',
             page: Order
         },
         center: {
-            url: '/center',
+            url: integral + '/center',
             // icon: icon.Home,
             // activeIcon: icon.Active.Home,
             desc: '个人',
@@ -42,44 +43,44 @@ let router = () => {
 
         // 副包 （不在tabbar显示）
         shopDetail: {
-            url: '/shopdetail',
+            url: integral + '/shopdetail',
             page: Shop_detail,
             isShow: true, // 不现实tab
         },
         orderDetail: {
-            url: '/orderdetail',
+            url: integral + '/orderdetail',
             page: Order_detail,
             isShow: true,
         },
         cashier: {
-            url: '/cashier',
+            url: integral + '/cashier',
             page: Cashier,
             isShow: true,
         },
 
         // 个人中心操作页面
         phone: {
-            url: '/phone',
+            url: integral + '/phone',
             page: Handle_phone,
             isShow: true,
         },
         booked: {
-            url: '/booked',
+            url: integral + '/booked',
             page: Handle_booked,
             isShow: true,
         },
         address: {
-            url: '/address',
+            url: integral + '/address',
             page: Handle_address,
             isShow: true,
         },
         changeaddress: {
-            url: '/change-address',
+            url: integral + '/change-address',
             page: Change_address,
             isShow: true,
         },
         addaddress: {
-            url: '/add-address',
+            url: integral + '/add-address',
             page: Add_address,
             isShow: true,
         }

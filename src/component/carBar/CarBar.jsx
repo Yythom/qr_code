@@ -43,7 +43,7 @@ function Carbar(props) {
             // await makeOrder(shop_id, lists, localStorage.getItem('table_id')); // 
             setTimeout(() => {
                 // props.clearCart()
-                history.push('/cashier');
+                history.push('/integral/cashier');
             }, 200);
         } else {
             message.error('请先选择菜品')

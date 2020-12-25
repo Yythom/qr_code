@@ -43,7 +43,7 @@ const SubForm = (props) => {
         if (result) {
             setCookie('token', result.token, 20);
             setTimeout(() => {
-                history.push('/home');
+                history.push('/integral/home');
 
             }, 300);
         }
@@ -86,7 +86,7 @@ const SubForm = (props) => {
         }
     }
     useEffect(() => {
-        if (getCookie('token')) history.push('/home');
+        if (getCookie('token')) history.push('/integral/home');
     }, [])
 
     return (

@@ -11,13 +11,13 @@ function Header(props) {
     }
     useEffect(() => {
         // console.log(props.location.pathname.split('/')[1]);
-        if (props.location.pathname.split('/')[1] === 'home') {
+        if (props.location.pathname.indexOf('home') !== -1) {
             setColor('#fff');
         } else {
             setColor('rgb(9,44,76)');
         }
         // eslint-disable-next-line
-    }, [props.location.pathname.split('/')[1]])
+    }, [props.location.pathname.split('/integral')[1]])
     return (
         <div className='header_title'>
             {

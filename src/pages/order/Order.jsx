@@ -84,7 +84,7 @@ function Table(props) {
 
     function jump(order_id) {
         console.log('订单详情' + order_id);
-        history.push(`/orderdetail?order_id=${order_id}`)
+        history.push(`/integral/orderdetail?order_id=${order_id}`)
     }
 
     useEffect(() => { setListHight(listDOM.current.clientHeight) }, [list]);

@@ -36,7 +36,6 @@ function _App(props) {
     useEffect(() => {
         const wxAppId = 'wxaf9e884cd4ab31b0';
         const aliAppId = '2021002101634074';
-
         const local = window.location.href;
         const p = new URLSearchParams(window.location.search);
         const code = p.get('code') || p.get('auth_code');
@@ -65,7 +64,7 @@ function _App(props) {
     }, []);
 
     function init() {
-        if (window.location.pathname !== '/') {
+        if (window.location.pathname !== '/integral') {
             props.setShop(JSON.parse(localStorage.getItem('shop')));
             setFlag(true);
             return
@@ -98,7 +97,6 @@ function _App(props) {
 
     useEffect(() => {
         init();
-
         // if (!IsPC()) {
         //     // new VConsole()
         //     // console.clear()
@@ -111,7 +109,7 @@ function _App(props) {
                 <Router>
                     <Switch>
                         <Route path='/login' component={Login}></Route>
-                        <Route path='/' component={BaseLayout} ></Route>
+                        <Route path='/integral' component={BaseLayout} ></Route>
                         <Route path='/404' exact component={() => <h2>404</h2>}></Route>
                         <Redirect to="/404" />
                     </Switch>

@@ -28,10 +28,10 @@ function _Layout(props) {
 
         if (getCookie('token')) {
             if (window.location.pathname === '/') {
-                history.push('/home');
+                history.push('/integral/home');
             }
         } else {
-            history.replace('/login');
+            history.replace('/integral/login');
         }
         // getLocation();
         if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
@@ -110,7 +110,7 @@ function _Layout(props) {
     return (
         <div className='layout animate__fadeIn animate__animated'>
             {
-                history.location.pathname !== '/order' && history.location.pathname !== '/center' ? <Header /> : null
+                history.location.pathname !== '/integral/order' && history.location.pathname !== '/integral/center' ? <Header /> : null
             }
             {/* <button onClick={() => {
                 window.open(locationHref)
@@ -120,7 +120,7 @@ function _Layout(props) {
             { // 路由组件
                 Object.values(router).map(e => {
                     return (
-                        <Route path={e.url} exact={e.desc !== '主页'} component={e.page} key={e.url} />
+                        <Route path={e.url} exact={e.desc !== '主页'} component={e.page} key={'/integral' + e.url} />
                     )
                 })
             }

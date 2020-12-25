@@ -66,7 +66,7 @@ function User_center(props) {
                     </div>
 
                     <div className="handle_wrap">
-                        <div className="item_box" onClick={() => history.push('/phone')}>
+                        <div className="item_box" onClick={() => history.push('/integral/phone')}>
                             <li>
                                 <span>我的手机号</span>
                                 <div>
@@ -76,7 +76,7 @@ function User_center(props) {
                             </li>
                             <i />
                         </div>
-                        <div className="item_box" onClick={() => history.push('/address')}>
+                        <div className="item_box" onClick={() => history.push('/integral/address')}>
                             <li>
                                 <span>收获地址</span>
                                 <div>
@@ -86,7 +86,7 @@ function User_center(props) {
                             </li>
                             <i />
                         </div>
-                        <div className="item_box" onClick={() => history.push('/booked')}>
+                        <div className="item_box" onClick={() => history.push('/integral/booked')}>
                             <li>
                                 <span>入账订单</span>
                                 <div>
@@ -97,7 +97,7 @@ function User_center(props) {
                             <i />
                         </div>
                         <div className="item_box" onClick={() => {
-                            history.push('/order');
+                            history.push('/integral/order');
                             props.activeTab(1);
                         }}>
                             <li>

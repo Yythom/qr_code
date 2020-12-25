@@ -50,7 +50,7 @@ function Cashier(props) {
 
     async function init(e) {
         if (cartSummary.num === 0) {
-            history.replace('/home')
+            history.replace('/integral/home')
             return
         }
         if (props.useAddress) {
@@ -92,7 +92,7 @@ function Cashier(props) {
                     message.info(pay.status_message);
                     props.clearCart();
                     setTimeout(() => {
-                        history.push('/orderdetail?order_id=' + res.order_id);
+                        history.push('/integral/orderdetail?order_id=' + res.order_id);
                     }, 200);
                 }
             }
@@ -103,7 +103,7 @@ function Cashier(props) {
                     message.info(pay.status_message);
                     props.clearCart();
                     setTimeout(() => {
-                        history.push('/orderdetail?order_id=' + res.order_id);
+                        history.push('/integral/orderdetail?order_id=' + res.order_id);
                     }, 200);
                 }
             }
@@ -227,11 +227,11 @@ function Cashier(props) {
                     </li>
                 </ul>
                 <aside onClick={() => {
-                    history.push('/address')
+                    history.push('/integral/address')
                 }}>
                     修改
                 </aside>
-            </div> : <div className='address_wrap' onClick={() => { history.push('/address') }}>
+            </div> : <div className='address_wrap' onClick={() => { history.push('/integral/address') }}>
                     <ul>
                         <div style={{ fontSize: '1.6rem', padding: '1rem 0' }}>
                             <span style={{ verticalAlign: 'middle' }} >请选择地址</span>
