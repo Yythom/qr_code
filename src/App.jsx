@@ -33,34 +33,36 @@ function _App(props) {
         }
         return flag; // true:pc  false:mobile
     }
-    // useEffect(() => {
-    //     const wxAppId = 'wxaf9e884cd4ab31b0';
-    //     const aliAppId = '2021002101634074';
+    useEffect(() => {
+        const wxAppId = 'wxaf9e884cd4ab31b0';
+        const aliAppId = '2021002101634074';
 
-    //     const local = window.location.href;
-    //     const p = new URLSearchParams(window.location.search);
-    //     const code = p.get('code') || p.get('auth_code');
-    //     const s = p.get('s') || localStorage.getItem('s');
-    //     if (/MicroMessenger/.test(window.navigator.userAgent)) { // 微信
-    //         if (s && code) {
-    //             console.log(s, code);
-
-    //         }
-    //         if (!code) {
-    //             window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxAppId}&redirect_uri=${local}&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect`;
-    //         }
-    //     } else if (/AlipayClient/.test(window.navigator.userAgent)) { // 支付宝
-    //         if (s && code) {
-    //             console.log(s, code);
-    //         }
-    //         if (!code) {
-
-    //             window.location.href = `https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=${aliAppId}&scope=auth_base&redirect_uri=${encodeURIComponent(local)}`;
-    //         }
-    //     } else {
-    //         // alert('请使用微信或支付宝扫码');
-    //     }
-    // }, []);
+        const local = window.location.href;
+        const p = new URLSearchParams(window.location.search);
+        const code = p.get('code') || p.get('auth_code');
+        const s = p.get('s') || localStorage.getItem('s');
+        if (/MicroMessenger/.test(window.navigator.userAgent)) { // 微信
+            if (s && code) {
+                console.log(s, code);
+                props.setCode(code)
+            }
+            if (!code) {
+                window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxAppId}&redirect_uri=${local}&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect`;
+            }
+        } else if (/AlipayClient/.test(window.navigator.userAgent)) { // 支付宝
+            if (s && code) {
+                props.setCode(code)
+                console.log(s, code);
+            }
+            if (!code) {
+                window.location.href = `https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=${aliAppId}&scope=auth_base&redirect_uri=${encodeURIComponent(local)}`;
+            }
+        } else {
+            props.setCode('');
+            // alert('请使用微信或支付宝扫码');
+            message.error('请使用微信或支付宝扫码');
+        }
+    }, []);
 
     function init() {
         if (window.location.pathname !== '/') {

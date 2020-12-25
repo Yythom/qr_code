@@ -27,9 +27,11 @@ function Table(props) {
 
 
     async function init() {
-        let res = await orderListApi(type, 1);
+        message.loading({ content: '加载中', duration: 0 })
+        let res = await orderListApi('', 1);
         if (res) {
             setTotal(res.total);
+            message.destroy();
             setList(res.list)
         }
     }
@@ -39,8 +41,6 @@ function Table(props) {
             loading: true,
             order_id: e.order_id,
         });
-        console.log('更新订单：' + e.order_id);
-
         setTimeout(() => {
             setItemLoading(null);
         }, 500);
@@ -72,6 +72,16 @@ function Table(props) {
         if (e.status === 1) return <span style={{ color: '#F97B50' }}>备货中</span>
     }
 
+    async function tabFn(e) {
+        message.loading({ content: '加载中', duration: 0 })
+        let res = await orderListApi(e, 1);
+        if (res) {
+            setTotal(res.total);
+            setList(res.list);
+            message.destroy();
+        }
+    }
+
     function jump(order_id) {
         console.log('订单详情' + order_id);
         history.push(`/orderdetail?order_id=${order_id}`)
@@ -89,11 +99,12 @@ function Table(props) {
 
     return (
         <div className="order_wrap animate__fadeIn animate__animated" >
-            <Tabs defaultActiveKey="1" onChange={(e) => { e && setType(e) }} className='order_tabs'>
-                <TabPane tab="待支付" key="1" />
-                <TabPane tab="备货中" key="2" />
-                <TabPane tab="送货中" key="3" />
-                <TabPane tab="已完成" key="4" />
+            <Tabs defaultActiveKey="1" onChange={(e) => { e && tabFn(e) }} className='order_tabs'>
+                {/* 1 取消 2 待支付 3 成功 4 失败 5 退款 6 已收获 7申请退款 8完成 */}
+                <TabPane tab="待支付" key="2" />
+                <TabPane tab="备货中" key="3" />
+                <TabPane tab="送货中" key="4" />
+                <TabPane tab="已完成" key="8" />
             </Tabs>
             <div className="list_wrap" ref={wrapDOM} onScroll={(e) => {
                 scrollFn(listHeight - wrapHeight + 12 - e.target.scrollTop)
@@ -118,17 +129,18 @@ function Table(props) {
                                                 </> : <div className='ziti'><span>自提处：</span>{e.shop.address}</div>
                                         }
                                         <div className={e.distribution_mode === 1 ? 'price' : 'tprice'}>
-                                            <span>总计：</span>¥{e.price}
+                                            {e.type_message === '代币' ? <><span>总计：</span>{e.price}币</> : <><span>总计：</span>¥{e.price}</>}
+
                                         </div>
                                     </div>
                                     <div className='status'>
                                         {statusFn(e)}
                                     </div>
-                                    <Button className='upBtn' loading={itemLoading ? (itemLoading.order_id === e.order_id ? itemLoading.loading : false) : false}
+                                    {/* <Button className='upBtn' loading={itemLoading ? (itemLoading.order_id === e.order_id ? itemLoading.loading : false) : false}
                                         onClick={(event) => { event.stopPropagation(); upOrderItemFn(e) }}
                                     >
                                         更新订单
-                               </Button>
+                               </Button> */}
                                 </div>
                             )
                         })

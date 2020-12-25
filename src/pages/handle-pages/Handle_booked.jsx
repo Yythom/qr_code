@@ -14,63 +14,7 @@ function Handle_booked(props) {
 
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
-    const [list, setList] = useState([
-        {
-            name: '名1',
-            id: '101',
-            time: '2019-9-12  13：12：21',
-            status: 1,
-            coin: '999'
-        }, {
-            name: '名1',
-            id: '101',
-            time: '2019-9-12  13：12：21',
-            status: 1,
-            coin: '999'
-        }, {
-            name: '名1',
-            id: '101',
-            time: '2019-9-12  13：12：21',
-            status: 1,
-            coin: '999'
-        }, {
-            name: '名1',
-            id: '101',
-            time: '2019-9-12  13：12：21',
-            status: 1,
-            coin: '999'
-        }, {
-            name: '名1',
-            id: '101',
-            time: '2019-9-12  13：12：21',
-            status: 1,
-            coin: '999'
-        }, {
-            name: '名1',
-            id: '101',
-            time: '2019-9-12  13：12：21',
-            status: 1,
-            coin: '999'
-        }, {
-            name: '名1',
-            id: '101',
-            time: '2019-9-12  13：12：21',
-            status: 1,
-            coin: '999'
-        }, {
-            name: '名1',
-            id: '101',
-            time: '2019-9-12  13：12：21',
-            status: 1,
-            coin: '999'
-        }, {
-            name: '名1',
-            id: '101',
-            time: '2019-9-12  13：12：21',
-            status: 1,
-            coin: '999'
-        },
-    ]);
+    const [list, setList] = useState([]);
 
     // 滚动到底部的事件
     const scrollFn = debounce(async (h) => {
@@ -82,7 +26,7 @@ function Handle_booked(props) {
             }
             if (total > 10 && list.length !== total) {
                 // message.loading({ content: '加载中', duration: 0 })
-                // let res = await addressListApi(page + 1);
+                // let res = await coinLogApi(page + 1);
                 // if (res) {
                 //     setList([...list, ...res.list]);
                 //     setPage(page + 1);
@@ -94,12 +38,22 @@ function Handle_booked(props) {
         }
     }, 200);
 
+    async function init() {
+        message.loading({ content: '加载中', duration: 0 });
+        let res = await coinLogApi();
+        if (res) {
+            console.log(res);
+            message.destroy();
+            setList(res);
+        }
+    }
+
     useEffect(() => { setListHight(listDOM.current.clientHeight) }, [list]);
 
     useEffect(() => {
         setWrapHight(wrapDOM.current.clientHeight);
-
         setListHight(listDOM.current.clientHeight);
+        init();
     }, [])
 
 
@@ -113,12 +67,12 @@ function Handle_booked(props) {
                         {
                             list && list.map((e, i) => {
                                 return (
-                                    <div className='order_item' key={e.id + i}>
+                                    <div className='order_item' key={e.coin_log_id}>
                                         <p>
-                                            <span>{e.name}</span><span>{e.time}</span>
+                                            <span>{e.nickname}</span><span>{e.create_at}</span>
                                         </p>
                                         <p>
-                                            <span>{e.coin}</span><span>{e.status}</span>
+                                            <span>{e.coin}</span><span>{e.status_message}</span>
                                         </p>
                                     </div>
                                 )

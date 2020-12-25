@@ -17,6 +17,7 @@ export const mapStateToProps = (state, ownProps) => {
         _localtion: state._localtion,
         isBrowser: state.isBrowser,
         shop: state.shop,
+        code: state.code,
     }
 }
 
@@ -53,6 +54,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
         setShop: (shop) => {
             dispatch({ type: 'SHOP', shop })
         },
+        setCode: (code) => dispatch({ type: 'CODE', code }),
+
+
 
         addCart: (food, shop_id, current) => {
             dispatch({ type: 'ADDCART', food, shop_id, current })

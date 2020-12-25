@@ -14,6 +14,7 @@ let initState = {
     _localtion: null,
     isBrowser: '',
     shop: null,
+    code: '',
 }
 function getLocal(key) {
     if (localStorage.getItem(key)) {
@@ -45,8 +46,11 @@ export const reducer = (state = initState, action) => {
         case "BROWSER": // 浏览器
             states.isBrowser = action.text
             return states;
-        case "SHOP": // 浏览器
+        case "SHOP": // 商铺信息
             states.shop = action.shop
+            return states;
+        case "CODE": // code
+            states.code = action.code
             return states;
         case 'ADDCART':
             states.cart = cart(action.food, action.shop_id, action.current, state.cart);

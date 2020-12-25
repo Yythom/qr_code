@@ -22,6 +22,8 @@ function Cashier(props) {
     const [more, setMore] = useState(false);
     const [address, setAddress] = useState(null);
     let { cart, cartSummary, shop_id } = props;
+    const [mark_id, setMark_id] = useState('');
+
     // 1 取消 2 待支付 3 成功 4 失败 5 退款
     // is_business 
     const history = useHistory();
@@ -70,16 +72,32 @@ function Cashier(props) {
         if (!coin) {
             if (props.isBrowser === 'wx') {
                 paytype = 5
-            }
-            if (props.isBrowser === 'zfb') {
+            } else if (props.isBrowser === 'zfb') {
                 paytype = 6
+            } else {
+                message.destroy();
+                message.error('请使用微信支付宝打开');
+                // return
             }
-            handleClickPay(paytype);
+            handleClickPay(6);
         } else {
             paytype = 7;
-            let res = await createOrderApi(list(), 7, props.useAddress, way);
-            if (res) {
+            let res;
+            if (!mark_id) {
+                res = await createOrderApi(list(), 7, props.useAddress, way);
+                setMark_id(res.order_id);
                 let pay = await payApi(paytype, res.order_id);
+                message.destroy();
+                if (pay) {
+                    message.info(pay.status_message);
+                    props.clearCart();
+                    setTimeout(() => {
+                        history.push('/orderdetail?order_id=' + res.order_id);
+                    }, 200);
+                }
+            }
+            if (mark_id) {
+                let pay = await payApi(paytype, mark_id);
                 message.destroy();
                 if (pay) {
                     message.info(pay.status_message);
@@ -115,8 +133,15 @@ function Cashier(props) {
         let isWexinOrAliPay = props.isBrowser;
         let amount = props.cartSummary.allPrice;
         if (amount != null && amount !== '' && !isNaN(Number(amount))) {
+            let result;
             // 下单
-            const result = await createOrderApi(list(), paytype, props.useAddress, way);
+            if (!mark_id) {
+                const mark = await createOrderApi(list(), paytype, props.useAddress, way);
+                if (mark) result = await payApi(paytype, mark.order_id, props.code);
+            } else {
+                result = await payApi(paytype, mark_id, props.code);
+            }
+            console.log(result);
 
             if (result && isWexinOrAliPay === 'wx') {
                 if (typeof WeixinJSBridge == 'undefined') {
@@ -140,15 +165,20 @@ function Cashier(props) {
                 AP.tradePay({
                     tradeNO: result.payInfo.tradeNO,
                 }, (aliPay_res) => {
-                    console.log(aliPay_res);
-
-                    // function go() {
-                    //     let i = 30;
-                    //     setTimeout(async () => {
-                    //         const res = await upOrderApi();
-                    //         message.destroy();   
-                    //     }, 1000);
-                    // }
+                    console.log(aliPay_res, 'zfb res');
+                    function serch_order() {
+                        let i = 30;
+                        i--;
+                        function start() {
+                            setTimeout(async () => {
+                                const res = await upOrderApi();
+                                if (i > 0) {
+                                    start();
+                                }
+                                message.destroy();
+                            }, 1000);
+                        }
+                    }
                 });
             } else {
                 // setPayLoading(false);
@@ -167,6 +197,8 @@ function Cashier(props) {
             paySign: payInfo.paySign, // 微信签名
         },
             (res) => {
+                console.log(res, 'vx res');
+
                 // 支付成功 // 由点金计划待处理
             },
         );

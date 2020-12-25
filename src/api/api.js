@@ -145,11 +145,20 @@ export const createOrderApi = async (list, method, address_id, type) => {
  * @param {*} method 支付方式，5微信公众号支付，6支付宝公总号支付，7代币支付
  * @param {*} order_id order_id
  */
-export const payApi = async (method, order_id) => {
+export const payApi = async (method, order_id, code) => {
+    console.log(code);
+
+    let data = {};
+    if (method == 7) {
+        data = { method, order_id, }
+    } else {
+        data = { method, order_id, code }
+    }
+
     const result = await request({
         method: 'post',
         url: '/shop/v1/order/pay',
-        data: { method, order_id },
+        data,
     })
     return result;
 }
