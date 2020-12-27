@@ -62,7 +62,12 @@ export const reducer = (state = initState, action) => {
             return states;
         case 'CLEAR':
             states.cart = {};
-            states.cartSummary = initState.cartSummary;
+            states.cartSummary = {
+                num: 0,
+                allPrice: 0,
+                coin: 0,
+                productList: [],
+            };
             return states;
         default:
             return states;

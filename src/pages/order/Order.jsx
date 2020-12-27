@@ -28,11 +28,12 @@ function Table(props) {
 
     async function init() {
         message.loading({ content: '加载中', duration: 0 })
-        let res = await orderListApi('', 1);
+        let res = await orderListApi('2', 1);
         if (res) {
             setTotal(res.total);
             message.destroy();
             setList(res.list)
+            if (!res.list[0]) { message.info('暂无数据') }
         }
     }
 
@@ -47,6 +48,8 @@ function Table(props) {
     }
     // 滚动到底部的事件
     const scrollFn = debounce(async (h) => {
+        console.log(list.length, total);
+
         if (h === 0) {
             console.log('到底了');
             if (total === list.length) {
@@ -65,7 +68,7 @@ function Table(props) {
                 }
             }
         }
-    }, 200);
+    }, 400);
 
     function statusFn(e) {
         // 1 取消 2 待支付 3 成功 4 失败 5 退款 6 已收获 7申请退款 8完成
@@ -73,12 +76,14 @@ function Table(props) {
     }
 
     async function tabFn(e) {
+        setType(e);
         message.loading({ content: '加载中', duration: 0 })
         let res = await orderListApi(e, 1);
         if (res) {
             setTotal(res.total);
             setList(res.list);
             message.destroy();
+            if (!res.list[0]) { message.info('暂无数据') }
         }
     }
 
@@ -100,10 +105,10 @@ function Table(props) {
     return (
         <div className="order_wrap animate__fadeIn animate__animated" >
             <Tabs defaultActiveKey="1" onChange={(e) => { e && tabFn(e) }} className='order_tabs'>
-                {/* 1 取消 2 待支付 3 成功 4 失败 5 退款 6 已收获 7申请退款 8完成 */}
+                {/* 1 取消 2 待支付 3 成功 4 失败 5 退款 6送货中 7申请退款 8完成  */}
                 <TabPane tab="待支付" key="2" />
                 <TabPane tab="备货中" key="3" />
-                <TabPane tab="送货中" key="4" />
+                <TabPane tab="送货中" key="6" />
                 <TabPane tab="已完成" key="8" />
             </Tabs>
             <div className="list_wrap" ref={wrapDOM} onScroll={(e) => {
@@ -113,7 +118,7 @@ function Table(props) {
                     {
                         list && list.map((e, i) => {
                             return (
-                                <div className='order_item' key={e.order_id} onClick={() => { jump(e.order_id) }}>
+                                <div className='order_item' key={e.order_id + '' + e.status} onClick={() => { jump(e.order_id) }}>
                                     <div className='img_box'>
                                         <img src={e.shop.logo} alt="a" />
                                     </div>
@@ -133,8 +138,8 @@ function Table(props) {
 
                                         </div>
                                     </div>
-                                    <div className='status'>
-                                        {statusFn(e)}
+                                    <div className='status' style={{ color: '#F97B50' }}>
+                                        {e.status_message}
                                     </div>
                                     {/* <Button className='upBtn' loading={itemLoading ? (itemLoading.order_id === e.order_id ? itemLoading.loading : false) : false}
                                         onClick={(event) => { event.stopPropagation(); upOrderItemFn(e) }}

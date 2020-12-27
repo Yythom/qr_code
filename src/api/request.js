@@ -56,7 +56,7 @@ export function request(config) {
                 }
                 message.destroy();
                 setTimeout(() => {
-                    message.error(res.msg)
+                    message.error({ content: res.msg, duration: 1 })
                 }, 200);
                 resolve(false)
             } else {

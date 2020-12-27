@@ -20,6 +20,7 @@ function Change_address(props) {
     const [ads, setAds] = useState('');
 
     const onOk = async () => {
+        if (!name || !phone || !ads) { message.error('内容不能为空'); return; }
         if (!isMobile(phone)) {
             message.error('请输入正确的手机号');
             return

@@ -1,17 +1,32 @@
 .tabBox {
     width: 100%;
     height: 4.9rem;
+    background-color: #fff;
     position: fixed;
+    box-shadow: 0 -0.2rem 0.2rem 0 rgba(0, 0, 0, 0.1);
     bottom: 0;
     list-style: none;
 
     ul {
+        height: 100%;
         display: flex;
         justify-content: space-around;
         align-items: center;
 
         li {
             margin-right: 10px;
+
+            p {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 0;
+
+                img {
+                    width: 3rem;
+                    height: 3rem;
+                }
+            }
         }
     }
 

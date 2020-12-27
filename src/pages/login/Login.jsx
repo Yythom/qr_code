@@ -42,7 +42,7 @@ function _Login(props) {
             {/* {loading && <div className='loading animate__fadeIn animate__animated'>
                 <h2>loading.....</h2>
             </div>} */}
-            <div className='food_wrap animate__fadeIn animate__animated'>
+            <div className='login_wrap animate__fadeIn animate__animated'>
                 <From loading={loading} setLoading={isLoadingFn} />
             </div>
 

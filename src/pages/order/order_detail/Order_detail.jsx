@@ -5,8 +5,9 @@ import { useHistory } from 'react-router-dom'
 import P_list from '../../../component/child_list/O_list'
 import np from 'number-precision'
 import './order_detail.scss'
-import { message } from 'antd'
-import { orderDetailApi } from '../../../api/shopApi'
+import { message, Button } from 'antd'
+import { orderDetailApi, doneApi } from '../../../api/shopApi'
+import { createOrderApi, payApi } from '../../../api/api';
 
 function Order_detail(props) {
     const [loading, setLoading] = useState(true);
@@ -26,12 +27,13 @@ function Order_detail(props) {
 
     async function init() {
         hideLoading(true);
+        message.loading({ content: '加载中', duration: 0 });
         if (history.location.search) {
             let str = history.location.search.split('?order_id=');
             setOrder_id(str[1]); // query order_id
             let res = await orderDetailApi(str[1], props.shop.shop_id);
-            console.log(res);
-            setOrder(res);
+            if (res) setOrder(res); message.destroy()
+
         }
         hideLoading(false);
     }
@@ -57,6 +59,45 @@ function Order_detail(props) {
         }
     };
 
+    const done = async () => {
+        message.loading({ content: '加载中', duration: 0 });
+        let res = await doneApi(order.order.order_id, props.shop.shop_id);
+        if (res) init()
+    }
+
+    /**
+  * @param  {*} e 付款方式
+  */
+    async function againPay(coin) {
+        setLoading(true);
+        message.loading({ content: '付款中...', duration: 0 });
+        let paytype;
+        if (!coin) {
+            if (props.isBrowser === 'wx') {
+                paytype = 5
+            } else if (props.isBrowser === 'zfb') {
+                paytype = 6
+            } else {
+                message.destroy();
+                message.error('请使用微信支付宝打开');
+            }
+            // handleClickPay(6);
+        } else {
+            paytype = 7;
+            let pay = await payApi(paytype, order.order.order_id);
+            message.destroy();
+            if (pay) {
+                message.info(pay.status_message);
+                setTimeout(() => {
+                    init();
+                }, 200);
+            }
+        }
+        setLoading(false);
+    }
+
+
+
     useEffect(() => {
         init();
         // eslint-disable-next-line
@@ -68,7 +109,26 @@ function Order_detail(props) {
                 order_id ? order
                     && <>
                         <div className="order_status">
-                            {order.status_message}
+                            {
+                                order.order.distribution_mode_message === '到店自提'
+                                    ? <span style={{ marginLeft: '0.4rem' }}><span style={{ marginRight: '1rem' }}>到店自提</span>{order.order.sequence}号</span>
+                                    : <span style={{ marginLeft: '0.4rem' }}>{order.order.status_message}</span>
+                            }
+
+                            {
+                                (order.order.status === 6 || order.order.status === 3) && <Button onClick={done} className='done'>已收货</Button>
+                            }
+                            {
+                                (order.order.status === 2) ? <div>
+                                    <Button onClick={() => againPay(1)} className='againPay done'>代币付款</Button>
+                                    <Button onClick={() => againPay()} className='againPay done'>
+                                        {props.isBrowser === 'wx' ? '微信付款' : null}
+                                        {props.isBrowser === 'zfb' ? '支付宝付款' : null}
+                                        {props.isBrowser === 'other' ? '现金付款' : null}
+                                    </Button>
+                                </div> : null
+                            }
+
                         </div>
                         <div className='list'>
                             <P_list isOrderDetails more={more} setMore={setMore} list={order.product.product} order_detail={order} />
@@ -80,18 +140,23 @@ function Order_detail(props) {
                                 <span>配送服务</span>
                                 <span>{order.order.distribution_mode_message}</span>
                             </div>
-                            <div className='content'>
-                                <span>收货人</span>
-                                <span>{order.address.name}</span>
-                            </div>
-                            <div className='content'>
-                                <span>联系方式</span>
-                                <span>{order.address.mobile}</span>
-                            </div>
-                            <div className='content'>
-                                <span>收货地址</span>
-                                <span>{order.address.address}</span>
-                            </div>
+                            {
+                                order.order.distribution_mode_message !== '到店自提' ? <>
+                                    <div className='content'>
+                                        <span>收货人</span>
+                                        <span>{order.address.name}</span>
+                                    </div>
+                                    <div className='content'>
+                                        <span>联系方式</span>
+                                        <span>{order.address.mobile}</span>
+                                    </div>
+                                    <div className='content'>
+                                        <span>收货地址</span>
+                                        <span>{order.address.address}</span>
+                                    </div>
+                                </> : null
+                            }
+
                         </div>
                         <div className='order_info'>
                             <div className='title'>订单信息</div>
@@ -109,10 +174,13 @@ function Order_detail(props) {
                                 <span>下单时间</span>
                                 <span>{order.order.create_at}</span>
                             </div>
-                            <div className='content'>
-                                <span>支付方式</span>
-                                <span>{order.pay_order.pay_method_message}</span>
-                            </div>
+                            {
+                                order.order.status !== 2 ? <div className='content'>
+                                    <span>支付方式</span>
+                                    <span>{order.pay_order.pay_method_message}</span>
+                                </div> : null
+                            }
+
                         </div>
                     </> : null
             }

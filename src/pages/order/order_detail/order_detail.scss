@@ -14,13 +14,26 @@
     .order_status {
         color: rgba(9, 44, 76, 100);
         font-size: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .done {
+            background-color: #E6F1Fc;
+            width: 9.5rem;
+            height: 4rem;
+            border: 0.1rem solid #A3D0FD;
+            color: #1989FA;
+            border-radius: 0.4rem;
+            margin-right: 0.3rem;
+        }
     }
 
     .order_info,
     .address_wrap {
         border-radius: 2rem;
         background-color: #fff;
-        padding: 1.6rem;
+        padding: 1.6rem 1.6rem 0.3rem 1.6rem;
         box-sizing: border-box;
 
         .title {
@@ -65,13 +78,13 @@
 
     .address_wrap {
         width: 35.7rem;
-        height: 17rem;
+        // height: 17rem;
         margin-top: 0.6rem;
     }
 
     .order_info {
         width: 35.7rem;
-        height: 14rem;
+
         margin-top: 1rem;
     }
 }

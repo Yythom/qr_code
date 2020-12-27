@@ -1,7 +1,7 @@
 import React from 'react'
 import { mapStateToProps, mapDispatchToProps } from './redux/actionCreator'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect, useHistory } from 'react-router-dom'
 
 
 //路由
@@ -19,20 +19,8 @@ import { message } from 'antd'
 function _App(props) {
     const [flag, setFlag] = useState(false);
     const [loading, setLoading] = useState(true);
-    let wxAppId = '';
-    let aliAppId = '';
-    function IsPC() {
-        var userAgentInfo = navigator.userAgent;
-        var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
-        var flag = true;
-        for (var v = 0; v < Agents.length; v++) {
-            if (userAgentInfo.indexOf(Agents[v]) > 0) {
-                flag = false;
-                break;
-            }
-        }
-        return flag; // true:pc  false:mobile
-    }
+    const history = useHistory();
+
     useEffect(() => {
         const wxAppId = 'wxaf9e884cd4ab31b0';
         const aliAppId = '2021002101634074';
@@ -64,15 +52,20 @@ function _App(props) {
     }, []);
 
     function init() {
-        if (window.location.pathname !== '/integral') {
-            props.setShop(JSON.parse(localStorage.getItem('shop')));
-            setFlag(true);
-            return
+        if (window.location.pathname === '/') { message.error('url不正确'); return }
+        if (window.location.pathname !== '/integral/') {
+            if (localStorage.getItem('shop')) {
+                props.setShop(JSON.parse(localStorage.getItem('shop')));
+                setFlag(true);
+                return
+            }
         }
+
         const p = new URLSearchParams(window.location.search);
         if (localStorage.getItem('s') || p.get('s')) {
             message.loading({ content: '加载中', duration: 0 });
             let s = p.get('s') || localStorage.getItem('s'); // 优先拿code s
+
             localStorage.setItem('s', s); // 更新s
             getCheckShopApi(s).then(result => {
                 if (result) {
@@ -97,10 +90,6 @@ function _App(props) {
 
     useEffect(() => {
         init();
-        // if (!IsPC()) {
-        //     // new VConsole()
-        //     // console.clear()
-        // }
     }, [])
 
     return (
@@ -108,7 +97,7 @@ function _App(props) {
             {flag && localStorage.getItem('shop') ?
                 <Router>
                     <Switch>
-                        <Route path='/login' component={Login}></Route>
+                        <Route path='/integral/login' component={Login}></Route>
                         <Route path='/integral' component={BaseLayout} ></Route>
                         <Route path='/404' exact component={() => <h2>404</h2>}></Route>
                         <Redirect to="/404" />

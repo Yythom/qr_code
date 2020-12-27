@@ -1,4 +1,10 @@
-// import icon from '../assets/icon/icon'
+import home from '../assets/icon/images/home.png'
+import sHome from '../assets/icon/images/s-home.png'
+import order_ed from '../assets/icon/images/order_ed.png'
+import order_no from '../assets/icon/images/order.png'
+import me from '../assets/icon/images/me.png'
+import me_ed from '../assets/icon/images/me_ed.png'
+
 // 主包
 import Home from '../pages/home/Home'
 import Order from '../pages/order/Order'
@@ -21,22 +27,22 @@ let router = () => {
     return {
         home: {
             url: integral + '/home',
-            // icon: icon.Home,
-            // activeIcon: icon.Active.Home,
+            icon: home,
+            activeIcon: sHome,
             desc: '主页',
             page: Home
         },
         table: {
             url: integral + '/order',
-            // icon: icon.Home,
-            // activeIcon: icon.Active.Home,
+            icon: order_no,
+            activeIcon: order_ed,
             desc: '订单',
             page: Order
         },
         center: {
             url: integral + '/center',
-            // icon: icon.Home,
-            // activeIcon: icon.Active.Home,
+            icon: me,
+            activeIcon: me_ed,
             desc: '个人',
             page: Center,
         },

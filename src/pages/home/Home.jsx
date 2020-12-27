@@ -5,14 +5,15 @@ import { useEffect, useState } from 'react';
 import { getList } from '../../api/api';
 import Food from './child/food';
 import { useHistory } from 'react-router-dom';
-
+import empty from '../../assets/icon/images/empty.svg'
 import { baseURL } from '../../api/config';
 import Carbar from '../../component/carBar/CarBar'
 import './home.scss';
 import { getCategoryListApi, getPriductListApi } from '../../api/shopApi';
+import { message } from 'antd';
 
 
-function _Home({ shop }) {
+function _Home({ shop, cartSummary }) {
 
     const [loading, setLoading] = useState(false);
 
@@ -20,25 +21,19 @@ function _Home({ shop }) {
     const history = useHistory();
     const [tab, setTab] = useState('');
     const [category_list, setCategory_list] = useState([])
-    /**
-     * @param {loding状态} status 
-     */
-    function isLoadingFn(status) {
-        setTimeout(() => {
-            setLoading(status);
-        }, 400);
-    }
+
     const getProduct = async (category_id) => {
         let res = await getPriductListApi(category_id);
         if (res) {
             setP_list(res.product);
             console.log(res.product);
-
+            message.destroy();
         }
     }
 
     // 初始化所有数据
     async function initFn() {
+        message.loading({ content: '加载中', duration: 0 });
         if (shop) {
             let c_res = await getCategoryListApi();
             if (c_res) {
@@ -54,7 +49,8 @@ function _Home({ shop }) {
         // eslint-disable-next-line 
     }, [])
     const tabFn = (current) => {
-        console.log(current);
+        message.loading({ content: '加载中', duration: 0 });
+        getProduct(current)
         setTab(current);
     }
 
@@ -77,7 +73,7 @@ function _Home({ shop }) {
                 </div>
                 <div className='tab'>
                     <ul>
-                        <li onClick={() => { tabFn(0) }} style={tab == 0 ? { fontWeight: '500' } : {}}>
+                        <li onClick={() => { tabFn('') }} style={tab == '' ? { fontWeight: '500' } : {}}>
                             全部分类
                             </li>
                         {category_list && category_list.map((cate) => {
@@ -92,7 +88,7 @@ function _Home({ shop }) {
                 {
                     <div className='food_wrap animate__fadeIn animate__animated'>
                         {
-                            p_list[0] && p_list.map((food_item) => {
+                            p_list[0] ? p_list.map((food_item) => {
                                 return (
                                     <div className='food' key={food_item.product_id}>
                                         <Food
@@ -101,11 +97,16 @@ function _Home({ shop }) {
                                         />
                                     </div>
                                 )
-                            })
+                            }) : null
                         }
+
                     </div>
                 }
-                <Carbar shop_id={shop.shop_id} />
+                {!p_list[0] && <div className='empty'>
+                    <img src={empty} alt='a' />
+                    <p>这里空空如也...</p>
+                </div>}
+                {cartSummary.num ? <Carbar shop_id={shop.shop_id} /> : null}
             </>
         </div>
     )

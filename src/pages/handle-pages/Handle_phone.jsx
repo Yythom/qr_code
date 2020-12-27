@@ -17,7 +17,7 @@ function Handle_phone(props) {
 
 
     function countDown() {
-        let i = 10;
+        let i = 60;
         setCount_flag(true);
         setCount(i--);
         function go() {
@@ -33,11 +33,7 @@ function Handle_phone(props) {
                 }
             }, 1000);
         }
-        setTimeout(() => {
-            if (count_flag) {
-                go();
-            }
-        }, 0);
+        go();
     }
     const getCode = async () => {
         if (!isMobile(phone)) {

@@ -20,20 +20,23 @@ function _Layout(props) {
     useEffect(() => {
         const p = new URLSearchParams(window.location.search);
         console.log(localStorage.getItem('s'), p.get('s'));
-        if (p.get('s')) {
+
+        if (p.get('s')) {  // 避免不同商户的购物车污染
             if (localStorage.getItem('s') !== p.get('s')) {
                 props.clearCart();
             }
         }
 
         if (getCookie('token')) {
-            if (window.location.pathname === '/') {
+            props.setUserInfo();
+            if (window.location.pathname === '/integral' || window.location.pathname === '/integral/') { // 首次定位到首页
                 history.push('/integral/home');
             }
         } else {
             history.replace('/integral/login');
         }
         // getLocation();
+
         if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
             props.setBrowser('wx');
         } else if (navigator.userAgent.toLowerCase().indexOf('alipayclient') !== -1) {
@@ -41,9 +44,7 @@ function _Layout(props) {
         } else {
             props.setBrowser('other');
         }
-        if (getCookie('token')) {
-            props.setUserInfo();
-        }
+
     }, [])
 
 
@@ -120,11 +121,17 @@ function _Layout(props) {
             { // 路由组件
                 Object.values(router).map(e => {
                     return (
-                        <Route path={e.url} exact={e.desc !== '主页'} component={e.page} key={'/integral' + e.url} />
+                        <Route path={e.url} exact component={e.page} key={'/integral' + e.url} />
                     )
                 })
             }
-            <TabBar />
+
+            {
+                history.location.pathname !== '/integral/home'
+                    ? (history.location.pathname !== '/integral/cashier' ? <TabBar /> : null)
+                    : (!props.cartSummary.num ? <TabBar /> : null)
+            }
+
         </div>
     )
 }

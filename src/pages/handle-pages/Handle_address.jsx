@@ -41,14 +41,15 @@ function Handle_address(props) {
                 }
             }
         }
-    }, 200);
+    }, 400);
 
     useEffect(() => { setListHight(listDOM.current.clientHeight) }, [list])
     useEffect(() => {
+        message.loading({ content: '加载中...', duration: 0 })
         setWrapHight(wrapDOM.current.clientHeight);
         addressListApi().then(res => {
-            console.log(res);
             if (res) {
+                message.destroy();
                 setTotal(res.total);
                 setList(res.list);
                 setListHight(listDOM.current.clientHeight);

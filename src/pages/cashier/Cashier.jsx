@@ -49,6 +49,7 @@ function Cashier(props) {
     }
 
     async function init(e) {
+        message.loading({ content: '加载中', duration: 0 });
         if (cartSummary.num === 0) {
             history.replace('/integral/home')
             return
@@ -59,9 +60,23 @@ function Cashier(props) {
         }
 
         let res = await addressListApi();
+        message.destroy();
         console.log(res);
 
     }
+    // 代币付款
+    async function coinPay(paytype, order_id) {
+        let pay = await payApi(paytype, order_id);
+        message.destroy();
+        if (pay) {
+            message.info(pay.status_message);
+            props.clearCart();
+            setTimeout(() => {
+                history.push('/integral/orderdetail?order_id=' + order_id);
+            }, 200);
+        }
+    }
+
     /**
      * @param  {*} e 付款方式
      */
@@ -76,52 +91,36 @@ function Cashier(props) {
                 paytype = 6
             } else {
                 message.destroy();
-                message.error('请使用微信支付宝打开');
-                // return
+                setLoading(false);
+                message.error({ content: '请使用微信支付宝打开', duration: 1 });
+                return
             }
-            handleClickPay(6);
+            handleClickPay(paytype);
         } else {
             paytype = 7;
             let res;
             if (!mark_id) {
                 res = await createOrderApi(list(), 7, props.useAddress, way);
-                setMark_id(res.order_id);
-                let pay = await payApi(paytype, res.order_id);
-                message.destroy();
-                if (pay) {
-                    message.info(pay.status_message);
-                    props.clearCart();
-                    setTimeout(() => {
-                        history.push('/integral/orderdetail?order_id=' + res.order_id);
-                    }, 200);
+                if (res) {
+                    setMark_id(res.order_id);
+                    coinPay(paytype, res.order_id);
                 }
             }
             if (mark_id) {
-                let pay = await payApi(paytype, mark_id);
-                message.destroy();
-                if (pay) {
-                    message.info(pay.status_message);
-                    props.clearCart();
-                    setTimeout(() => {
-                        history.push('/integral/orderdetail?order_id=' + res.order_id);
-                    }, 200);
-                }
+                coinPay(paytype, mark_id);
             }
         }
         setLoading(false);
     }
 
     useEffect(() => {
-        // eslint-disable-next-line no-undef
-        if (typeof WeixinJSBridge == 'undefined') {
-            if (document.addEventListener) {
-                // eslint-disable-next-line no-undef
-
-            }
-        } else {
-            // eslint-disable-next-line no-undef
-            console.log(WeixinJSBridge, 'WeixinJSBridge');
+        if (mark_id) { // 重复下单维护
+            setMark_id('');
         }
+        // eslint-disable-next-line
+    }, [props?.cartSummary?.num]);
+
+    useEffect(() => {
         init();
         // eslint-disable-next-line
     }, [])
@@ -130,18 +129,25 @@ function Cashier(props) {
     * 确认支付
     */
     const handleClickPay = async (paytype) => {
+        console.log(paytype, 'paytype');
         let isWexinOrAliPay = props.isBrowser;
         let amount = props.cartSummary.allPrice;
         if (amount != null && amount !== '' && !isNaN(Number(amount))) {
             let result;
+            let orderId = '';
             // 下单
-            if (!mark_id) {
+            if (!mark_id) { // 避免取消付款重复下单
                 const mark = await createOrderApi(list(), paytype, props.useAddress, way);
-                if (mark) result = await payApi(paytype, mark.order_id, props.code);
+                if (mark) {
+                    orderId = mark.order_id;
+                    setMark_id(mark.order_id);
+                    result = await payApi(paytype, mark.order_id, props.code);
+                }
             } else {
+                orderId = mark_id;
                 result = await payApi(paytype, mark_id, props.code);
             }
-            console.log(result);
+            console.log(result, 'pay result');
 
             if (result && isWexinOrAliPay === 'wx') {
                 if (typeof WeixinJSBridge == 'undefined') {
@@ -160,31 +166,41 @@ function Cashier(props) {
                 }
             } else if (result && isWexinOrAliPay === 'zfb') {
                 // eslint-disable-next-line no-undef
-                console.log(AP);
+                console.log(AP, 'zfb');
                 // eslint-disable-next-line no-undef
                 AP.tradePay({
                     tradeNO: result.payInfo.tradeNO,
                 }, (aliPay_res) => {
                     console.log(aliPay_res, 'zfb res');
                     function serch_order() {
+                        let id = result.pay_order_id;
                         let i = 30;
                         i--;
-                        function start() {
+                        function go() {
                             setTimeout(async () => {
-                                const res = await upOrderApi();
-                                if (i > 0) {
-                                    start();
+                                const res = await upOrderApi(id);
+                                if (i >= 0 && res.status !== 1) { // TODO:递归条件
+                                    go();
+                                    i--;
+                                } else {
+                                    props.clearCart();
+                                    setTimeout(() => {
+                                        history.push('/integral/orderdetail?order_id=' + orderId);
+                                    }, 200);
+                                    console.log('结束');
                                 }
-                                message.destroy();
                             }, 1000);
                         }
+                        go();
                     }
+                    serch_order();
                 });
             } else {
                 // setPayLoading(false);
             }
         }
     };
+    // weixin
     const onBridgeReady = (payInfo) => {
         // eslint-disable-next-line no-undef
         WeixinJSBridge.invoke(
@@ -211,7 +227,7 @@ function Cashier(props) {
                     <TabPane tab="到店自提" key="2" />
                 </Tabs>
             </div>
-            {address ? <div className='address_wrap'>
+            {address && way == 1 ? <div className='address_wrap'>
                 <ul>
                     <li>
                         <img src={addressImg} alt="a" />
@@ -231,18 +247,41 @@ function Cashier(props) {
                 }}>
                     修改
                 </aside>
-            </div> : <div className='address_wrap' onClick={() => { history.push('/integral/address') }}>
-                    <ul>
-                        <div style={{ fontSize: '1.6rem', padding: '1rem 0' }}>
-                            <span style={{ verticalAlign: 'middle' }} >请选择地址</span>
-                            <svg style={{ verticalAlign: 'middle' }} t="1608621663428" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10354" width="14" height="14"><path d="M267.354606 72.005964c-13.515828 12.812817-13.515828 33.603329 0 46.417169l414.889265 393.579937-414.889265 393.565611c-13.515828 12.821003-13.515828 33.604352 0 46.425356 13.508665 12.81998 35.418674 12.81998 48.927339 0l432.159604-410.009118c0 0 18.33867-16.991999 18.33867-29.981848 0-11.971659-18.33867-29.989011-18.33867-29.989011L316.282968 72.005964C302.77328 59.184961 280.863271 59.184961 267.354606 72.005964z" fill="#9D9E9D" p-id="10355"></path></svg>
-                        </div>
-                    </ul>
-                </div>
+            </div>
+                : (way == 2 ?
+                    <div className='address_wrap'>
+                        <ul>
+                            <li>
+                                <img src={addressImg} alt="a" />
+                                <span>{props.shop.address}</span>
+                            </li>
+                            <li>
+                                <img src={call} alt="a" />
+                                <span>{props.shop.contact}</span>
+                            </li>
+                            <li>
+                                <img src={self} alt="a" />
+                                <span>{props.shop.shop_name}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    : <div className='address_wrap' onClick={() => { history.push('/integral/address') }}>
+                        <ul>
+                            <div style={{ fontSize: '1.6rem', padding: '1rem 0' }}>
+                                <span style={{ verticalAlign: 'middle' }} >请选择地址</span>
+                                <svg style={{ verticalAlign: 'middle' }} t="1608621663428" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10354" width="14" height="14"><path d="M267.354606 72.005964c-13.515828 12.812817-13.515828 33.603329 0 46.417169l414.889265 393.579937-414.889265 393.565611c-13.515828 12.821003-13.515828 33.604352 0 46.425356 13.508665 12.81998 35.418674 12.81998 48.927339 0l432.159604-410.009118c0 0 18.33867-16.991999 18.33867-29.981848 0-11.971659-18.33867-29.989011-18.33867-29.989011L316.282968 72.005964C302.77328 59.184961 280.863271 59.184961 267.354606 72.005964z" fill="#9D9E9D" p-id="10355"></path></svg>
+                            </div>
+                        </ul>
+                    </div>
+                )
             }
             {props.cartSummary?.productList && < P_list order_detail={props.cartSummary} isCashier list={props.cartSummary?.productList} more={more} setMore={setMore} />}
             <div className="pay_wrap">
-                <Button type="primary" disabled={loading} onClick={() => { pay() }}>现金付款</Button>
+                <Button type="primary" disabled={loading} onClick={() => { pay() }}>
+                    {props.isBrowser === 'wx' ? '微信付款' : null}
+                    {props.isBrowser === 'zfb' ? '微信付款' : null}
+                    {props.isBrowser === 'other' ? '现金付款' : null}
+                </Button>
                 <Button type="primary" disabled={loading} onClick={() => { pay(1) }}>代币付款</Button>
             </div>
         </div>

@@ -55,7 +55,7 @@ const SubForm = (props) => {
         console.log('Failed:', errorInfo);
     };
     function countDown() {
-        let i = 30;
+        let i = 60;
         setFlag(true);
         setCount(i--);
         function go() {

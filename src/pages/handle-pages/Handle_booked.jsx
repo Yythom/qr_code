@@ -36,7 +36,7 @@ function Handle_booked(props) {
                 // }
             }
         }
-    }, 200);
+    }, 400);
 
     async function init() {
         message.loading({ content: '加载中', duration: 0 });

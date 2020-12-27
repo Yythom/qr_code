@@ -6,7 +6,8 @@ function Header(props) {
     const [color, setColor] = useState('');
     const history = useHistory();
     const jump = () => {
-        // console.log(history, 1);
+        console.log(history.location);
+
         history.goBack();
     }
     useEffect(() => {

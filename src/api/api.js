@@ -133,10 +133,12 @@ export const delAadressApi = async (address_id) => {
  * @param {*} type 类型--1商家配送，2到店自取
  */
 export const createOrderApi = async (list, method, address_id, type) => {
+    let address = '';
+    if (type === 1) address = address_id;
     const result = await request({
         method: 'post',
         url: '/shop/v1/order/create',
-        data: { list, method, address_id, type },
+        data: { list, method, address_id: address, type },
     })
     return result;
 }
@@ -167,12 +169,12 @@ export const payApi = async (method, order_id, code) => {
 
 // search订单
 export const upOrderApi = async (pay_order_id) => {
-    // const result = await request({
-    //     method: 'post',
-    //     url: '/shop/v1/order/search',
-    //     data: {pay_order_id },
-    // })
-    // return result;
+    const result = await request({
+        method: 'post',
+        url: '/shop/v1/order/search',
+        data: { pay_order_id },
+    })
+    return result;
 }
 
 // 入账订单

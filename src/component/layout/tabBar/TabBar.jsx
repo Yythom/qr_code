@@ -10,10 +10,12 @@ function TabBar(props) {
     let { tabStatus } = props
     // console.log(tabStatus);
     useEffect(() => {
-        let path = props.location.pathname.split('/')[1]
-        if (path === 'home') props.activeTab(0)
-        if (path === 'order') props.activeTab(1)
-        if (path === 'center') props.activeTab(2)
+        let home = props.location.pathname.indexOf('home');
+        let order_page = props.location.pathname.indexOf('order');
+        let center = props.location.pathname.indexOf('center');
+        if (home !== -1) props.activeTab(0)
+        if (order_page !== -1) props.activeTab(1)
+        if (center !== -1) props.activeTab(2)
         // eslint-disable-next-line 
     }, [])
     return (
@@ -26,8 +28,8 @@ function TabBar(props) {
                         return (
                             !e.isShow && <Link onClick={() => { props.activeTab(i) }} to={e.url} key={e.desc}>
                                 <li >
-                                    <p className={tabStatus === i ? 'iconBox activeIcon' : 'iconBox'}> {tabStatus === i ? e.activeIcon : e.icon}</p>
-                                    <p style={tabStatus === i ? { color: 'red' } : { color: 'rgb(110, 110, 110)' }}>{e.desc}</p>
+                                    <p className={tabStatus === i ? 'iconBox activeIcon' : 'iconBox'}> {<img src={tabStatus === i ? e.activeIcon : e.icon} alt="a" />}</p>
+                                    {/* <p style={tabStatus === i ? { color: 'red' } : { color: 'rgb(110, 110, 110)' }}>{e.desc}</p> */}
                                 </li>
                             </Link>
                         )

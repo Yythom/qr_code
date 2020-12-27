@@ -7,6 +7,23 @@
     // padding-bottom: 4rem;
     box-sizing: border-box;
 
+    .empty {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            width: 100%;
+        }
+    }
+
+
     .tab {
         height: 3.1rem;
         margin-top: 6rem;
