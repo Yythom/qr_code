@@ -37,7 +37,6 @@ function Carbar(props) {
 
     async function back() {
         if (cart[shop_id] && cart[shop_id].list[0]) {
-            console.log(list());
 
             // let lists = list();
             // await makeOrder(shop_id, lists, localStorage.getItem('table_id')); // 

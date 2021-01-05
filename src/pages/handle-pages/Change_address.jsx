@@ -13,30 +13,30 @@ import { getLal, isMobile } from '../../utils/utils'
 function Change_address(props) {
     const history = useHistory();
     const [address_id, setAddress_id] = useState('');
-    const [data, setDate] = useState('');
+
     const [isDefault, setIsDefault] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [ads, setAds] = useState('');
 
-    const onOk = async () => {
+    const onOk = async () => { // 保存修改的地址
         if (!name || !phone || !ads) { message.error('内容不能为空'); return; }
         if (!isMobile(phone)) {
             message.error('请输入正确的手机号');
             return
         }
         message.loading({ content: '保存中', duration: 0 });
-        let adResult = await getLal(ads);
+        let adResult = await getLal(ads); // 腾讯地图获取经纬度
         if (adResult) {
             let city = '';
             let longitude = adResult.location.lng;
             let latitude = adResult.location.lat;
-            let res = await editAddressApi(phone, name, ads, Number(isDefault), city, longitude, latitude, name, ads, address_id);
+            let res = await editAddressApi(phone, name, ads, Number(isDefault), city, longitude, latitude, name, ads, address_id); // 保存接口
             if (res) {
                 message.destroy();
                 message.success('保存成功');
-                props.setAddress(address_id);
-                localStorage.setItem('use_address', address_id)
+                props.setAddress(address_id); // 全局保存并使用当前地址
+                localStorage.setItem('use_address', address_id) // 本地维护地址
                 console.log(res);
                 console.log('ok');
                 history.goBack();
@@ -57,7 +57,6 @@ function Change_address(props) {
         let res = await getAadressDetailApi(id);
         if (res) {
             console.log(res);
-            setDate(res);
             setName(res.name);
             setPhone(res.mobile);
             setAds(res.address);
@@ -69,14 +68,14 @@ function Change_address(props) {
 
     useEffect(() => {
         if (history.location.search) {
-            setAddress_id(history.location.search.split('?address_id=')[1]);
-            addressDetail(history.location.search.split('?address_id=')[1]);
+            setAddress_id(history.location.search.split('?address_id=')[1]); // 设置当前修改的地址id
+            addressDetail(history.location.search.split('?address_id=')[1]); // 默认填写当前信息
         }
     }, [])
 
     async function confirm(e) {
         message.loading({ content: '删除中...', duration: 0 })
-        let res = await delAadressApi(address_id)
+        let res = await delAadressApi(address_id);
         if (res) {
             message.destroy();
             message.success('删除成功');
@@ -90,7 +89,13 @@ function Change_address(props) {
             <div className='title animate__fadeIn animate__animated'>{'收货地'}</div>
             {
                 address_id && <>
-                    <div className='useAddress' style={{ backgroundColor: '#E29836', color: '#fff' }} onClick={() => { props.setAddress(address_id); message.success('使用成功'); localStorage.setItem('use_address', address_id); history.goBack(); }}>
+                    <div className='useAddress' style={{ backgroundColor: '#E29836', color: '#fff' }}
+                        onClick={() => {
+                            props.setAddress(address_id);
+                            message.success('使用成功');
+                            localStorage.setItem('use_address', address_id);
+                            history.goBack();
+                        }}>
                         <span>使用该地址</span>
                     </div>
                     <div className='default' onClick={() => changeDefaultFn()}>

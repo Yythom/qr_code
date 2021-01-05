@@ -56,8 +56,6 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
         },
         setCode: (code) => dispatch({ type: 'CODE', code }),
 
-
-
         addCart: (food, shop_id, current) => {
             dispatch({ type: 'ADDCART', food, shop_id, current })
         },

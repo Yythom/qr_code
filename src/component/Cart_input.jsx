@@ -19,7 +19,7 @@ function Input(props) {
     function cartFn(food, shop_id, current) {
         if (isCashier) {
             if (props.cartSummary.num === 1 && current === 'del') {
-                message.error('已经是最后一件了～')
+                message.info('已经是最后一件了～')
                 return
             }
         }
@@ -27,15 +27,21 @@ function Input(props) {
             return
         }
         addCart(food, shop_id, current);
-        foodNum(food)
+        foodNum(food);
     }
-
     useEffect(() => {
-        foodNum(food_item)
+        foodNum(food_item);
         // eslint-disable-next-line
-    }, [props.cartSummary?.num]) // 同步更新cartBar
+    }, []) // 同步更新cartBar
+
+    // useEffect(() => {
+    //     // foodNum(food_item)
+    //     // eslint-disable-next-line
+    // }, [props.cartSummary?.num]) // 同步更新cartBar
 
     const foodNum = (food) => {
+        console.log('执行');
+
         let flag = false;
         let allNumber = 0;
         let allPrice = 0;
@@ -43,20 +49,23 @@ function Input(props) {
         let productList = []
         let allCartComputer = {
             num: 0,
+            coin: 0,
             allPrice: 0,
             productList: [],
         };
-        if (props.cart) {
+        if (props.cart) { // 取出购物车数据进行汇总
             if (Object.keys(props.cart)[0]) {
                 Object.values(props.cart)[0].list.forEach(e => { // 购物车中的分类列表
                     e.product.forEach(el => { // 每个分类对象下的菜品列表
+
                         allNumber += el.number; // 购物车总数量
-                        allPrice += np.times(el.number, el.sell_price); // 购物车总价格
-                        coin += np.times(el.number, el.coin_price);
+                        allPrice += np.times(el.number, el.sell_price); // 总现金价格
+                        coin += np.times(el.number, el.coin_price); // 总代币价格
                         productList.push(el); // 购物车商品列表
+
                         if (el.product_id === food.product_id) {
                             flag = true;
-                            if (el.number) { // 当前商品的数量
+                            if (el.number) { // 设置input当前商品的数量
                                 setNum(el.number)
                             } else {
                                 setNum(0)
@@ -74,10 +83,10 @@ function Input(props) {
             // 执行清空会默认复制 allCartComputer
             allCartComputer.num = allNumber; // 菜品总数量
             allCartComputer.allPrice = allPrice; // 总价
-            allCartComputer.productList = productList;
-            allCartComputer.coin = coin;
-            props.setAllNum({ ...allCartComputer });
-            localStorage.setItem('summary', JSON.stringify({ ...allCartComputer }))
+            allCartComputer.productList = productList; // 菜品列表
+            allCartComputer.coin = coin; // 代币价
+            props.setAllNum({ ...allCartComputer }); // 全局购物车汇总数据
+            localStorage.setItem('summary', JSON.stringify({ ...allCartComputer })); // 本地维护
         }
     }
 
@@ -86,15 +95,15 @@ function Input(props) {
             {
                 num
                     ? <>
-                        <i className="btn btn-plus" onClick={() => { cartFn(food_item, props.shop_id, 'add') }}></i>
-                        <span>{num}</span>
                         <i className="btn btn-minus" onClick={() => { cartFn(food_item, props.shop_id, 'del') }}></i>
+                        <span>{num}</span>
+                        <i className="btn btn-plus" onClick={() => { cartFn(food_item, props.shop_id, 'add') }}></i>
                     </>
                     : !isShowIcon
                         ? <>
-                            <i className="btn btn-plus" onClick={() => { cartFn(food_item, props.shop_id, 'add') }}></i>
-                            <span>{num}</span>
                             <i className="btn btn-minus" onClick={() => { cartFn(food_item, props.shop_id, 'del') }}></i>
+                            <span>{num}</span>
+                            <i className="btn btn-plus" onClick={() => { cartFn(food_item, props.shop_id, 'add') }}></i>
                         </>
                         : <>
                             <img src={cartIcon} alt='a' />

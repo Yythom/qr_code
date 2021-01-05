@@ -43,7 +43,7 @@ function Handle_address(props) {
         }
     }, 400);
 
-    useEffect(() => { setListHight(listDOM.current.clientHeight) }, [list])
+    useEffect(() => { setListHight(listDOM.current.clientHeight) }, [list]) // 每当list.length改变 重新设置列表高度
     useEffect(() => {
         message.loading({ content: '加载中...', duration: 0 })
         setWrapHight(wrapDOM.current.clientHeight);
@@ -72,7 +72,7 @@ function Handle_address(props) {
                                         <li>
                                             {i > 1 ? null : <span>{e.is_default !== 1 ? '默认收货地址' : '其他收货地址'}</span>}
                                             {
-                                                props.useAddress === e.address_id ? <span style={{ color: '#704916' }}>当前使用地址</span> : <span></span>
+                                                props.useAddress === e.address_id ? <span style={{ color: '#704916', width: '8.6rem' }}>当前使用地址</span> : <span></span>
                                             }
                                             <div className='desc'>
                                                 <div>

@@ -38,13 +38,13 @@ const SubForm = (props) => {
         }
 
         props.setLoading(true);
-        props.setUserInfo(values);
+
         let result = await loginApi(values.verify, phone);
         if (result) {
             setCookie('token', result.token, 20);
             setTimeout(() => {
+                props.setUserInfo();
                 history.push('/integral/home');
-
             }, 300);
         }
         setFlag(false);
@@ -86,7 +86,13 @@ const SubForm = (props) => {
         }
     }
     useEffect(() => {
-        if (getCookie('token')) history.push('/integral/home');
+        const p = new URLSearchParams(window.location.search);
+        if (!p.get('overdueToken')) {
+            if (getCookie('token')) history.push('/integral/home');
+        } else {
+            message.destroy();
+            message.error('登入过期')
+        }
     }, [])
 
     return (

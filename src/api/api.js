@@ -63,6 +63,16 @@ export const addressListApi = async (page, pageSize = 6) => { // 列表
     return result;
 }
 
+// 默认收货地址
+export const addressDefaultApi = async (is_default) => { // 列表
+    const result = await request({
+        method: 'post',
+        url: '/shop/v1/user/address/list',
+        data: { is_default },
+    })
+    return result;
+}
+
 // 新增地址
 export const addAddressApi = async (mobile, nickname, address, is_default, city, longitude, latitude, name, address_detail) => { // 列表
     const result = await request({

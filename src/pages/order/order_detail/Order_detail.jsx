@@ -81,7 +81,7 @@ function Order_detail(props) {
                 message.destroy();
                 message.error('请使用微信支付宝打开');
             }
-            // handleClickPay(6);
+            // handleClickPay(paytype);
         } else {
             paytype = 7;
             let pay = await payApi(paytype, order.order.order_id);

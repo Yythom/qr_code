@@ -11,7 +11,7 @@ import phone from '../../assets/icon/phone.png'
 import Input from '../../component/Cart_input';
 import P_list from '../../component/child_list/P_List'
 import './cashier.scss'
-import { addressListApi, createOrderApi, payApi, upOrderApi, getAadressDetailApi } from '../../api/api';
+import { addressDefaultApi, createOrderApi, payApi, upOrderApi, getAadressDetailApi } from '../../api/api';
 
 const { TabPane } = Tabs;
 
@@ -55,13 +55,21 @@ function Cashier(props) {
             return
         }
         if (props.useAddress) {
-            let res = await getAadressDetailApi(props.useAddress);
+            let res = await getAadressDetailApi(props.useAddress); // 通过当前使用的地址id获取地址详情
             setAddress(res);
+        } else {
+            let res = await addressDefaultApi(2); // 获取用户默认地址
+            if (res) {
+                if (res.list[0]) {
+                    setAddress(res.list[0]); // 设置当前页面使用地址
+                    props.setAddress(res.list[0].address_id); // 设置全局使用地址id
+                }
+            }
+            console.log(res, 'default address');
+
         }
 
-        let res = await addressListApi();
         message.destroy();
-        console.log(res);
 
     }
     // 代币付款
@@ -179,7 +187,7 @@ function Cashier(props) {
                         function go() {
                             setTimeout(async () => {
                                 const res = await upOrderApi(id);
-                                if (i >= 0 && res.status !== 1) { // TODO:递归条件
+                                if (i >= 0 && res.status == 2) { // TODO:递归条件
                                     go();
                                     i--;
                                 } else {
@@ -213,8 +221,11 @@ function Cashier(props) {
             paySign: payInfo.paySign, // 微信签名
         },
             (res) => {
-                console.log(res, 'vx res');
-
+                console.log(res, mark_id, 'vx res');
+                props.clearCart();
+                setTimeout(() => {
+                    history.push('/integral/orderdetail?order_id=' + mark_id);
+                }, 200);
                 // 支付成功 // 由点金计划待处理
             },
         );
