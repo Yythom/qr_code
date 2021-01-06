@@ -2,7 +2,7 @@ let initState = {
     tabStatus: 1,
     cart: getLocal('cart') || {},
     userStore: getLocal('info') || null,
-    shop_id: false,
+    shop_id: localStorage.getItem('shop_id') || false,
     cartSummary: getLocal('summary') || {
         num: 0,
         allPrice: 0,
@@ -13,7 +13,7 @@ let initState = {
     useAddress: localStorage.getItem('use_address') || '',
     _localtion: null,
     isBrowser: '',
-    shop: null,
+    shop: getLocal('shop') || null,
     code: '',
 }
 function getLocal(key) {

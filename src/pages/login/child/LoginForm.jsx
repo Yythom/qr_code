@@ -88,7 +88,7 @@ const SubForm = (props) => {
     useEffect(() => {
         const p = new URLSearchParams(window.location.search);
         if (!p.get('overdueToken')) {
-            if (getCookie('token')) history.push('/integral/home');
+            if (getCookie('token')) history.push('/integral');
         } else {
             message.destroy();
             message.error('登入过期')

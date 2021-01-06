@@ -14,18 +14,18 @@ export const getCheckShopApi = async (s) => {
 export const getCategoryListApi = async (shop_id) => {
     const result = await request({
         method: 'post',
-        url: '/shop/v1/product/category',
+        url: '/shop/v1/common/product/category',
         data: { shop_id },
     })
     return result;
 }
 
 // 商品列表
-export const getPriductListApi = async (category_id) => {
+export const getPriductListApi = async (category_id, shop_id) => {
     const result = await request({
         method: 'post',
-        url: '/shop/v1/product/list',
-        data: { category_id },
+        url: '/shop/v1/common/product/list',
+        data: { category_id, shop_id },
     })
     return result;
 }

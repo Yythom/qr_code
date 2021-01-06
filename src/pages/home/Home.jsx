@@ -13,7 +13,7 @@ import { getCategoryListApi, getPriductListApi, getCheckShopApi } from '../../ap
 import { message } from 'antd';
 
 
-function _Home({ shop, setShopID, cartSummary, setShop }) {
+function _Home({ shop, setShopID, shop_id, cartSummary, setShop }) {
 
     const [loading, setLoading] = useState(false);
     const [flag, setFlag] = useState(false);
@@ -22,8 +22,8 @@ function _Home({ shop, setShopID, cartSummary, setShop }) {
     const [tab, setTab] = useState('');
     const [category_list, setCategory_list] = useState([])
 
-    const getProduct = async (category_id) => {
-        let res = await getPriductListApi(category_id);
+    const getProduct = async (category_id, shop_id) => {
+        let res = await getPriductListApi(category_id, shop_id);
         if (res) {
             setFlag(true);
             setLoading(false);
@@ -47,10 +47,10 @@ function _Home({ shop, setShopID, cartSummary, setShop }) {
                     setShopID(result.shop_id);
                     localStorage.setItem('shop_id', result.shop_id); // shop_id
                     setTimeout(async () => {
-                        let c_res = await getCategoryListApi();
+                        let c_res = await getCategoryListApi(result.shop_id);
                         if (c_res) {
                             setCategory_list(c_res.category);
-                            getProduct();
+                            getProduct('', result.shop_id);
                         }
                     }, 100);
                 } else {
@@ -68,6 +68,7 @@ function _Home({ shop, setShopID, cartSummary, setShop }) {
 
     useEffect(() => {
         init();
+
         // eslint-disable-next-line 
     }, [])
     const tabFn = (current) => {
@@ -79,10 +80,10 @@ function _Home({ shop, setShopID, cartSummary, setShop }) {
 
     return (
         <div className='home_wrap' >
-            {/* {loading && <div className='loading animate__fadeIn animate__animated'>
-                <img src={loadingImg} alt="" />
-                <h2>loading.....</h2>
-            </div>} */}
+            <div className='header_title'>
+                <svg t="1608535595375" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5139" width="16" height="16"><path d="M383.88508444 512.27989333l332.40746667-332.41315555c13.96963556-13.96053333 13.96963556-36.62051556 0-50.58218667-13.96053333-13.96963556-36.62051556-13.96963556-50.58218667 0l-357.70254222 357.70481778c-13.97304889 13.96053333-13.97304889 36.62051556 0 50.58218667l357.70368 357.70368c6.98254221 6.98595556 16.13710222 10.48007111 25.29052445 10.48007111s18.30912-3.49411556 25.29052444-10.48007111c13.97304889-13.96053333 13.97304889-36.62051556 0-50.58218667l-332.40974222-332.41429333z" p-id="5140"></path></svg>
+                <span style={{ color: 'rgb(9,44,76)' }} onClick={() => history.replace('/integral')}>首页</span>
+            </div>
             {
                 shop && <>
                     <div className='title-bg'>

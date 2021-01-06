@@ -93,13 +93,9 @@ function _Layout(props) {
                     && history.location.pathname !== '/integral/'
                     && history.location.pathname !== '/integral/order'
                     && history.location.pathname !== '/integral/center'
+                    && history.location.pathname.indexOf('/integral/home') === -1
                     ? <Header /> : null
             }
-            {/* <button onClick={() => {
-                window.open(locationHref)
-            }}>
-                支付宝
-            </button> */}
             { // 路由组件
                 Object.values(router).map(e => {
                     return (
@@ -112,6 +108,7 @@ function _Layout(props) {
                     ? (
                         history.location.pathname.indexOf('cashier') === -1
                             && history.location.pathname.indexOf('map') === -1
+                            && history.location.pathname.indexOf('/search') === -1
                             ? <TabBar /> : null)
                     : (!props.cartSummary.num ? <TabBar /> : null)
             }

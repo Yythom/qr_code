@@ -16,6 +16,7 @@ import Shop_detail from '../pages/shop_detail/Shop_detail'
 import Order_detail from '../pages/order/order_detail/Order_detail'
 import Cashier from '../pages/cashier/Cashier'
 import MapComponent from '../pages/mapSelect/map'
+import Search from '../pages/search/Search'
 
 // 个人中心操作页面
 import Handle_phone from '../pages/handle-pages/Handle_phone'
@@ -73,6 +74,11 @@ let router = () => {
         map: {
             url: integral + '/map',
             page: MapComponent,
+            isShow: true,
+        },
+        search: {
+            url: integral + '/search',
+            page: Search,
             isShow: true,
         },
 

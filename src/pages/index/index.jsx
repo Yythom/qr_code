@@ -5,13 +5,18 @@ import { useEffect, useState } from 'react';
 import { message } from 'antd';
 import { getCookie, getAddress } from '../../utils/utils';
 import { useHistory } from 'react-router-dom';
-import { get_tagApi } from '../../api/indexApi'
+import { get_tagApi, get_ShopListApi } from '../../api/indexApi'
 import './index.scss';
 
 
 function _Index(props) {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
+    const [list, setList] = useState(false);
+    const [page, setPage] = useState(0);
+    const [total, setTotal] = useState(0);
+
+    const [tagList, setTagList] = useState(false);
 
 
     /**
@@ -27,18 +32,30 @@ function _Index(props) {
 
     // 初始化所有数据
     async function initFn() {
-        let res = await get_tagApi();
-        console.log(res);
-
+        let tag_list = await get_tagApi();
+        let shop_list = await get_ShopListApi('', props._localtion._localtion);
+        if (tag_list && shop_list) {
+            setTagList(tag_list);
+            setList(shop_list.list);
+            setPage(shop_list.page);
+            setTotal(shop_list.total);
+            message.destroy();
+        }
     }
 
     useEffect(() => {
-        initFn();
+        message.loading({ content: '加载中...', duration: 0 })
         // eslint-disable-next-line 
     }, [])
+    useEffect(() => {
+        if (!!props._localtion && !tagList && !list) {
+            console.log('初始化');
+            initFn();
+        }
+    })
 
 
-
+    console.log(total, 'total');
 
     return (
         <div className='index_box' >
@@ -48,7 +65,7 @@ function _Index(props) {
                 <svg t="1609922611984" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15092" width="16" height="16"><path d="M890.336 330.912c-12.576-12.416-32.8-12.352-45.248 0.192L517.248 661.952 184.832 332.512c-12.576-12.448-32.8-12.352-45.28 0.192-12.448 12.576-12.352 32.832 0.192 45.28l353.312 350.112c0.544 0.544 1.248 0.672 1.792 1.184 0.128 0.128 0.16 0.288 0.288 0.416 6.24 6.176 14.4 9.28 22.528 9.28 8.224 0 16.48-3.168 22.72-9.472l350.112-353.312C902.976 363.616 902.88 343.36 890.336 330.912z" p-id="15093" fill="#cdcdcd"></path></svg>
             </div>
             <div className="home-searchview">
-                <div className="home-searchv">
+                <div className="home-searchv" onClick={() => history.push('/integral/search')}>
                     <svg t="1609917692314" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14674" width="16" height="16"><path d="M998.4 968.704l-260.096-256c68.096-73.728 110.08-172.032 110.08-279.552 0-230.4-189.952-417.28-423.936-417.28C190.464 16.384 0.512 203.264 0.512 433.664s189.952 416.768 423.936 416.768c101.376 0 194.048-34.816 266.752-93.184l261.12 257.024c12.8 12.288 33.28 12.288 46.08 0 12.288-12.288 12.8-32.256 0.512-44.544 0-0.512-0.512-0.512-0.512-1.024zM424.448 786.432c-198.144 0-358.4-158.208-358.4-352.768s160.256-352.768 358.4-352.768 358.4 158.208 358.4 352.768-160.256 352.768-358.4 352.768z" p-id="14675" fill="#C8CDD1"></path></svg>
                     <div className="home-search">输入菜品名称</div>
                 </div>
