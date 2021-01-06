@@ -1,8 +1,8 @@
 let initState = {
     tabStatus: 1,
     cart: getLocal('cart') || {},
-    userStore: getLocal('info') || {},
-    shop_id: '1',
+    userStore: getLocal('info') || null,
+    shop_id: false,
     cartSummary: getLocal('summary') || {
         num: 0,
         allPrice: 0,
@@ -158,7 +158,7 @@ function cart(food, shop_id, current, cart, againNumber) {
             // member_id: '',
             // couponNum: null,
         };
-        cart[shop_id] = shopObj;
+        cart[shop_id] = shopObj; // 创建新的店铺对象
     }
     if (setFlag) { // 如果list为空 删除该店铺购物车对象
         delete cart[shop_id];

@@ -12,42 +12,10 @@ import router from '../../router/router';
 import TabBar from './tabBar/TabBar';
 import { useEffect } from 'react';
 import { message } from 'antd';
-import { getCookie } from '../../utils/utils';
+import { getCookie, getAddress } from '../../utils/utils';
 
 function _Layout(props) {
     const history = useHistory();
-
-    useEffect(() => {
-        const p = new URLSearchParams(window.location.search);
-        console.log(localStorage.getItem('s'), p.get('s'));
-
-        if (p.get('s')) {  // 避免不同商户的购物车污染
-            if (localStorage.getItem('s') !== p.get('s')) {
-                props.clearCart();
-            }
-        }
-
-        if (getCookie('token')) {
-            props.setUserInfo();
-            if (window.location.pathname === '/integral' || window.location.pathname === '/integral/') { // 首次定位到首页
-                history.push('/integral/home');
-            }
-        } else {
-            history.replace('/integral/login');
-        }
-        // getLocation();
-
-        if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
-            props.setBrowser('wx');
-        } else if (navigator.userAgent.toLowerCase().indexOf('alipayclient') !== -1) {
-            props.setBrowser('zfb');
-        } else {
-            props.setBrowser('other');
-        }
-
-    }, [])
-
-
     function getPosition() {
         let flag = false;
         return new Promise((resolve, reject) => {
@@ -80,38 +48,52 @@ function _Layout(props) {
         })
     }
     function getLocation() {
-        console.log('获取定位start');
-        message.loading({
-            content: '获取定位中....', duration: 0,
-        })
         // 获取当前经纬度坐标
         getPosition().then(result => {
             // 返回结果示例：
             // {latitude: 30.318030999999998, longitude: 120.05561639999999}
             // 一般小数点后只取六位，所以用以下代码搞定
             let queryData = {
-                longtitude: String(result.longitude).match(/\d+\.\d{0,8}/)[0],
-                latitude: String(result.latitude).match(/\d+\.\d{0,8}/)[0],
+                latitude: String(result.latitude).match(/\d+\.\d{0,6}/)[0],
+                longtitude: String(result.longitude).match(/\d+\.\d{0,6}/)[0],
             }
-            message.destroy();
-            props.setLocaltion(queryData)
-            message.success({
-                content: '获取定位成功',
-                duration: 1,
-            });
+
+            getAddress(Number(queryData.latitude), Number(queryData.longtitude)).then(res => {
+                console.log(res);
+                message.destroy();
+                props.setLocaltion(res);
+            })
+
             // 以下放置获取坐标后你要执行的代码:
             // ...
         }).catch(err => {
             message.destroy();
             message.error(err);
-            console.log(err);
         })
     }
+
+    useEffect(() => {
+        getLocation();
+        if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
+            props.setBrowser('wx');
+        } else if (navigator.userAgent.toLowerCase().indexOf('alipayclient') !== -1) {
+            props.setBrowser('zfb');
+        } else {
+            props.setBrowser('other');
+        }
+    }, [])
+
+
+
 
     return (
         <div className='layout animate__fadeIn animate__animated'>
             {
-                history.location.pathname !== '/integral/order' && history.location.pathname !== '/integral/center' ? <Header /> : null
+                history.location.pathname !== '/integral'
+                    && history.location.pathname !== '/integral/'
+                    && history.location.pathname !== '/integral/order'
+                    && history.location.pathname !== '/integral/center'
+                    ? <Header /> : null
             }
             {/* <button onClick={() => {
                 window.open(locationHref)
@@ -125,10 +107,12 @@ function _Layout(props) {
                     )
                 })
             }
-
             {
-                history.location.pathname !== '/integral/home'
-                    ? (history.location.pathname !== '/integral/cashier' ? <TabBar /> : null)
+                history.location.pathname.indexOf('home') === -1
+                    ? (
+                        history.location.pathname.indexOf('cashier') === -1
+                            && history.location.pathname.indexOf('map') === -1
+                            ? <TabBar /> : null)
                     : (!props.cartSummary.num ? <TabBar /> : null)
             }
 

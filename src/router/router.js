@@ -7,6 +7,7 @@ import me_ed from '../assets/icon/images/me_ed.png'
 
 // 主包
 import Home from '../pages/home/Home'
+import Index from '../pages/index/index'
 import Order from '../pages/order/Order'
 import Center from '../pages/userCenter/Center'
 
@@ -14,6 +15,7 @@ import Center from '../pages/userCenter/Center'
 import Shop_detail from '../pages/shop_detail/Shop_detail'
 import Order_detail from '../pages/order/order_detail/Order_detail'
 import Cashier from '../pages/cashier/Cashier'
+import MapComponent from '../pages/mapSelect/map'
 
 // 个人中心操作页面
 import Handle_phone from '../pages/handle-pages/Handle_phone'
@@ -25,12 +27,12 @@ let integral = '/integral'
 
 let router = () => {
     return {
-        home: {
-            url: integral + '/home',
+        index: {
+            url: integral,
             icon: home,
             activeIcon: sHome,
             desc: '主页',
-            page: Home
+            page: Index
         },
         table: {
             url: integral + '/order',
@@ -61,6 +63,16 @@ let router = () => {
         cashier: {
             url: integral + '/cashier',
             page: Cashier,
+            isShow: true,
+        },
+        home: {
+            url: integral + '/home',
+            page: Home,
+            isShow: true,
+        },
+        map: {
+            url: integral + '/map',
+            page: MapComponent,
             isShow: true,
         },
 

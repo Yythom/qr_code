@@ -13,7 +13,7 @@ function Header(props) {
     useEffect(() => {
         // console.log(props.location.pathname.split('/')[1]);
         if (props.location.pathname.indexOf('home') !== -1) {
-            setColor('#fff');
+            setColor('rgb(9,44,76)');
         } else {
             setColor('rgb(9,44,76)');
         }

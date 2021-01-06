@@ -10,10 +10,10 @@ function TabBar(props) {
     let { tabStatus } = props
     // console.log(tabStatus);
     useEffect(() => {
-        let home = props.location.pathname.indexOf('home');
+        let home = props.location.pathname === '/integral' || props.location.pathname === '/integral/';
         let order_page = props.location.pathname.indexOf('order');
         let center = props.location.pathname.indexOf('center');
-        if (home !== -1) props.activeTab(0)
+        if (home) props.activeTab(0)
         if (order_page !== -1) props.activeTab(1)
         if (center !== -1) props.activeTab(2)
         // eslint-disable-next-line 

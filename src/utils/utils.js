@@ -141,3 +141,23 @@ export async function getLal(address) {
         })
     });
 }
+export async function getAddress(lat, lng) {
+    let coord = new qq.maps.LatLng(lat, lng);
+
+    //对指定地址进行解析
+    geocoder.getAddress(coord);
+    return new Promise((resolve, reject) => {
+        geocoder.setError((err) => {
+            message.destroy();
+            setTimeout(() => {
+                message.error('地址输入错误');
+            }, 200);
+            resolve(false)
+            // console.log(address + '地址输入错误', err)
+        })
+        //设置服务请求成功的回调函数
+        geocoder.setComplete((res) => {
+            resolve(res.detail)
+        })
+    });
+}
