@@ -78,8 +78,8 @@ export const reducer = (state = initState, action) => {
 
 function cart(food, shop_id, current, cart, againNumber) {
     let item = JSON.parse(JSON.stringify(food)); // 菜品item
-    if (!item.number) {
-        item.number = 1; // 初始化菜品数量
+    if (!item.number) { // 初始化菜品数量
+        item.number = 1;
     }
     let setFlag = false; // 删除店铺的开关
     let list = []; //  如果不存在店铺list 初始化空list
@@ -107,22 +107,23 @@ function cart(food, shop_id, current, cart, againNumber) {
     // 将商品插入对应分类
     list.forEach((el, index) => { // el ->>> 每个分类
         let e = item;
-        if (item.cate_id === el.category_id) { // 找到--->当前商品分类对象 商品id===分类id
+        if (item.cate_id === el.category_id) { // 找到--->当前商品分类对象 商品分类id===分类id
             if (!el.product[0]) { // 如果该分类没有商品  直接插入 不走判断
-                list[index].product.push(e);
+                list[index].product.push(e); // 插入商品到当前分类对象的product
             } else { // 购物车已有商品  根据 传入current执行加减
                 let flag = false; // 判断是否含有该商品 true->存在 false->不存在 存在则根据currentType来执行加减操作
-                el.product.forEach((el2, i) => { // 遍历该分类下的商品
-                    if (el2.product_id === item.product_id) {
-                        flag = true;            // 如果该分类对象 存在该商品根据currentType来执行加减操作
-                        if (current === 'add' && !againNumber) {
+                el.product.forEach((el2, i) => { // 遍历该分类下的商品product[]
+                    if (el2.product_id === item.product_id) { // 如果该分类对象 存在该商品根据currentType来执行加减操作
+                        flag = true;
+                        if (current === 'add' && !againNumber) { // 该商品数量+1
                             list[index].product[i].number += 1;
                         } else if (current === 'del') {
                             list[index].product[i].number -= 1;
-                            if (list[index].product[i].number === 0) { // 如果该商品数量为0  删除商品
+                            //
+                            if (list[index].product[i].number === 0) {  // 如果该商品数量为0  删除商品
                                 list[index].product[i].number = 0
                                 list[index].product.splice(i, 1);
-                                if (!el.product[0]) { // 如果该分类商品为空 删除分类
+                                if (!el.product[0]) { // 如果该分类下商品列表为空 删除分类
                                     list.splice(index, 1);
                                 }
                                 if (!list[0]) { // 如果该店铺list为空 del

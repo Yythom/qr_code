@@ -40,8 +40,6 @@ function Input(props) {
     // }, [props.cartSummary?.num]) // 同步更新cartBar
 
     const foodNum = (food) => {
-        console.log('执行');
-
         let flag = false;
         let allNumber = 0;
         let allPrice = 0;
