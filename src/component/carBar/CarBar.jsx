@@ -36,16 +36,23 @@ function Carbar(props) {
     }
 
     async function back() {
-        if (cart[shop_id] && cart[shop_id].list[0]) {
+        if (localStorage.getItem('info') && props.userStore) {
+            if (cart[shop_id] && cart[shop_id].list[0]) {
 
-            // let lists = list();
-            // await makeOrder(shop_id, lists, localStorage.getItem('table_id')); // 
-            setTimeout(() => {
-                // props.clearCart()
-                history.push('/integral/cashier');
-            }, 200);
+                // let lists = list();
+                // await makeOrder(shop_id, lists, localStorage.getItem('table_id')); // 
+                setTimeout(() => {
+                    // props.clearCart()
+                    history.push('/integral/cashier');
+                }, 200);
+            } else {
+                message.error('请先选择菜品')
+            }
         } else {
-            message.error('请先选择菜品')
+            localStorage.setItem('router', `${history.location.pathname}${history.location.search}`);
+            setTimeout(() => {
+                history.push('/integral/login');
+            }, 150);
         }
     }
     // console.log(props);

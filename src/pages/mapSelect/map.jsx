@@ -27,22 +27,22 @@ function _Map(props) {
 
     // 初始化所有数据
     async function initFn() {
+        // window.location.reload();
+        // setTimeout(() => {
+        // document.getElementById('mapPage').contentWindow.location.reload();
+        // }, 200);
 
     }
 
     useEffect(() => {
-        if (document.querySelector('.mapPage')) {
-
-            document.querySelector('.mapPage').contentWindow.location.reload();
-        }
         window.addEventListener('message', function (event) {
             // 接收位置信息，用户选择确认位置点后选点组件会触发该事件，回传用户的位置信息
             var loc = event.data;
             if (loc && loc.module == 'locationPicker') {//防止其他应用也会向该页面post信息，需判断module是否为'locationPicker'
                 let location = {
                     cityname: loc.cityname,
-                    address: loc.poiname,
-                    address_desc: loc.poiaddress,
+                    address: loc.poiaddress,
+                    address_desc: loc.poiname,
                     location: loc.latlng
                 }
                 setMap(location);
@@ -56,14 +56,12 @@ function _Map(props) {
         message.loading({
             content: '保存定位中....', duration: 0,
         })
-        if (map.address !== '我的位置') {
-            console.log(map);
 
-            props.setLocaltion(map);
-        }
+        props.setLocaltion(map);
+
         setTimeout(() => {
             message.destroy();
-            history.goBack();
+            history.push('/integral');
         }, 200);
     }
 
@@ -73,9 +71,9 @@ function _Map(props) {
         <div className='map_wrap' >
             <Header />
             {
-                props._localtion?.location && <> <div className='select_wrap'>
-                    <iframe className='mapPage' frameBorder={0}
-                        src={`https://apis.map.qq.com/tools/locpicker?search=1&type=1&coord=${props._localtion.location}&key=4I7BZ-HIS3P-ELWD3-L2R4G-MOYBJ-OLBXZ&referer=myapp`}>
+                <> <div className='select_wrap'>
+                    <iframe id='mapPage' className='mapPage' frameBorder={0}
+                        src={`https://apis.map.qq.com/tools/locpicker?search=1&type=1&radius=1000&total=5&coord=${props._localtion?.location}&key=4I7BZ-HIS3P-ELWD3-L2R4G-MOYBJ-OLBXZ&referer=myapp`}>
                     </iframe>
 
                 </div>

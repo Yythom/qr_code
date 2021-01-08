@@ -30,6 +30,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
             if (getCookie('token')) {
                 let res = await getInfoApi();
                 if (res) {
+                    localStorage.setItem('info', JSON.stringify(res))
                     dispatch({ type: 'INFO', info: res })
                 } else {
                     message.error('获取用户信息失败')

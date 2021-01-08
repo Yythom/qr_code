@@ -13,7 +13,7 @@ import { getCategoryListApi, getPriductListApi, getCheckShopApi } from '../../ap
 import { message } from 'antd';
 
 
-function _Home({ shop, setShopID, shop_id, cartSummary, setShop }) {
+function _Home({ shop, setShopID, shop_id, activeTab, cartSummary, setShop }) {
 
     const [loading, setLoading] = useState(false);
     const [flag, setFlag] = useState(false);
@@ -22,7 +22,7 @@ function _Home({ shop, setShopID, shop_id, cartSummary, setShop }) {
     const [tab, setTab] = useState('');
     const [category_list, setCategory_list] = useState([])
 
-    const getProduct = async (category_id, shop_id) => {
+    const getProduct = async (category_id) => {
         let res = await getPriductListApi(category_id, shop_id);
         if (res) {
             setFlag(true);
@@ -37,9 +37,9 @@ function _Home({ shop, setShopID, shop_id, cartSummary, setShop }) {
         const p = new URLSearchParams(window.location.search);
         if (localStorage.getItem('s') || p.get('s')) {
             message.loading({ content: '加载中', duration: 0 });
-            let s = p.get('s')
-
+            let s = p.get('s') || localStorage.getItem('s');
             localStorage.setItem('s', s); // 更新s
+
             getCheckShopApi(s).then(result => {
                 if (result) {
                     localStorage.setItem('shop', JSON.stringify(result)); // shop
@@ -67,6 +67,7 @@ function _Home({ shop, setShopID, shop_id, cartSummary, setShop }) {
 
 
     useEffect(() => {
+        activeTab('')
         init();
 
         // eslint-disable-next-line 

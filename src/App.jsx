@@ -1,6 +1,7 @@
 import React from 'react'
 import { mapStateToProps, mapDispatchToProps } from './redux/actionCreator'
 import { connect } from 'react-redux'
+// import { HashRouter as Router, Route, Switch, Redirect, useHistory } from 'react-router-dom'
 import { BrowserRouter as Router, Route, Switch, Redirect, useHistory } from 'react-router-dom'
 
 

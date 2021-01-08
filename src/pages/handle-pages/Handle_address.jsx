@@ -41,7 +41,7 @@ function Handle_address(props) {
                 }
             }
         }
-    }, 400);
+    }, 200);
 
     useEffect(() => { setListHight(listDOM.current.clientHeight) }, [list]) // 每当list.length改变 重新设置列表高度
     useEffect(() => {
@@ -62,15 +62,19 @@ function Handle_address(props) {
             <div className='title animate__fadeIn animate__animated'>{'收货地址'}</div>
             {
                 list ? <div className='list_wrap' ref={wrapDOM} onScroll={(e) => {
+
                     scrollFn(listHeight - wrapHeight - e.target.scrollTop)
                 }}>
                     <div ref={listDOM}>
                         {
                             list.map((e, i) => {
                                 return (
-                                    <div key={e.address_id} className={`item_box ${e.is_default !== 1 ? 'default' : 'other'}`} onClick={() => history.push(`/integral/change-address?address_id=${e.address_id}`)}>
+                                    <div key={e.address_id} className={`item_box ${e.is_default !== 1 ? 'default' : 'other'}`} onClick={() => history.push(`/integral/center/change-address?address_id=${e.address_id}`)}>
                                         <li>
-                                            {i > 1 ? null : <span>{e.is_default !== 1 ? '默认收货地址' : '其他收货地址'}</span>}
+                                            {
+                                                i > 1
+                                                    ? null
+                                                    : (e.is_default !== 1 ? <span>默认收货地址</span> : null)}
                                             {
                                                 props.useAddress === e.address_id ? <span style={{ color: '#704916', width: '8.6rem' }}>当前使用地址</span> : <span></span>
                                             }
@@ -91,7 +95,7 @@ function Handle_address(props) {
                 </div> : null
             }
             <div className='btn_wrap animate__fadeIn animate__animated'>
-                <span onClick={() => { history.push('/integral/add-address') }}>新增收获地址</span>
+                <span onClick={() => { history.push('/integral/center/add-address') }}>新增收获地址</span>
             </div>
         </div>
     )

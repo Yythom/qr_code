@@ -84,27 +84,27 @@ let router = () => {
 
         // 个人中心操作页面
         phone: {
-            url: integral + '/phone',
+            url: integral + '/center/phone',
             page: Handle_phone,
             isShow: true,
         },
         booked: {
-            url: integral + '/booked',
+            url: integral + '/center/booked',
             page: Handle_booked,
             isShow: true,
         },
         address: {
-            url: integral + '/address',
+            url: integral + '/center/address',
             page: Handle_address,
             isShow: true,
         },
         changeaddress: {
-            url: integral + '/change-address',
+            url: integral + '/center/change-address',
             page: Change_address,
             isShow: true,
         },
         addaddress: {
-            url: integral + '/add-address',
+            url: integral + '/center/add-address',
             page: Add_address,
             isShow: true,
         }

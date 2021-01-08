@@ -50,13 +50,20 @@ export function request(config) {
     return new Promise((resolve, reject) => {
         instance(config).then(res => {
             if (res.code !== '0') {
-                if (res.code === 'B-009-001-001' || res.code === 'F-000-000-403') {
-                    let origin = window.location.origin;
-                    window.location.href = `${origin}/integral/login?s=${localStorage.getItem('s')}&overdueToken=1`
-                }
-                message.destroy();
+
                 setTimeout(() => {
-                    message.error({ content: res.msg, duration: 1 })
+                    if (res.code === 'F-000-000-403') {
+                        localStorage.clear();
+                        let origin = window.location.origin;
+                        localStorage.setItem('router', window.location.pathname);
+                        setTimeout(() => {
+                            window.location.href = `${origin}/integral/login`;
+                        }, 150);
+                    }
+                }, 200);
+                setTimeout(() => {
+                    message.destroy();
+                    message.error({ content: res.msg, duration: 1 });
                 }, 200);
                 resolve(false)
             } else {

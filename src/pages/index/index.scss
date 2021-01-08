@@ -3,18 +3,54 @@
     height: 100%;
     padding-bottom: 4.9rem;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow-y: scroll;
     position: relative;
+    padding: 0 1rem;
+
+    .banner {
+        width: 100%;
+
+        .banner_list {
+            width: 100%;
+            height: 16rem;
+            color: #fff;
+            text-align: center;
+            border-radius: 1.2rem;
+
+
+            img {
+                border-radius: 1.2rem;
+                width: 100%;
+                height: 16rem;
+            }
+
+            .swiper-pagination-bullet-active {
+                background-color: #999 !important;
+            }
+        }
+    }
 
     .address_wrap {
         margin-top: 0.6rem;
         display: flex;
         justify-content: center;
         align-items: center;
+
+        span {
+            color: #999;
+            overflow: hidden;
+            max-width: 25rem;
+            font-size: 1.2rem;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-left: 0.4rem;
+        }
     }
 
     .home-searchview {
-        margin: 0.5rem 1rem 0 1rem;
+        // margin: 0.5rem 1rem 0 1rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
         display: flex;
         flex-direction: row;
 
@@ -43,6 +79,164 @@
             .home-search {
                 margin-left: 1rem;
                 color: #C8CDD1;
+            }
+        }
+    }
+
+    .tag_wrap {
+        width: 100%;
+        height: 30rem;
+
+
+        ul {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+
+            li {
+                width: 8rem;
+                height: 8rem;
+                background-color: #fff;
+                border-radius: 50%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.2rem;
+
+                img {
+                    width: 4rem;
+                    height: 4rem;
+                }
+            }
+        }
+    }
+
+    .shop_list {
+
+        .title {
+            height: 4.6rem;
+            line-height: 4.6rem;
+            background-color: #f5f8fb;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #092C4C;
+
+            .sort_wrap {
+                color: #F38219;
+                font-size: 1.2rem;
+                display: flex;
+                align-items: center;
+
+                svg {
+                    vertical-align: top;
+                    margin-left: 0.4rem;
+                }
+            }
+        }
+
+
+
+        .item {
+            width: 100%;
+            height: 10.75rem;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 1.4rem;
+            position: relative;
+            box-shadow: 0px 0px 5rem 0px rgba(9, 44, 76, 0.1);
+            margin-bottom: 0.5rem;
+
+            .content {
+                width: calc(100% - 8rem);
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+
+                .shop_name {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 1.6rem;
+                    font-weight: 400;
+                    color: #092C4C;
+
+                    span:nth-of-type(1) {
+                        overflow: hidden;
+                        width: 14rem;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+
+
+                    span:nth-of-type(2) {
+                        font-size: 1.2rem;
+                        color: #666666;
+
+                        svg {
+                            vertical-align: top;
+                            margin-right: 0.2rem;
+                        }
+                    }
+                }
+
+                .address {
+                    color: #999;
+                    overflow: hidden;
+                    width: 16rem;
+                    font-size: 1.2rem;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+            }
+
+            .img_box {
+                width: 8rem;
+                height: 8rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 1rem;
+                overflow: hidden;
+                margin-right: 1.4rem;
+
+                img {
+
+                    width: 8rem;
+                    height: 8rem;
+                }
+            }
+
+            .btn {
+                right: 1.4rem;
+                bottom: 1.4rem;
+                text-align: center;
+                line-height: 2.5rem;
+                font-size: 1.2rem;
+                color: #fff;
+                width: 7rem;
+                height: 2.5rem;
+                background: linear-gradient(127deg, #F3A919 0%, #F38219 100%);
+                border-radius: 1.25rem;
+                position: absolute;
+
+                a {
+                    outline: none;
+                    color: #fff;
+                }
             }
         }
     }

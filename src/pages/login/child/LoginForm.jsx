@@ -44,7 +44,16 @@ const SubForm = (props) => {
             setCookie('token', result.token, 20);
             setTimeout(() => {
                 props.setUserInfo();
-                history.push('/integral/home');
+                props.activeTab(0);
+            }, 100);
+            setTimeout(() => {
+                if (localStorage.getItem('router')) {
+                    history.replace(localStorage.getItem('router'));
+                    localStorage.setItem('goback', -2)
+                    localStorage.removeItem('router');
+                } else {
+                    history.push('/integral')
+                }
             }, 300);
         }
         setFlag(false);
@@ -82,13 +91,13 @@ const SubForm = (props) => {
         countDown();
         let res = await getPhoneCodeApi(phone);
         if (!res) {
-            message.error('登入失败')
+            message.error('登入失败');
         }
     }
     useEffect(() => {
         const p = new URLSearchParams(window.location.search);
         if (!p.get('overdueToken')) {
-            if (getCookie('token')) history.push('/integral');
+            if (getCookie('token') && localStorage.getItem('info')) history.push('/integral');
         } else {
             message.destroy();
             message.error('登入过期')
@@ -96,7 +105,7 @@ const SubForm = (props) => {
     }, [])
 
     return (
-        <div className='login-form' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div className='login-form animate__fadeIn animate__animated' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Form
                 // {...layout}
                 name="basic"
@@ -124,6 +133,7 @@ const SubForm = (props) => {
                         <Button type="primary" htmlType="submit" loading={props.loading} className='sbbtn' >
                             <span>登入</span> <svg t="1608450482186" className="icon" viewBox="0 0 1000 1000" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5562" width="16" height="16"><path d="M623.27 857.645l292.96875-292.96874999c22.880625-22.880625 22.880625-59.97093751 0-82.85250001l-292.96875-292.96875c-22.880625-22.880625-59.97093751-22.880625-82.85250001 1e-8-22.880625 22.880625-22.880625 59.97093751 1e-8 82.85249999l192.9496875 192.9496875-561.6796875 0c-32.37281249 0-58.59375 26.22093751-58.59375 58.59375001s26.22093751 58.59375 58.59374999 58.59374999l561.67968751 0-192.94968751 192.9496875c-11.42625 11.4553125-17.16843749 26.42625-17.16843749 41.42625s5.7140625 30 17.16843751 41.42625c22.880625 22.880625 59.97093751 22.880625 82.85249999 0z" p-id="5563" fill="#ffffff"></path></svg>
                         </Button>
+                        {/* <div> 浏览首页 <svg t="1608450482186" className="icon" viewBox="0 0 1000 1000" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5562" width="16" height="16"><path d="M623.27 857.645l292.96875-292.96874999c22.880625-22.880625 22.880625-59.97093751 0-82.85250001l-292.96875-292.96875c-22.880625-22.880625-59.97093751-22.880625-82.85250001 1e-8-22.880625 22.880625-22.880625 59.97093751 1e-8 82.85249999l192.9496875 192.9496875-561.6796875 0c-32.37281249 0-58.59375 26.22093751-58.59375 58.59375001s26.22093751 58.59375 58.59374999 58.59374999l561.67968751 0-192.94968751 192.9496875c-11.42625 11.4553125-17.16843749 26.42625-17.16843749 41.42625s5.7140625 30 17.16843751 41.42625c22.880625 22.880625 59.97093751 22.880625 82.85249999 0z" p-id="5563" fill="#000"></path></svg></div> */}
                     </Form.Item>
                 }
                 <Button htmlType="button" className='getcodebtn' disabled={flag} loading={flag} onClick={getCode}>

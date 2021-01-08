@@ -48,6 +48,8 @@ function _Layout(props) {
         })
     }
     function getLocation() {
+
+
         // 获取当前经纬度坐标
         getPosition().then(result => {
             // 返回结果示例：
@@ -68,11 +70,19 @@ function _Layout(props) {
             // ...
         }).catch(err => {
             message.destroy();
-            message.error(err);
+            console.log(err);
+
+            // setTimeout(() => {
+            //     message.error(err);
+            // }, 600);
         })
     }
 
     useEffect(() => {
+        // let index = props.location.pathname === '/integral' || props.location.pathname === '/integral/';
+        // if (!index) {
+        //     if (!localStorage.getItem('info') && !props.userStore) history.push('/integral')
+        // }
         getLocation();
         if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
             props.setBrowser('wx');
@@ -109,6 +119,7 @@ function _Layout(props) {
                         history.location.pathname.indexOf('cashier') === -1
                             && history.location.pathname.indexOf('map') === -1
                             && history.location.pathname.indexOf('/search') === -1
+                            // && history.location.pathname.indexOf('/orderdetail') === -1
                             ? <TabBar /> : null)
                     : (!props.cartSummary.num ? <TabBar /> : null)
             }

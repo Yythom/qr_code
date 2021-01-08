@@ -12,10 +12,11 @@ const { TabPane } = Tabs;
 function Table(props) {
     const listDOM = useRef();
     const wrapDOM = useRef();
-    const [loading, setLoading] = useState(false);
-    const [itemLoading, setItemLoading] = useState(null);
     const [listHeight, setListHight] = useState(0);
     const [wrapHeight, setWrapHight] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [itemLoading, setItemLoading] = useState(null);
+
 
     const [type, setType] = useState('');
     const [page, setPage] = useState(1);
@@ -48,9 +49,9 @@ function Table(props) {
     }
     // 滚动到底部的事件
     const scrollFn = debounce(async (h) => {
-        console.log(list.length, total);
+        console.log(list.length, total, h);
 
-        if (h === 0) {
+        if (h <= 0) {
             console.log('到底了');
             if (total === list.length) {
                 message.warn('到底了');
@@ -87,14 +88,22 @@ function Table(props) {
         }
     }
 
-    function jump(order_id) {
-        console.log('订单详情' + order_id);
-        history.push(`/integral/orderdetail?order_id=${order_id}`)
+    function jump(e) {
+        console.log('订单详情' + e);
+        history.push(`/integral/orderdetail?order_id=${e.order_id}&shop_id=${e.shop_id}`)
     }
 
     useEffect(() => { setListHight(listDOM.current.clientHeight) }, [list]);
 
     useEffect(() => {
+        if (!props.userStore) {
+            localStorage.setItem('router', `${history.location.pathname}${history.location.search}`);
+            setTimeout(() => {
+                history.replace('/integral/login');
+            }, 150);
+            return
+        }
+        // if (!localStorage.getItem('info') && !props.userStore) history.push('/integral')
         setWrapHight(wrapDOM.current.clientHeight);
         setListHight(listDOM.current.clientHeight);
         init();
@@ -112,13 +121,13 @@ function Table(props) {
                 <TabPane tab="已完成" key="8" />
             </Tabs>
             <div className="list_wrap" ref={wrapDOM} onScroll={(e) => {
-                scrollFn(listHeight - wrapHeight + 12 - e.target.scrollTop)
+                scrollFn(listHeight - wrapHeight + 10 - e.target.scrollTop)
             }}>
                 <div ref={listDOM}>
                     {
                         list && list.map((e, i) => {
                             return (
-                                <div className='order_item' key={e.order_id + '' + e.status} onClick={() => { jump(e.order_id) }}>
+                                <div className='order_item' key={e.order_id + '' + e.status} onClick={() => { jump(e) }}>
                                     <div className='img_box'>
                                         <img src={e.shop.logo} alt="a" />
                                     </div>
@@ -133,6 +142,7 @@ function Table(props) {
                                                     <div className='time'><span>配送时间：</span>{e.delivery_time || ''}</div>
                                                 </> : <div className='ziti'><span>自提处：</span>{e.shop.address}</div>
                                         }
+                                        {/* <div className='time'><span>下单时间：</span>{e.delivery_time || ''}</div> */}
                                         <div className={e.distribution_mode === 1 ? 'price' : 'tprice'}>
                                             {e.type_message === '代币' ? <><span>总计：</span>{e.price}币</> : <><span>总计：</span>¥{e.price}</>}
 

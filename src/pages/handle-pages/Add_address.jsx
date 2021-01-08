@@ -60,7 +60,7 @@ function Add_address(props) {
                 <li>
                     <span>联系方式</span>
                     <div className='desc'>
-                        <input onChange={(e) => { setPhone(e.target.value) }} type="text" placeholder='请输入联系方式' />
+                        <input maxLength={11} onChange={(e) => { setPhone(e.target.value) }} type="text" placeholder='请输入联系方式' />
                         <svg style={{ marginLeft: '0.4rem' }} t="1608621663428" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10354" width="14" height="14"><path d="M267.354606 72.005964c-13.515828 12.812817-13.515828 33.603329 0 46.417169l414.889265 393.579937-414.889265 393.565611c-13.515828 12.821003-13.515828 33.604352 0 46.425356 13.508665 12.81998 35.418674 12.81998 48.927339 0l432.159604-410.009118c0 0 18.33867-16.991999 18.33867-29.981848 0-11.971659-18.33867-29.989011-18.33867-29.989011L316.282968 72.005964C302.77328 59.184961 280.863271 59.184961 267.354606 72.005964z" fill="#9D9E9D" p-id="10355"></path></svg>
                     </div>
                 </li>

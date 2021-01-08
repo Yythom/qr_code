@@ -20,6 +20,8 @@ export const getCategoryListApi = async (shop_id) => {
     return result;
 }
 
+
+
 // 商品列表
 export const getPriductListApi = async (category_id, shop_id) => {
     const result = await request({

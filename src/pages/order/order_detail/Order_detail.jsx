@@ -28,12 +28,12 @@ function Order_detail(props) {
     async function init() {
         hideLoading(true);
         message.loading({ content: '加载中', duration: 0 });
-        if (history.location.search) {
-            let str = history.location.search.split('?order_id=');
-            setOrder_id(str[1]); // query order_id
-            let res = await orderDetailApi(str[1], props.shop.shop_id);
+        const p = new URLSearchParams(window.location.search);
+        console.log(p.get('shop_id'), p.get('order_id'));
+        if (p.get('shop_id') || p.get('order_id')) {
+            setOrder_id(p.get('shop_id')); // query order_id
+            let res = await orderDetailApi(p.get('order_id'), p.get('shop_id'));
             if (res) setOrder(res); message.destroy()
-
         }
         hideLoading(false);
     }

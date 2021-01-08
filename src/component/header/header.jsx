@@ -7,8 +7,15 @@ function Header(props) {
     const history = useHistory();
     const jump = () => {
         console.log(history.location);
+        if (props.location.pathname.indexOf('home') !== -1) {
+            history.replace(`/integral/home?s=${localStorage.getItem('s')}`)
+        } else if (localStorage.getItem('goback')) {
+            history.go(localStorage.getItem('goback'));
+            localStorage.removeItem('goback')
+        } else {
+            history.goBack();
+        }
 
-        history.goBack();
     }
     useEffect(() => {
         // console.log(props.location.pathname.split('/')[1]);

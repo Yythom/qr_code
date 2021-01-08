@@ -80,7 +80,7 @@ function Cashier(props) {
             message.info(pay.status_message);
             props.clearCart();
             setTimeout(() => {
-                history.push('/integral/orderdetail?order_id=' + order_id);
+                history.push(`/integral/orderdetail?order_id=${order_id}&shop_id=${props.shop_id}`);
             }, 200);
         }
     }
@@ -193,7 +193,7 @@ function Cashier(props) {
                                 } else {
                                     props.clearCart();
                                     setTimeout(() => {
-                                        history.push('/integral/orderdetail?order_id=' + orderId);
+                                        history.push(`/integral/orderdetail?order_id=${orderId}&shop_id=${props.shop_id}`);
                                     }, 200);
                                     console.log('结束');
                                 }
@@ -224,7 +224,7 @@ function Cashier(props) {
                 console.log(res, mark_id, 'vx res');
                 props.clearCart();
                 setTimeout(() => {
-                    history.push('/integral/orderdetail?order_id=' + mark_id);
+                    history.push(`/integral/orderdetail?order_id=${mark_id}&shop_id=${props.shop_id}`);
                 }, 200);
                 // 支付成功 // 由点金计划待处理
             },
@@ -254,7 +254,7 @@ function Cashier(props) {
                     </li>
                 </ul>
                 <aside onClick={() => {
-                    history.push('/integral/address')
+                    history.push('/integral/center/address')
                 }}>
                     修改
                 </aside>
@@ -276,7 +276,7 @@ function Cashier(props) {
                             </li>
                         </ul>
                     </div>
-                    : <div className='address_wrap' onClick={() => { history.push('/integral/address') }}>
+                    : <div className='address_wrap' onClick={() => { history.push('/integral/center/address') }}>
                         <ul>
                             <div style={{ fontSize: '1.6rem', padding: '1rem 0' }}>
                                 <span style={{ verticalAlign: 'middle' }} >请选择地址</span>
