@@ -31,10 +31,14 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
                 let res = await getInfoApi();
                 if (res) {
                     localStorage.setItem('info', JSON.stringify(res))
-                    dispatch({ type: 'INFO', info: res })
+                    dispatch({ type: 'INFO', info: res });
+                    return res
                 } else {
-                    message.error('获取用户信息失败')
+                    message.error('获取用户信息失败');
+                    return false;
                 }
+            } else {
+                return false;
             }
         },
         setShopID: (id) => {

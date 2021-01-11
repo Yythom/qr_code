@@ -79,11 +79,7 @@ function _Layout(props) {
     }
 
     useEffect(() => {
-        // let index = props.location.pathname === '/integral' || props.location.pathname === '/integral/';
-        // if (!index) {
-        //     if (!localStorage.getItem('info') && !props.userStore) history.push('/integral')
-        // }
-        getLocation();
+        console.log('layout loading');
         if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
             props.setBrowser('wx');
         } else if (navigator.userAgent.toLowerCase().indexOf('alipayclient') !== -1) {
@@ -91,6 +87,12 @@ function _Layout(props) {
         } else {
             props.setBrowser('other');
         }
+        // let index = props.location.pathname === '/integral' || props.location.pathname === '/integral/';
+        // if (!index) {
+        //     if (!localStorage.getItem('info') && !props.userStore) history.push('/integral')
+        // }
+        getLocation();
+
     }, [])
 
 
@@ -112,6 +114,7 @@ function _Layout(props) {
                         <Route path={e.url} exact component={e.page} key={'/integral' + e.url} />
                     )
                 })
+
             }
             {
                 history.location.pathname.indexOf('home') === -1

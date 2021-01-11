@@ -123,6 +123,12 @@ export function getCookie(name) {
         }
     }
 }
+
+//清除cookie  
+export function clearCookie(name) {
+    setCookie(name, "", -1);
+}
+
 export async function getLal(address) {
     //对指定地址进行解析
     geocoder.getLocation(address);

@@ -78,18 +78,26 @@
     }
 
 
+    .pay_wrap_wxzfb,
     .pay_wrap {
         width: 100%;
         padding: 0 5.7rem;
         margin-top: 1.6rem;
         box-sizing: border-box;
         display: flex;
-        justify-content: space-between;
 
         button {
             width: 9.4rem;
             height: 3.6rem;
-
         }
+    }
+
+    .pay_wrap_wxzfb {
+        justify-content: center;
+    }
+
+    .pay_wrap {
+        justify-content: space-between;
+
     }
 }

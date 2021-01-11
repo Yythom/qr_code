@@ -35,7 +35,7 @@ function Carbar(props) {
         return ''
     }
 
-    async function back() {
+    function back() {
         if (localStorage.getItem('info') && props.userStore) {
             if (cart[shop_id] && cart[shop_id].list[0]) {
 
@@ -50,6 +50,7 @@ function Carbar(props) {
             }
         } else {
             localStorage.setItem('router', `${history.location.pathname}${history.location.search}`);
+
             setTimeout(() => {
                 history.push('/integral/login');
             }, 150);

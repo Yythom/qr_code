@@ -62,7 +62,7 @@ function _App(props) {
         <>
             <Router>
                 <Switch>
-                    <Route path='/integral/login' component={Login}></Route>
+                    <Route path='/integral/login' exact component={Login}></Route>
                     <Route path='/integral' component={BaseLayout} ></Route>
                     <Route path='/404' exact component={() => <h2>404</h2>}></Route>
                     <Redirect to="/404" />

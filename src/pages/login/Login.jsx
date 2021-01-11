@@ -5,7 +5,9 @@ import { useEffect, useState } from 'react';
 import { getList } from '../../api/api';
 import From from './child/LoginForm'
 import './login.scss';
-
+import bg from '../../assets/icon/images/loginbg.png'
+import logo from '../../assets/icon/images/logo.png'
+import welcome from '../../assets/icon/images/welcome.png'
 
 function _Login(props) {
 
@@ -36,16 +38,21 @@ function _Login(props) {
 
 
     return (
-        <div className='login' >
-            <div className='title'>欢迎使用鱼付通</div>
-            <img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2003719257,1069607366&fm=26&gp=0.jpg" />
+        <div className='_login' >
+            {/* <img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2003719257,1069607366&fm=26&gp=0.jpg" /> */}
             {/* {loading && <div className='loading animate__fadeIn animate__animated'>
                 <h2>loading.....</h2>
             </div>} */}
+
+
+            <div className="login-title">
+                <img className="welcome" mode="aspectFit" src={welcome} />
+                <img className="logo" mode="aspectFit" src={logo} />
+            </div>
             <div className='login_wrap animate__fadeIn animate__animated'>
+                <div className='title-form'>登入</div>
                 <From loading={loading} setLoading={isLoadingFn} />
             </div>
-
         </div>
     )
 }

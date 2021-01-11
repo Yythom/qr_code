@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { baseURL, timeout } from './config'
 import { message } from 'antd';
-import { getCookie } from '../utils/utils'
+import { getCookie, clearCookie } from '../utils/utils'
 
 
 let pending = []; //声明一个数组用于存储每个请求的取消函数和axios标识
@@ -50,10 +50,11 @@ export function request(config) {
     return new Promise((resolve, reject) => {
         instance(config).then(res => {
             if (res.code !== '0') {
-
                 setTimeout(() => {
                     if (res.code === 'F-000-000-403') {
+                        alert('403')
                         localStorage.clear();
+                        clearCookie('token');
                         let origin = window.location.origin;
                         localStorage.setItem('router', window.location.pathname);
                         setTimeout(() => {

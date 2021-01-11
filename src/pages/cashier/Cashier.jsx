@@ -287,12 +287,20 @@ function Cashier(props) {
                 )
             }
             {props.cartSummary?.productList && < P_list order_detail={props.cartSummary} isCashier list={props.cartSummary?.productList} more={more} setMore={setMore} />}
-            <div className="pay_wrap">
-                <Button type="primary" disabled={loading} onClick={() => { pay() }}>
+            <div className={props.isBrowser === 'wx' || props.isBrowser === 'zfb' ? "pay_wrap" : "pay_wrap_wxzfb"}>
+                {
+                    props.isBrowser === 'wx' || props.isBrowser === 'zfb'
+                    && <Button type="primary" disabled={loading} onClick={() => { pay() }}>
+                        {props.isBrowser === 'wx' ? '微信付款' : null}
+                        {props.isBrowser === 'zfb' ? '支付宝付款' : null}
+                        {props.isBrowser === 'other' ? '现金付款' : null}
+                    </Button>
+                }
+                {/* <Button type="primary" disabled={loading} onClick={() => { pay() }}>
                     {props.isBrowser === 'wx' ? '微信付款' : null}
-                    {props.isBrowser === 'zfb' ? '微信付款' : null}
+                    {props.isBrowser === 'zfb' ? '支付宝付款' : null}
                     {props.isBrowser === 'other' ? '现金付款' : null}
-                </Button>
+                </Button> */}
                 <Button type="primary" disabled={loading} onClick={() => { pay(1) }}>代币付款</Button>
             </div>
         </div>
