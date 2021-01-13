@@ -52,7 +52,7 @@ export function request(config) {
             if (res.code !== '0') {
                 setTimeout(() => {
                     if (res.code === 'F-000-000-403') {
-                        alert('403')
+                        // alert('403');
                         localStorage.clear();
                         clearCookie('token');
                         let origin = window.location.origin;
