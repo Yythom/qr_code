@@ -66,7 +66,6 @@ function Cashier(props) {
                 }
             }
             console.log(res, 'default address');
-
         }
 
         message.destroy();
@@ -100,7 +99,7 @@ function Cashier(props) {
             } else {
                 message.destroy();
                 setLoading(false);
-                message.error({ content: '请使用微信支付宝打开', duration: 1 });
+                message.error({ content: '请使用微信或支付宝打开', duration: 1 });
                 return
             }
             handleClickPay(paytype);
@@ -155,9 +154,12 @@ function Cashier(props) {
                 orderId = mark_id;
                 result = await payApi(paytype, mark_id, props.code);
             }
-            console.log(result, 'pay result');
+            console.log(result, 'pay result 1');
 
             if (result && isWexinOrAliPay === 'wx') {
+                // eslint-disable-next-line no-undef
+                console.log(WeixinJSBridge, 'wx');
+
                 if (typeof WeixinJSBridge == 'undefined') {
                     if (document.addEventListener) {
                         // eslint-disable-next-line no-undef
@@ -179,7 +181,7 @@ function Cashier(props) {
                 AP.tradePay({
                     tradeNO: result.payInfo.tradeNO,
                 }, (aliPay_res) => {
-                    console.log(aliPay_res, 'zfb res');
+                    console.log(aliPay_res, 'zfb res 2');
                     function serch_order() {
                         let id = result.pay_order_id;
                         let i = 30;
@@ -221,7 +223,7 @@ function Cashier(props) {
             paySign: payInfo.paySign, // 微信签名
         },
             (res) => {
-                console.log(res, mark_id, 'vx res');
+                console.log(res, mark_id, 'vx res 2');
                 props.clearCart();
                 setTimeout(() => {
                     history.push(`/integral/orderdetail?order_id=${mark_id}&shop_id=${props.shop_id}`);
@@ -289,18 +291,14 @@ function Cashier(props) {
             {props.cartSummary?.productList && < P_list order_detail={props.cartSummary} isCashier list={props.cartSummary?.productList} more={more} setMore={setMore} />}
             <div className={props.isBrowser === 'wx' || props.isBrowser === 'zfb' ? "pay_wrap" : "pay_wrap_wxzfb"}>
                 {
-                    props.isBrowser === 'wx' || props.isBrowser === 'zfb'
+                    (props.isBrowser === 'wx' || props.isBrowser === 'zfb')
                     && <Button type="primary" disabled={loading} onClick={() => { pay() }}>
                         {props.isBrowser === 'wx' ? '微信付款' : null}
                         {props.isBrowser === 'zfb' ? '支付宝付款' : null}
                         {props.isBrowser === 'other' ? '现金付款' : null}
                     </Button>
                 }
-                {/* <Button type="primary" disabled={loading} onClick={() => { pay() }}>
-                    {props.isBrowser === 'wx' ? '微信付款' : null}
-                    {props.isBrowser === 'zfb' ? '支付宝付款' : null}
-                    {props.isBrowser === 'other' ? '现金付款' : null}
-                </Button> */}
+
                 <Button type="primary" disabled={loading} onClick={() => { pay(1) }}>代币付款</Button>
             </div>
         </div>

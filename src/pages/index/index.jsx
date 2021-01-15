@@ -10,6 +10,11 @@ import { getCookie, getAddress, debounce } from '../../utils/utils';
 import { get_tagApi, get_ShopListApi, bannerListApi } from '../../api/indexApi'
 import './index.scss';
 
+const swiperOptions = {
+    preloadImages: true,
+    autoplay: 4000,
+    autoplayDisableOnInteraction: false
+};
 
 function _Index(props) {
     const listDOM = useRef();
@@ -111,11 +116,6 @@ function _Index(props) {
         }
     }, 200);
 
-    const swiperOptions = {
-        preloadImages: true,
-        autoplay: 4000,
-        autoplayDisableOnInteraction: false
-    };
 
     return (
         <div className='index_box' ref={wrapDOM} onScroll={(e) => {

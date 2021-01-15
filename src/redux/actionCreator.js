@@ -12,7 +12,7 @@ export const mapStateToProps = (state, ownProps) => {
         userStore: state.userStore,
         shop_id: state.shop_id,
 
-        defaultAddress: state.defaultAddress,
+
         useAddress: state.useAddress,
         _localtion: state._localtion,
         isBrowser: state.isBrowser,
@@ -46,9 +46,6 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
         },
         setAddress: (address_id) => {
             dispatch({ type: 'USEADDRESS', data: address_id })
-        },
-        setDefaultAddress: (obj) => {
-            dispatch({ type: 'DEFAULT', data: obj })
         },
         setLocaltion: (_localtion) => {
             dispatch({ type: 'LOCAL', _localtion })

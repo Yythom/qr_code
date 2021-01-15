@@ -121,11 +121,13 @@ function Order_detail(props) {
                             {
                                 (order.order.status === 2) ? <div>
                                     <Button onClick={() => againPay(1)} className='againPay done'>代币付款</Button>
-                                    {/* <Button onClick={() => againPay()} className='againPay done'>
+                                    {(props.isBrowser === 'wx' || props.isBrowser === 'zfb') && <Button onClick={() => againPay()} className='againPay done'>
                                         {props.isBrowser === 'wx' ? '微信付款' : null}
                                         {props.isBrowser === 'zfb' ? '支付宝付款' : null}
                                         {props.isBrowser === 'other' ? '现金付款' : null}
-                                    </Button> */}
+                                    </Button>
+                                    }
+
                                 </div> : null
                             }
 
