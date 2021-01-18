@@ -25,7 +25,7 @@ export function request(config) {
         headers: {
             'Content-Type': 'application/json',
             'token': getCookie('token') || '',
-            'shop_id': localStorage.getItem('shop_id') || '',
+            'shopId': localStorage.getItem('shop_id') || '',
         }
     })
 
