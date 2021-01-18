@@ -29,15 +29,15 @@ function Input(props) {
         addCart(food, shop_id, current);
         foodNum(food);
     }
-    useEffect(() => {
-        if (props.shop_id) foodNum(food_item);
-        // eslint-disable-next-line
-    }, []) // 同步更新cartBar
-
     // useEffect(() => {
-    //     // foodNum(food_item)
+    //     if (props.shop_id) foodNum(food_item);
     //     // eslint-disable-next-line
-    // }, [props.cartSummary?.num]) // 同步更新cartBar
+    // }, []) // 同步更新cartBar
+
+    useEffect(() => {
+        foodNum(food_item);
+        // eslint-disable-next-line
+    }, [props.cartSummary?.num]) // 同步更新cartBar
 
     const foodNum = (food) => {
         let flag = false;

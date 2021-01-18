@@ -21,6 +21,7 @@ function _Home({ shop, setShopID, shop_id, activeTab, cartSummary, setShop }) {
     const history = useHistory();
     const [tab, setTab] = useState('');
     const [category_list, setCategory_list] = useState([])
+    const [headerText, setHeaderText] = useState('首页');
 
     const getProduct = async (category_id) => {
         let res = await getPriductListApi(category_id, shop_id);
@@ -35,6 +36,8 @@ function _Home({ shop, setShopID, shop_id, activeTab, cartSummary, setShop }) {
     // 初始化店铺所有数据
     function init() {
         const p = new URLSearchParams(window.location.search);
+        if (p.get('isOrderDetail')) setHeaderText('返回');
+
         if (localStorage.getItem('s') || p.get('s')) {
             message.loading({ content: '加载中', duration: 0 });
             let s = p.get('s') || localStorage.getItem('s');
@@ -83,7 +86,10 @@ function _Home({ shop, setShopID, shop_id, activeTab, cartSummary, setShop }) {
         <div className='home_wrap' >
             <div className='header_title'>
                 <svg t="1608535595375" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5139" width="16" height="16"><path d="M383.88508444 512.27989333l332.40746667-332.41315555c13.96963556-13.96053333 13.96963556-36.62051556 0-50.58218667-13.96053333-13.96963556-36.62051556-13.96963556-50.58218667 0l-357.70254222 357.70481778c-13.97304889 13.96053333-13.97304889 36.62051556 0 50.58218667l357.70368 357.70368c6.98254221 6.98595556 16.13710222 10.48007111 25.29052445 10.48007111s18.30912-3.49411556 25.29052444-10.48007111c13.97304889-13.96053333 13.97304889-36.62051556 0-50.58218667l-332.40974222-332.41429333z" p-id="5140"></path></svg>
-                <span style={{ color: 'rgb(9,44,76)' }} onClick={() => history.replace('/integral')}>首页</span>
+                <span style={{ color: 'rgb(9,44,76)' }} onClick={() => {
+                    if (headerText === '返回') history.goBack();
+                    else history.replace('/integral');
+                }}>{headerText}</span>
             </div>
             {
                 shop && <>

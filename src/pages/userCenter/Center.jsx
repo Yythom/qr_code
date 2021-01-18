@@ -18,7 +18,7 @@ function User_center(props) {
     }
 
     function init() {
-
+        props.setUserInfo();
     }
 
 
