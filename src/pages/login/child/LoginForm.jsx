@@ -3,7 +3,7 @@ import { Form, Input, Button, Checkbox, Statistic, message } from 'antd';
 import { mapStateToProps, mapDispatchToProps } from '../../../redux/actionCreator';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { isMobile, setCookie, getCookie } from '../../../utils/utils'
+import { isMobile, setCookie, getCookie, clearCookie } from '../../../utils/utils'
 import { useEffect } from 'react';
 import { getPhoneCodeApi, loginApi } from '../../../api/api'
 import mobile_icon from '../../../assets/icon/mobile.png'
@@ -54,11 +54,15 @@ const SubForm = (props) => {
                     props.setLoading(false);
                     setTimeout(() => {
                         if (localStorage.getItem('router')) {
-                            history.replace(localStorage.getItem('router'));
+
                             setTimeout(() => {
                                 localStorage.setItem('goback', -2);
                                 localStorage.removeItem('router');
                             }, 100);
+
+
+                            history.replace(localStorage.getItem('router'));
+
                         } else {
                             history.push('/integral')
                         }

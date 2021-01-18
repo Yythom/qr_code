@@ -18,7 +18,6 @@ function P_list(props) {
         order_detail,
         isCashier, // 是否收银台使用
         isOrderDetails, // 是否订单详情
-        shop_detail,
         shop,
     } = props
 

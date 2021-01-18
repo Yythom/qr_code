@@ -288,7 +288,7 @@ function Cashier(props) {
                     </div>
                 )
             }
-            {props.cartSummary?.productList && < P_list order_detail={props.cartSummary} isCashier list={props.cartSummary?.productList} more={more} setMore={setMore} />}
+            {props.cartSummary?.productList && props.shop && < P_list order_detail={props.cartSummary} isCashier list={props.cartSummary?.productList} more={more} setMore={setMore} />}
             <div className={props.isBrowser === 'wx' || props.isBrowser === 'zfb' ? "pay_wrap" : "pay_wrap_wxzfb"}>
                 {
                     (props.isBrowser === 'wx' || props.isBrowser === 'zfb')
