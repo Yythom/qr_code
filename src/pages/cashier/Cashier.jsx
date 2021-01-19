@@ -88,6 +88,10 @@ function Cashier(props) {
      * @param  {*} e 付款方式
      */
     async function pay(coin) {
+        if (!props.shop.is_business) {
+            message.error('店铺已打烊');
+            return;
+        }
         setLoading(true);
         message.loading({ content: '付款中...', duration: 0 });
         let paytype;

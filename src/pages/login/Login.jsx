@@ -6,7 +6,7 @@ import { getList } from '../../api/api';
 import From from './child/LoginForm'
 import './login.scss';
 import bg from '../../assets/icon/images/loginbg.png'
-import logo from '../../assets/icon/images/logo.png'
+import logo from '../../assets/icon/logo.svg'
 import welcome from '../../assets/icon/images/welcome.png'
 
 function _Login(props) {

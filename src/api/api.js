@@ -20,11 +20,11 @@ export const getPhoneCodeApi = async (mobile) => { // 获取验证码
     })
     return result;
 }
-export const loginApi = async (code, mobile) => { // 登入
+export const loginApi = async (code, mobile, password) => { // 登入
     const result = await request({
         method: 'post',
         url: '/shop/v1/login',
-        data: { code, mobile },
+        data: { code, mobile, password },
     })
     return result;
 }
@@ -44,6 +44,16 @@ export const changePhoneCodeApi = async (mobile) => { // 修改手机 的验证�
     })
     return result;
 }
+export const changePassword = async (mobile, code, password, confirm_password) => { // 修改密码
+    const result = await request({
+        method: 'post',
+        url: '/shop/v1/user/send',
+        data: { mobile, code, password, confirm_password },
+    })
+    return result;
+}
+
+
 export const changePhoneApi = async (code, mobile) => { // 确定修改手机号
     const result = await request({
         method: 'post',

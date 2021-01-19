@@ -24,7 +24,9 @@ import Handle_address from '../pages/handle-pages/Handle_address'
 import Handle_booked from '../pages/handle-pages/Handle_booked'
 import Change_address from '../pages/handle-pages/Change_address'
 import Add_address from '../pages/handle-pages/Add_address'
-let integral = '/integral'
+import Change_password from '../pages/handle-pages/Change_password'
+
+let integral = '/integral';
 
 let router = () => {
     return {
@@ -106,6 +108,11 @@ let router = () => {
         addaddress: {
             url: integral + '/center/add-address',
             page: Add_address,
+            isShow: true,
+        },
+        changepassword: {
+            url: integral + '/center/change-password',
+            page: Change_password,
             isShow: true,
         }
 
