@@ -3,7 +3,7 @@ import { Form, Input, Button, Checkbox, Statistic, message } from 'antd';
 import { mapStateToProps, mapDispatchToProps } from '../../../redux/actionCreator';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { isMobile, setCookie, getCookie, clearCookie } from '../../../utils/utils'
+import { isMobile, setCookie, getCookie, clearCookie, debounce } from '../../../utils/utils'
 import { useEffect } from 'react';
 import { getPhoneCodeApi, loginApi } from '../../../api/api'
 import mobile_icon from '../../../assets/icon/mobile.png'
@@ -23,9 +23,10 @@ const SubForm = (props) => {
     const [count, setCount] = useState('');
     const [type, setType] = useState('');
 
-    const onFinish = async (values) => {
+    const onFinish = debounce(async (values) => {
         if (!values.phone) {
             message.error('请输入手机号');
+            return;
         }
         if (!values.verify && verify) {
             message.error('验证码不能为空');
@@ -74,7 +75,7 @@ const SubForm = (props) => {
             setFlag(false);
             props.setLoading(false);
         }
-    };
+    }, 300, true);
 
     const onFinishFailed = errorInfo => {
         console.log('Failed:', errorInfo);
