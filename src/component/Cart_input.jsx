@@ -53,7 +53,7 @@ function Input(props) {
         };
         if (props.cart) { // 取出购物车数据进行汇总
             if (Object.keys(props.cart)[0]) {
-                props.cart[props.shop_id].list.forEach(e => { // 购物车中的分类列表
+                props.cart[props.shop_id] && props.cart[props.shop_id].list.forEach(e => { // 购物车中的分类列表
                     e.product.forEach(el => { // 每个分类对象下的菜品列表
 
                         allNumber += el.number; // 购物车总数量

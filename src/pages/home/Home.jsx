@@ -23,7 +23,7 @@ function _Home({ shop, setShopID, shop_id, activeTab, cartSummary, setShop }) {
     const [category_list, setCategory_list] = useState([])
     const [headerText, setHeaderText] = useState('首页');
 
-    const getProduct = async (category_id) => {
+    const getProduct = async (category_id, shop_id) => {
         let res = await getPriductListApi(category_id, shop_id);
         if (res) {
             setFlag(true);
@@ -41,9 +41,13 @@ function _Home({ shop, setShopID, shop_id, activeTab, cartSummary, setShop }) {
         if (localStorage.getItem('s') || p.get('s')) {
             message.loading({ content: '加载中', duration: 0 });
             let s = p.get('s') || localStorage.getItem('s');
+            console.log(s);
+
             localStorage.setItem('s', s); // 更新s
 
             getCheckShopApi(s).then(result => {
+                console.log(result);
+
                 if (result) {
                     localStorage.setItem('shop', JSON.stringify(result)); // shop
                     setShop(result);
@@ -94,7 +98,8 @@ function _Home({ shop, setShopID, shop_id, activeTab, cartSummary, setShop }) {
             {
                 shop && <>
                     <div className='title-bg'>
-                        <img src={shop.cover} alt="a" />
+                        {shop.cover && <img src={shop.cover} alt="" />}
+
                         <div className="content">
                             <h2>{shop.shop_name}</h2>
                             <div className="address">
