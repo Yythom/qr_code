@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import './style/handle.scss'
 import { useState } from 'react'
 import { Button, message } from 'antd'
-import { isMobile } from '../../utils/utils'
+import { isMobile, debounce } from '../../utils/utils'
 import { changePhoneCodeApi, changePassword } from '../../api/api'
 import { useHistory } from 'react-router-dom'
 
@@ -53,7 +53,7 @@ function Handle_password(props) {
             }
         } else return
     }
-    async function onOk() {
+    const onOk = debounce(async () => {
         if (!phone) {
             message.error('请输入手机号');
         }
@@ -69,15 +69,15 @@ function Handle_password(props) {
             message.error('密码不能为空');
             return
         }
+        if (!isMobile(phone)) {
+            message.error('请输入正确的手机号');
+            return
+        }
         if (password1 !== password2) {
             message.error('两次密码输入不一致');
         }
         if (v.length !== 6) {
             message.error('验证码长度错误');
-            return
-        }
-        if (!isMobile(phone)) {
-            message.error('请输入正确的手机号');
             return
         }
         message.loading({ content: '修改中...', duration: 0 })
@@ -88,15 +88,16 @@ function Handle_password(props) {
             props.setUserInfo();
             setTimeout(() => {
                 clear();
-                history.goBack();
             }, 200);
         }
-    }
+    }, 300, true)
 
-    function clear() {
+    const clear = debounce(() => {
         setCount_flag(false);
         setCount(0);
-    }
+        history.goBack();
+    }, 300, true);
+
     return (
         <div className='handle_phone' >
             <div className='title animate__fadeIn animate__animated'>密码重置</div>

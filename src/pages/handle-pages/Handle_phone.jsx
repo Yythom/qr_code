@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import './style/handle.scss'
 import { useState } from 'react'
 import { Button, message } from 'antd'
-import { isMobile } from '../../utils/utils'
+import { isMobile, debounce } from '../../utils/utils'
 import { changePhoneCodeApi, changePhoneApi } from '../../api/api'
 
 function Handle_phone(props) {
@@ -35,7 +35,7 @@ function Handle_phone(props) {
         }
         go();
     }
-    const getCode = async () => {
+    const getCode = debounce(async () => {
         if (!isMobile(phone)) {
             message.error('请输入正确的手机号');
             return
@@ -50,8 +50,9 @@ function Handle_phone(props) {
                 message.success('验证码获取成功')
             }
         } else return
-    }
-    async function onOk() {
+    }, 300, true);
+
+    const onOk = debounce(async () => {
         message.loading({ content: '修改中...', duration: 0 })
         let result = await changePhoneApi(v, phone);
         if (result) {
@@ -62,13 +63,13 @@ function Handle_phone(props) {
                 clear();
             }, 200);
         }
-    }
+    }, 300, true)
 
-    function clear() {
+    const clear = debounce(async () => {
         setCount_flag(false);
         setCount(0);
         setFlag(false);
-    }
+    }, 300, true)
     return (
         <div className='handle_phone' >
             <div className='title animate__fadeIn animate__animated'>{flag ? '修改手机号' : '手机号'}</div>

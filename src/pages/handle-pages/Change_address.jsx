@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom'
 import default_png from '../../assets/icon/default_address.png'
 import { editAddressApi, getAadressDetailApi, delAadressApi } from '../../api/api'
 import { message, Popconfirm } from 'antd'
-import { getLal, isMobile } from '../../utils/utils'
+import { getLal, isMobile, debounce } from '../../utils/utils'
 
 function Change_address(props) {
     const history = useHistory();
@@ -19,7 +19,7 @@ function Change_address(props) {
     const [phone, setPhone] = useState('');
     const [ads, setAds] = useState('');
 
-    const onOk = async () => { // 保存修改的地址
+    const onOk = debounce(async () => { // 保存修改的地址
         if (!name || !phone || !ads) { message.error('内容不能为空'); return; }
         if (!isMobile(phone)) {
             message.error('请输入正确的手机号');
@@ -42,7 +42,7 @@ function Change_address(props) {
                 history.goBack();
             }
         }
-    }
+    }, 300, true)
 
     function changeDefaultFn() {
         if (isDefault == 1) {
@@ -92,7 +92,6 @@ function Change_address(props) {
                     <div className='useAddress' style={{ backgroundColor: '#E29836', color: '#fff' }}
                         onClick={() => {
                             props.setAddress(address_id);
-                            message.success('使用成功');
                             localStorage.setItem('use_address', address_id);
                             history.goBack();
                         }}>

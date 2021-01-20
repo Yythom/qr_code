@@ -104,6 +104,9 @@ function _Layout(props) {
                 history.location.pathname !== '/integral'
                     && history.location.pathname !== '/integral/'
                     && history.location.pathname !== '/integral/order'
+                    && history.location.pathname !== '/integral/order/'
+                    && history.location.pathname !== '/integral/center'
+                    && history.location.pathname !== '/integral/center/'
                     && history.location.pathname !== '/integral/center'
                     && history.location.pathname.indexOf('/integral/home') === -1
                     ? <Header /> : null
@@ -116,14 +119,19 @@ function _Layout(props) {
                 })
 
             }
+
             {
                 history.location.pathname.indexOf('home') === -1
                     ? (
                         history.location.pathname.indexOf('cashier') === -1
                             && history.location.pathname.indexOf('map') === -1
                             && history.location.pathname.indexOf('/search') === -1
+                            && history.location.pathname.indexOf('/orderdetail') === -1
+                            && (history.location.pathname.split('center')[1] === '/' || history.location.pathname.indexOf('/center/') === -1)
                             // && history.location.pathname.indexOf('/orderdetail') === -1
-                            ? <TabBar /> : null)
+                            ? <TabBar />
+                            : null
+                    )
                     : (!props.cartSummary.num ? <TabBar /> : null)
             }
 

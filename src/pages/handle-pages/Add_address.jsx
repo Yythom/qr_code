@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import default_png from '../../assets/icon/default_address.png'
 import { addAddressApi } from '../../api/api'
-import { getLal } from '../../utils/utils'
+import { getLal, debounce, isMobile } from '../../utils/utils'
 import { message } from 'antd'
 
 function Add_address(props) {
@@ -17,7 +17,15 @@ function Add_address(props) {
     const [phone, setPhone] = useState('');
     const [ads, setAds] = useState('');
 
-    async function onOk() {
+    const onOk = debounce(async () => {
+        if (!name || !phone || !ads) {
+            message.error('填写信息不能为空！');
+            return
+        }
+        if (!isMobile(phone)) {
+            message.error('请输入正确的手机号');
+            return
+        }
         message.loading({ content: '保存中', duration: 0 });
         let adResult = await getLal(ads);
         if (adResult) {
@@ -33,7 +41,8 @@ function Add_address(props) {
                 history.goBack();
             }
         }
-    }
+    }, 300, true);
+
     function changeDefaultFn() {
         if (isDefault === 1) {
             setIsDefault(2);

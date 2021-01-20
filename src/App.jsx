@@ -11,9 +11,8 @@ import { BrowserRouter as Router, Route, Switch, Redirect, useHistory } from 're
 //布局组件
 import BaseLayout from './component/layout/BaseLayout'
 import Login from './pages/login/Login'
-import Index from './pages/index/index'
+
 import { useEffect } from 'react'
-import { getCheckShopApi } from './api/shopApi'
 import { setCookie } from './utils/utils'
 import { useState } from 'react'
 import { message } from 'antd'

@@ -46,8 +46,8 @@ function _Login(props) {
 
 
             <div className="login-title">
-                <img className="welcome" mode="aspectFit" src={welcome} />
-                <img className="logo" mode="aspectFit" src={logo} />
+                <img className='welcome' src={welcome} alt="error" />
+                <img className='logo' src={logo} alt="error" />
             </div>
             <div className='login_wrap animate__fadeIn animate__animated'>
                 <div className='title-form'>登入</div>

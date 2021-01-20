@@ -12,6 +12,7 @@ import Input from '../../component/Cart_input';
 import P_list from '../../component/child_list/P_List'
 import './cashier.scss'
 import { addressDefaultApi, createOrderApi, payApi, upOrderApi, getAadressDetailApi } from '../../api/api';
+import { debounce } from '../../utils/utils';
 
 const { TabPane } = Tabs;
 
@@ -74,6 +75,8 @@ function Cashier(props) {
     // 代币付款
     async function coinPay(paytype, order_id) {
         let pay = await payApi(paytype, order_id);
+        console.log('代币付款', pay);
+
         message.destroy();
         if (pay) {
             message.info(pay.status_message);
@@ -87,7 +90,7 @@ function Cashier(props) {
     /**
      * @param  {*} e 付款方式
      */
-    async function pay(coin) {
+    const pay = debounce(async (coin) => {
         if (!props.shop.is_business) {
             message.error('店铺已打烊');
             return;
@@ -112,17 +115,18 @@ function Cashier(props) {
             let res;
             if (!mark_id) {
                 res = await createOrderApi(list(), 7, props.useAddress, way);
+                console.log(res, '下单res ---->');
+
                 if (res) {
                     setMark_id(res.order_id);
                     coinPay(paytype, res.order_id);
                 }
-            }
-            if (mark_id) {
+            } else {
                 coinPay(paytype, mark_id);
             }
         }
         setLoading(false);
-    }
+    }, 1000, true);
 
     useEffect(() => {
         if (mark_id) { // 重复下单维护

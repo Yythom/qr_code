@@ -8,6 +8,7 @@ import './order_detail.scss'
 import { message, Button } from 'antd'
 import { orderDetailApi, doneApi } from '../../../api/shopApi'
 import { createOrderApi, payApi } from '../../../api/api';
+import { debounce } from '../../../utils/utils'
 
 function Order_detail(props) {
     const [loading, setLoading] = useState(true);
@@ -59,16 +60,16 @@ function Order_detail(props) {
         }
     };
 
-    const done = async () => {
+    const done = debounce(async () => {
         message.loading({ content: '加载中', duration: 0 });
         let res = await doneApi(order.order.order_id, props.shop.shop_id);
         if (res) init()
-    }
+    }, 400, true)
 
     /**
   * @param  {*} e 付款方式
   */
-    async function againPay(coin) {
+    const againPay = debounce(async (coin) => {
         setLoading(true);
         message.loading({ content: '付款中...', duration: 0 });
         let paytype;
@@ -94,7 +95,7 @@ function Order_detail(props) {
             }
         }
         setLoading(false);
-    }
+    }, 1000, true);
 
 
 

@@ -99,7 +99,7 @@ const SubForm = (props) => {
         go();
     }
 
-    const getCode = async () => {
+    const getCode = debounce(async () => {
         console.log('获取验证码');
         if (phone.length === 0) {
             message.error('请先输入手机号');
@@ -110,7 +110,7 @@ const SubForm = (props) => {
         if (!res) {
             message.error('登入失败');
         }
-    }
+    }, 300, true);
     useEffect(() => {
         const p = new URLSearchParams(window.location.search);
         if (!p.get('overdueToken')) {
