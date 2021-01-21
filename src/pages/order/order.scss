@@ -10,19 +10,32 @@
 
     .order_tabs {
         width: 100%;
-        overflow: hidden;
 
-        .ant-tabs-nav-list {
-            width: 100%;
-            display: flex !important;
-            justify-content: space-between !important;
+        overflow: scroll !important;
+
+
+
+        .ant-tabs-nav-wrap {
+            overflow: scroll !important;
+
+            .ant-tabs-nav-list {
+                width: 100%;
+                display: flex !important;
+                justify-content: space-between !important;
+
+                .ant-tabs-tab {
+                    padding-left: 2rem;
+                    padding-right: 2rem;
+                    margin-right: 0;
+                    color: rgba(0, 0, 0, .65);
+                }
+            }
+
         }
 
-        .ant-tabs-tab {
-            padding-left: 2rem;
-            padding-right: 2rem;
-            margin-right: 0;
-            color: rgba(0, 0, 0, .65);
+
+        *::-webkit-scrollbar {
+            display: none
         }
     }
 

@@ -144,7 +144,7 @@ function Cashier(props) {
     * 确认支付
     */
     const handleClickPay = async (paytype) => {
-        console.log(paytype, 'paytype');
+        console.log(paytype, 'paytype', props.code);
         let isWexinOrAliPay = props.isBrowser;
         let amount = props.cartSummary.allPrice;
         if (amount != null && amount !== '' && !isNaN(Number(amount))) {
@@ -190,28 +190,28 @@ function Cashier(props) {
                     tradeNO: result.payInfo.tradeNO,
                 }, (aliPay_res) => {
                     console.log(aliPay_res, 'zfb res 2');
-                    function serch_order() {
-                        let id = result.pay_order_id;
-                        let i = 30;
-                        i--;
-                        function go() {
-                            setTimeout(async () => {
-                                const res = await upOrderApi(id);
-                                if (i >= 0 && res.status == 2) { // TODO:递归条件
-                                    go();
-                                    i--;
-                                } else {
-                                    props.clearCart();
-                                    setTimeout(() => {
-                                        history.push(`/integral/orderdetail?order_id=${orderId}&shop_id=${props.shop_id}`);
-                                    }, 200);
-                                    console.log('结束');
-                                }
-                            }, 1000);
-                        }
-                        go();
-                    }
-                    serch_order();
+                    // function serch_order() {
+                    //     let id = result.pay_order_id;
+                    //     let i = 30;
+                    //     i--;
+                    //     function go() {
+                    //         setTimeout(async () => {
+                    //             const res = await upOrderApi(id);
+                    //             if (i >= 0 && res.status == 2) { // TODO:递归条件
+                    //                 go();
+                    //                 i--;
+                    //             } else {
+                    //                 props.clearCart();
+                    //                 setTimeout(() => {
+                    //                     history.push(`/integral/orderdetail?order_id=${orderId}&shop_id=${props.shop_id}`);
+                    //                 }, 200);
+                    //                 console.log('结束');
+                    //             }
+                    //         }, 1000);
+                    //     }
+                    //     go();
+                    // }
+                    // serch_order();
                 });
             } else {
                 // setPayLoading(false);

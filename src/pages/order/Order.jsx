@@ -72,8 +72,11 @@ function Table(props) {
     }, 400);
 
     function statusFn(e) {
-        // 1 取消 2 待支付 3 成功 4 失败 5 退款 6 已收获 7申请退款 8完成
-        if (e.status === 1) return <span style={{ color: '#F97B50' }}>备货中</span>
+        // 1 取消 2 待支付 3 成功 4 失败 5 退款 6 已收获 7申请退款 8完成 
+        if (e === '备货中') return <span style={{ color: '#2724F2' }}>{e}</span>
+        if (e === '待支付') return <span style={{ color: '#6EA24E' }}>{e}</span>
+        if (e === '已完成') return <span style={{ color: '#F97B50' }}>{e}</span>
+        else return <span style={{ color: '#F97B50' }}>{e}</span>
     }
 
     async function tabFn(e) {
@@ -149,7 +152,8 @@ function Table(props) {
                                         </div>
                                     </div>
                                     <div className='status' style={{ color: '#F97B50' }}>
-                                        {e.status_message}
+                                        {statusFn(e.status_message)}
+                                        {/* {e.status_message} */}
                                     </div>
                                     {/* <Button className='upBtn' loading={itemLoading ? (itemLoading.order_id === e.order_id ? itemLoading.loading : false) : false}
                                         onClick={(event) => { event.stopPropagation(); upOrderItemFn(e) }}

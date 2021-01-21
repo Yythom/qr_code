@@ -42,7 +42,7 @@ function _Search(props) {
             localStorage.setItem('search_log', JSON.stringify($log)); // 添加新的历史
             setLog($log);
         }
-
+        message.loading({ content: '加载中', duration: 0 })
         if (props._localtion) shop_list = await get_ShopListApi(text, props._localtion.location);
         else shop_list = await get_ShopListApi(text);
         console.log(shop_list);
