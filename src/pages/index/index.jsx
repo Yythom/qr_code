@@ -1,12 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import { mapStateToProps, mapDispatchToProps } from '../../redux/actionCreator';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ReactSwiper from 'reactjs-swiper';
 import { message } from 'antd';
+// eslint-disable-next-line no-unused-vars
 import { getCookie, getAddress, debounce } from '../../utils/utils';
+import banner1 from '../../assets/1.png'
+import banner2 from '../../assets/2.png'
 
-
+// eslint-disable-next-line no-unused-vars
 import { get_tagApi, get_ShopListApi, bannerListApi } from '../../api/indexApi'
 import './index.scss';
 
@@ -25,22 +29,14 @@ function _Index(props) {
     const [ortherHeight, setOrtherHight] = useState(0);
 
     const history = useHistory();
-    const [loading, setLoading] = useState(false);
+
     const [list, setList] = useState(false);
     const [page, setPage] = useState(0);
     const [total, setTotal] = useState(0);
     const [sort, setSort] = useState(false); // 距离排序
     // const [tagList, setTagList] = useState(false);
-    const [start, setStart] = useState(null);
+
     const [banner_list, setBanner_list] = useState([]);
-    /**
-     * @param {loding状态} status 
-     */
-    function isLoadingFn(status) {
-        setTimeout(() => {
-            setLoading(status);
-        }, 400);
-    }
 
 
     // 初始化所有数据
@@ -54,7 +50,18 @@ function _Index(props) {
             setList(shop_list.list);
             setPage(shop_list.page);
             setTotal(shop_list.total);
-            setBanner_list(banner);
+            let $banner = [{
+                image: banner1,
+                name: "",
+                title: "",
+                url: "",
+            }, {
+                image: banner2,
+                name: "",
+                title: "",
+                url: "",
+            }]
+            setBanner_list($banner);
             message.destroy();
         }
     }

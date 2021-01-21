@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { mapStateToProps, mapDispatchToProps } from './redux/actionCreator'
 import { connect } from 'react-redux'
-// import { HashRouter as Router, Route, Switch, Redirect, useHistory } from 'react-router-dom'
+
+// eslint-disable-next-line no-unused-vars
 import { BrowserRouter as Router, Route, Switch, Redirect, useHistory } from 'react-router-dom'
 
 
@@ -11,18 +12,14 @@ import { BrowserRouter as Router, Route, Switch, Redirect, useHistory } from 're
 //布局组件
 import BaseLayout from './component/layout/BaseLayout'
 import Login from './pages/login/Login'
-import Index from './pages/index/index'
 import { useEffect } from 'react'
-import { setCookie } from './utils/utils'
-import { useState } from 'react'
+// import { setCookie } from './utils/utils'
 import { message } from 'antd'
 import configState from './utils/state'
-function _App(props) {
-    const [flag, setFlag] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const history = useHistory();
 
+function _App(props) {
     useEffect(() => {
+        console.clear();
         const wxAppId = 'wxbc32865e2a127f25';
         // const aliAppId = '2021002101634074';
         const local = window.location.href;
@@ -31,8 +28,9 @@ function _App(props) {
 
         const code = p.get('code') || p.get('auth_code');
         if (/MicroMessenger/.test(window.navigator.userAgent)) { // 微信
+            console.log('微信open');
+
             if (code) {
-                alert(code)
                 console.log(code);
                 props.setCode(code)
             }
@@ -52,8 +50,11 @@ function _App(props) {
         else {
             props.setCode('');
             // alert('请使用微信或支付宝扫码');
+            console.log('请使用微信或支付宝扫码');
+
             message.error('请使用微信或支付宝扫码');
         }
+
     }, []);
 
 

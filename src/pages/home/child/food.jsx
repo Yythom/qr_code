@@ -9,11 +9,12 @@ function Food(props) {
     const [like, setLike] = useState('');
     const {
         food, // 单项商品
-        shop_id,
     } = props
     useEffect(() => {
         setLike(food.isLike);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+    // eslint-disable-next-line no-unused-vars
     const changeLike = async () => {
         console.log(like);
         if (like === 1) {

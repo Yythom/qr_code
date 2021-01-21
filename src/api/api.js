@@ -171,6 +171,7 @@ export const payApi = async (method, order_id, code) => {
     console.log(code);
 
     let data = {};
+    // eslint-disable-next-line eqeqeq
     if (method == 7) {
         data = { method, order_id, }
     } else {
