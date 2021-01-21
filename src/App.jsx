@@ -32,6 +32,7 @@ function _App(props) {
         const code = p.get('code') || p.get('auth_code');
         if (/MicroMessenger/.test(window.navigator.userAgent)) { // 微信
             if (code) {
+                alert(code)
                 console.log(code);
                 props.setCode(code)
             }
