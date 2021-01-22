@@ -175,7 +175,7 @@ export const payApi = async (method, order_id, code) => {
     if (method == 7) {
         data = { method, order_id, }
     } else {
-        data = { method, order_id, code }
+        data = { method, order_id, open_id: code }
     }
 
     const result = await request({

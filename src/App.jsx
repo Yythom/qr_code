@@ -16,6 +16,7 @@ import { useEffect } from 'react'
 // import { setCookie } from './utils/utils'
 import { message } from 'antd'
 import configState from './utils/state'
+import { getOpen_idApi } from './api/indexApi'
 
 function _App(props) {
     useEffect(() => {
@@ -31,8 +32,11 @@ function _App(props) {
             console.log('微信open');
 
             if (code) {
-                console.log(code);
-                props.setCode(code)
+                getOpen_idApi(code).then(res => {
+                    console.log(res.open_id, 'open_id');
+                    props.setCode(res.open_id);
+                })
+
             }
             if (!code) {
                 window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxAppId}&redirect_uri=${local}&response_type=code&scope=snsapi_base&state=${configState}#wechat_redirect`;

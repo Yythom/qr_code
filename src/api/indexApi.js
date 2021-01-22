@@ -22,6 +22,14 @@ export const get_ShopListApi = async (search, location, sort, page = 1, pageSize
     return result;
 }
 
+export const getOpen_idApi = async (code) => {
+    const result = await request({
+        method: 'post',
+        url: '/shop/v1/common/shop/list',
+        data: { code }
+    })
+    return result;
+}
 
 //banner
 // export const bannerListApi = async (shop_id) => {
