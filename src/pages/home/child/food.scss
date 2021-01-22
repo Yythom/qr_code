@@ -1,7 +1,7 @@
 .login_wrap {
     box-sizing: border-box;
     width: 100%;
-    max-height: calc(100vh - 3.7rem - 15.6rem - 3.1rem);
+    max-height: calc(100% - 3.7rem - 15.6rem - 3.1rem);
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -14,7 +14,7 @@
 .food_wrap {
     box-sizing: border-box;
     width: 100%;
-    max-height: calc(100vh - 3.7rem - 15.6rem - 3.1rem);
+    max-height: calc(100% - 3.7rem - 15.6rem - 1rem);
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -22,7 +22,7 @@
     overflow-y: scroll;
     box-sizing: border-box;
     position: relative;
-    padding: 0.2rem 0 2.2rem 1.3rem;
+    padding: 0.2rem 0 0rem 1.3rem;
 
     .empty {
         position: absolute;

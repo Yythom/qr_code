@@ -43,10 +43,10 @@ function _Index(props) {
     async function initFn(type) {
         type && message.loading({ content: '加载中', duration: 0 });
         let shop_list;
-        let banner = await bannerListApi();
+        // let banner = await bannerListApi();
         if (props._localtion) shop_list = await get_ShopListApi('', props._localtion.location);
         else shop_list = await get_ShopListApi('');
-        if (shop_list && banner) {
+        if (shop_list) {
             setList(shop_list.list);
             setPage(shop_list.page);
             setTotal(shop_list.total);

@@ -29,6 +29,8 @@ function _Layout(props) {
             } else {
                 flag = true
             }
+
+
             if (!flag) return
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
@@ -49,9 +51,11 @@ function _Layout(props) {
     }
     function getLocation() {
 
-
+        console.log('result');
         // 获取当前经纬度坐标
         getPosition().then(result => {
+            console.log(result, 'result');
+
             // 返回结果示例：
             // {latitude: 30.318030999999998, longitude: 120.05561639999999}
             // 一般小数点后只取六位，所以用以下代码搞定

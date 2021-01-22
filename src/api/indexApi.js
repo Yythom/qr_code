@@ -24,11 +24,14 @@ export const get_ShopListApi = async (search, location, sort, page = 1, pageSize
 
 
 //banner
-export const bannerListApi = async (shop_id) => {
-    const result = await request({
-        method: 'post',
-        url: '/shop/v1/common/banner/list',
-    })
-    return result;
-}
+// export const bannerListApi = async (shop_id) => {
+//     const result = await request({
+//         method: 'get',
+//         url: '/shop/v1/common/banner/list',
+//         params: {
+//             shop_id: 333
+//         }
+//     })
+//     return result;
+// }
 

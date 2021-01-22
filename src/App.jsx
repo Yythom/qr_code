@@ -19,7 +19,7 @@ import configState from './utils/state'
 
 function _App(props) {
     useEffect(() => {
-        console.clear();
+        // console.clear();
         const wxAppId = 'wxbc32865e2a127f25';
         // const aliAppId = '2021002101634074';
         const local = window.location.href;
