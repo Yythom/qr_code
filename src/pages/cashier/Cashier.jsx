@@ -93,6 +93,10 @@ function Cashier(props) {
     const pay = debounce(async (coin) => {
         if (!props.shop.is_business) {
             message.error('店铺已打烊');
+            // eslint-disable-next-line no-undef
+            console.log(AP, 'zfb');
+            // eslint-disable-next-line no-undef
+            console.log(WeixinJSBridge, 'wx');
             return;
         }
         setLoading(true);
@@ -166,8 +170,6 @@ function Cashier(props) {
 
             if (result && isWexinOrAliPay === 'wx') {
                 // eslint-disable-next-line no-undef
-                console.log(WeixinJSBridge, 'wx');
-
                 if (typeof WeixinJSBridge == 'undefined') {
                     if (document.addEventListener) {
                         // eslint-disable-next-line no-undef

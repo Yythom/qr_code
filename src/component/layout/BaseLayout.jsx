@@ -83,7 +83,8 @@ function _Layout(props) {
         if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
             props.setBrowser('wx');
         } else if (navigator.userAgent.toLowerCase().indexOf('alipayclient') !== -1) {
-            props.setBrowser('zfb');
+            // props.setBrowser('zfb');
+            props.setBrowser('other');
         } else {
             props.setBrowser('other');
         }
