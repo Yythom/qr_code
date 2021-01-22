@@ -302,8 +302,9 @@ function Cashier(props) {
             }
             {props.cartSummary?.productList && props.shop && < P_list order_detail={props.cartSummary} isCashier list={props.cartSummary?.productList} more={more} setMore={setMore} />}
             <div className={props.isBrowser === 'wx' || props.isBrowser === 'zfb' ? "pay_wrap" : "pay_wrap_wxzfb"}>
+
                 {
-                    (props.isBrowser === 'wx' || props.isBrowser === 'zfb')
+                    (props.isBrowser === 'wx' || props.isBrowser === 'zfb') && props.shop.is_demo === 0
                     && <Button type="primary" disabled={loading} onClick={() => { pay() }}>
                         {props.isBrowser === 'wx' ? '微信付款' : null}
                         {props.isBrowser === 'zfb' ? '支付宝付款' : null}
