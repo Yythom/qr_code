@@ -97,6 +97,8 @@ function Cashier(props) {
             console.log(AP, 'zfb');
             // eslint-disable-next-line no-undef
             console.log(WeixinJSBridge, 'wx');
+            console.log(props.code);
+
             return;
         }
         setLoading(true);
