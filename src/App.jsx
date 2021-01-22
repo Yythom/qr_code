@@ -32,7 +32,7 @@ function _App(props) {
             console.log('微信open');
 
             if (code) {
-                getOpen_idApi(code).then(res => {
+                getOpen_idApi(code, '5').then(res => {
                     console.log(res.open_id, 'open_id');
                     props.setCode(res.open_id);
                 })

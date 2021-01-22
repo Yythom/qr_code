@@ -22,11 +22,11 @@ export const get_ShopListApi = async (search, location, sort, page = 1, pageSize
     return result;
 }
 
-export const getOpen_idApi = async (code) => {
+export const getOpen_idApi = async (code, type) => {
     const result = await request({
         method: 'post',
-        url: '/shop/v1/common/shop/list',
-        data: { code }
+        url: '/shop/v1/login/openid',
+        data: { code, method: type }
     })
     return result;
 }
