@@ -35,7 +35,7 @@ function _App(props) {
                 props.setCode(code)
             }
             if (!code) {
-                window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxAppId}&redirect_uri=${local}&response_type=code&scope=snsapi_userinfo&state=${configState}#wechat_redirect`;
+                window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxAppId}&redirect_uri=${local}&response_type=code&scope=snsapi_base&state=${configState}#wechat_redirect`;
             }
         }
         //  else if (/AlipayClient/.test(window.navigator.userAgent)) { // 支付宝
