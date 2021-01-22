@@ -5,4 +5,4 @@ document.documentElement.style.fontSize = document.documentElement.clientWidth /
 var AP = ap;
 var geocoder = new qq.maps.Geocoder();
 
-var vConsole = new VConsole();
+// var vConsole = new VConsole();
