@@ -30,14 +30,14 @@ function _Index(props) {
 
     const history = useHistory();
 
-    const [list, setList] = useState(false);
+    const [list, setList] = useState([]);
     const [page, setPage] = useState(0);
     const [total, setTotal] = useState(0);
     const [sort, setSort] = useState(false); // 距离排序
     // const [tagList, setTagList] = useState(false);
 
     const [banner_list, setBanner_list] = useState([]);
-
+    const [flag, setFlag] = useState(false);
 
     // 初始化所有数据
     async function initFn(type) {
@@ -64,6 +64,7 @@ function _Index(props) {
             setBanner_list($banner);
             message.destroy();
         }
+        setFlag(true); // 请求完毕
     }
 
     useEffect(() => {
@@ -183,7 +184,7 @@ function _Index(props) {
                         return (
                             <div className="item" key={e.shop_id} onClick={() => history.push(`/integral/home?s=${e.short}`)}>
                                 <div className="img_box">
-                                    <img src={e.logo} alt="error" />
+                                    <img src={e.logo} alt="error" onError={() => console.log('error')} />
                                 </div>
 
                                 <div className='content'>
@@ -206,8 +207,14 @@ function _Index(props) {
                             </div>
                         )
                     })
-                }
 
+                }
+                {
+                    flag && !list[0]
+                    && <div style={{ width: '100%', textAlign: 'center' }}>
+                        附近暂无店铺信息
+                       </div>
+                }
             </div>
         </div>
     )

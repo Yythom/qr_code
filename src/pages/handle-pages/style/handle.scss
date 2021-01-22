@@ -7,6 +7,10 @@
     transform: translate(0, 8.7rem);
     color: #979797;
 
+    .hideInput {
+        background: none !important;
+    }
+
     .title {
         position: fixed;
         top: -7.8rem;

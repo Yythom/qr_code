@@ -14,7 +14,7 @@ function Handle_password(props) {
     const [flag, setFlag] = useState(false);
     const [count, setCount] = useState(0);
     const [count_flag, setCount_flag] = useState(0);
-    const [phone, setPhone] = useState(''); // 手机号
+    const [phone, setPhone] = useState(props?.userStore?.mobile); // 手机号
     const [v, setV] = useState(''); // 验证码
     const [password1, setPassword1] = useState(''); // 密码1
     const [password2, setPassword2] = useState(''); // 确认密码
@@ -106,7 +106,7 @@ function Handle_password(props) {
                 <li>
                     <span>手机号</span>
                     <div>
-                        <input maxLength={11} onChange={(e) => { setPhone(e.target.value) }} className='phone_input' placeholder='请输入' />
+                        <input className='phone_input hideInput' disabled maxLength={11} value={props?.userStore?.mobile} />
                         <span style={!count_flag ? { color: '#704916', marginLeft: '2.4rem' } : { color: '#979797', marginLeft: '2.4rem' }} onClick={() => { getCode() }}>{count_flag && count ? `${count}s后重新获取` : '获取验证码'}</span>
                     </div>
                 </li>

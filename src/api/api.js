@@ -20,7 +20,7 @@ export const getPhoneCodeApi = async (mobile) => { // 获取验证码
     })
     return result;
 }
-export const loginApi = async (code, mobile, password) => { // 登入
+export const loginApi = async (code, mobile, password) => { // 验证码登入
     const result = await request({
         method: 'post',
         url: '/shop/v1/login',
@@ -28,6 +28,15 @@ export const loginApi = async (code, mobile, password) => { // 登入
     })
     return result;
 }
+export const password_loginApi = async (account, password) => { // 密码登入
+    const result = await request({
+        method: 'post',
+        url: '/shop/v1/loginByAccount',
+        data: { account, password },
+    })
+    return result;
+}
+
 export const getInfoApi = async () => { // 用户信息
     const result = await request({
         method: 'post',

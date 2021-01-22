@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { isMobile, setCookie, getCookie, clearCookie, debounce } from '../../../utils/utils'
 import { useEffect } from 'react';
-import { getPhoneCodeApi, loginApi } from '../../../api/api'
+import { getPhoneCodeApi, loginApi, password_loginApi } from '../../../api/api'
 import mobile_icon from '../../../assets/icon/mobile.png'
 import password_icon from '../../../assets/icon/password.png'
 
@@ -43,7 +43,13 @@ const SubForm = (props) => {
 
         props.setLoading(true);
 
-        let result = await loginApi(values.verify, phone, values.password);
+        let result;
+        if (verify) {
+            result = await loginApi(values.verify, phone, values.password);
+        } else {
+            result = await password_loginApi(phone, values.password);
+        }
+
         if (result) {
             setCookie('token', result.token, 20);
             setTimeout(async () => {
@@ -137,7 +143,7 @@ const SubForm = (props) => {
                     name="phone"
                     className={type === 'phone' && 'active-wrap'}
                 >
-                    <Input bordered placeholder='输入您的手机号' maxLength={11} onChange={(e) => setPhone(e.target.value)} onClick={() => setType('phone')} onBlur={() => setType('')} />
+                    <Input bordered placeholder={verify ? '输入您的手机号' : '输入您的账号'} maxLength={11} onChange={(e) => setPhone(e.target.value)} onClick={() => setType('phone')} onBlur={() => setType('')} />
                 </Form.Item>
 
                 {
