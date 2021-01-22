@@ -80,9 +80,9 @@ function Input(props) {
 
             // 执行清空会默认复制 allCartComputer
             allCartComputer.num = allNumber; // 菜品总数量
-            allCartComputer.allPrice = allPrice; // 总价
+            allCartComputer.allPrice = np.times(allPrice, 1); // 总价
             allCartComputer.productList = productList; // 菜品列表
-            allCartComputer.coin = coin; // 代币价
+            allCartComputer.coin = np.times(coin, 1); // 代币价
             props.setAllNum({ ...allCartComputer }); // 全局购物车汇总数据
             localStorage.setItem('summary', JSON.stringify({ ...allCartComputer })); // 本地维护
         }

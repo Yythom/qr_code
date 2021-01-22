@@ -85,7 +85,9 @@ function _Layout(props) {
     useEffect(() => {
         console.log('layout loading');
         if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
-            props.setBrowser('wx');
+            props.setBrowser('other');
+
+            // props.setBrowser('wx');
         } else if (navigator.userAgent.toLowerCase().indexOf('alipayclient') !== -1) {
             // props.setBrowser('zfb');
             props.setBrowser('other');
