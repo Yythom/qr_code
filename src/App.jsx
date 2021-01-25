@@ -19,6 +19,8 @@ import configState from './utils/state'
 import { getOpen_idApi } from './api/indexApi'
 
 function _App(props) {
+    const [getCode, setCode] = useState('')
+
     useEffect(() => {
         // console.clear();
         const wxAppId = 'wxbc32865e2a127f25';
@@ -34,6 +36,7 @@ function _App(props) {
             if (local.indexOf('haimeiyx')) {
                 if (code) {
                     console.log(code, 'haimei------code');
+                    setCode(code)
                     // getOpen_idApi(code, '5').then(res => {
                     //     console.log(res.open_id, 'open_id');
                     //     props.setCode(res.open_id);
@@ -44,6 +47,7 @@ function _App(props) {
                 }
             } else {
                 if (code) {
+                    setCode(code)
                     console.log(code, 'pay-----code');
                 }
                 if (!code) {
@@ -77,16 +81,9 @@ function _App(props) {
     }, [])
 
     return (
-        <>
-            <Router>
-                <Switch>
-                    <Route path='/integral/login' exact component={Login}></Route>
-                    <Route path='/integral' component={BaseLayout} ></Route>
-                    <Route path='/404' exact component={() => <h2>404</h2>}></Route>
-                    <Redirect to="/404" />
-                </Switch>
-            </Router>
-        </>
+        <div>
+            code获取中:{getCode}
+        </div>
     )
 }
 
