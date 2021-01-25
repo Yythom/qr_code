@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Checkbox, Statistic, message } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { mapStateToProps, mapDispatchToProps } from '../../../redux/actionCreator';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { isMobile, setCookie, getCookie, clearCookie, debounce } from '../../../utils/utils'
+import { isMobile, setCookie, getCookie, debounce } from '../../../utils/utils'
 import { useEffect } from 'react';
 import { getPhoneCodeApi, loginApi, password_loginApi } from '../../../api/api'
 import mobile_icon from '../../../assets/icon/mobile.png'
@@ -125,6 +125,7 @@ const SubForm = (props) => {
             message.destroy();
             message.error('登入过期')
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -141,7 +142,6 @@ const SubForm = (props) => {
                 <Form.Item
                     label={<img className='icon_lable' src={mobile_icon} alt="" />}
                     name="phone"
-
                 >
                     <Input bordered placeholder={verify ? '输入您的手机号' : '输入您的账号'} maxLength={11} onChange={(e) => setPhone(e.target.value)} />
                 </Form.Item>
@@ -150,14 +150,12 @@ const SubForm = (props) => {
                     verify ? <Form.Item
                         label={<img className='icon_lable' src={password_icon} alt="" />}
                         name="verify"
-
                     >
                         <Input placeholder={'请输入六位验证码'} maxLength={6} bordered />
                     </Form.Item>
                         : <Form.Item
                             label={<img className='icon_lable' src={password_icon} alt="" />}
                             name="password"
-
                         >
                             <Input type={!eyesShow ? 'string' : 'password'} placeholder={'请输入您的密码'} maxLength={18} bordered />
                         </Form.Item>

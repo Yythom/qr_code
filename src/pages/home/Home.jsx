@@ -1,12 +1,11 @@
+/* eslint-disable eqeqeq */
 import React from 'react';
 import { mapStateToProps, mapDispatchToProps } from '../../redux/actionCreator';
 import { connect } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getList } from '../../api/api';
 import Food from './child/food';
 import { useHistory } from 'react-router-dom';
 import empty from '../../assets/icon/images/empty.svg'
-import { baseURL } from '../../api/config';
 import Carbar from '../../component/carBar/CarBar'
 import './home.scss';
 import { getCategoryListApi, getPriductListApi, getCheckShopApi } from '../../api/shopApi';
@@ -15,8 +14,6 @@ import { message } from 'antd';
 
 function _Home({ shop, setShopID, shop_id, activeTab, cartSummary, setShop }) {
 
-    const [loading, setLoading] = useState(false);
-    const [flag, setFlag] = useState(false);
     const [p_list, setP_list] = useState([]);
     const history = useHistory();
     const [tab, setTab] = useState('');
@@ -26,8 +23,6 @@ function _Home({ shop, setShopID, shop_id, activeTab, cartSummary, setShop }) {
     const getProduct = async (category_id, shop_id) => {
         let res = await getPriductListApi(category_id, shop_id);
         if (res) {
-            setFlag(true);
-            setLoading(false);
             setP_list(res.product);
             message.destroy();
             message.success({ content: '获取成功', duration: 1 });
@@ -60,13 +55,10 @@ function _Home({ shop, setShopID, shop_id, activeTab, cartSummary, setShop }) {
                             getProduct('', result.shop_id);
                         }
                     }, 100);
-                } else {
-                    setLoading(false);
                 }
             })
         } else {
             message.destroy();
-            setLoading(false);
             message.error('url不正确');
         }
     }
@@ -111,7 +103,7 @@ function _Home({ shop, setShopID, shop_id, activeTab, cartSummary, setShop }) {
                         <ul>
                             <li onClick={() => { tabFn('') }} style={tab == '' ? { fontWeight: '500' } : {}}>
                                 全部分类
-                     </li>
+                            </li>
                             {category_list && category_list.map((cate) => {
                                 return (
                                     <li onClick={() => { tabFn(cate.category_id) }} key={cate.category_id + cate.category_name} style={tab == cate.category_id ? { fontWeight: '500' } : {}}>
