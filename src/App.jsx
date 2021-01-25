@@ -33,23 +33,13 @@ function _App(props) {
 
         const code = p.get('code') || p.get('auth_code');
         if (/MicroMessenger/.test(window.navigator.userAgent)) { // 微信
-            if (local.indexOf('haimeiyx')) {
-                if (code) {
-                    console.log(code, 'haimei------code');
-                    setCode(code)
-                    // getOpen_idApi(code, '5').then(res => {
-                    //     console.log(res.open_id, 'open_id');
-                    //     props.setCode(res.open_id);
-                    // })
-                }
-            } else {
-                if (code) {
-                    setCode(code)
-                    console.log(code, 'pay-----code');
-                }
-                if (!code) {
-                    window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxAppId}&redirect_uri=${local}&response_type=code&scope=snsapi_base&state=${configState}#wechat_redirect`;
-                }
+            if (code) {
+                setCode(code);
+                window.location.href = `https://shop.integral.haimeiyx.com/integral?code=${code}`
+                console.log(code, 'pay-----code');
+            }
+            if (!code) {
+                window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxAppId}&redirect_uri=${local}&response_type=code&scope=snsapi_base&state=${configState}#wechat_redirect`;
             }
         }
         //  else if (/AlipayClient/.test(window.navigator.userAgent)) { // 支付宝
