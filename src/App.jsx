@@ -24,7 +24,7 @@ function _App(props) {
     useEffect(() => {
         // console.clear();
         const wxAppId = 'wxaf9e884cd4ab31b0';
-        // const aliAppId = '2021002101634074';
+        const aliAppId = '2021002101634074';
         const local = window.location.href;
         console.log(local);
 
@@ -42,15 +42,15 @@ function _App(props) {
                 window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxAppId}&redirect_uri=${local}&response_type=code&scope=snsapi_base&state=${configState}#wechat_redirect`;
             }
         }
-        //  else if (/AlipayClient/.test(window.navigator.userAgent)) { // 支付宝
-        //     if (code) {
-        //         props.setCode(code)
-        //         console.log(code);
-        //     }
-        //     if (!code) {
-        //         window.location.href = `https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=${aliAppId}&scope=auth_base&state=${configState}&redirect_uri=${encodeURIComponent(local)}`;
-        //     }
-        // } 
+        else if (/AlipayClient/.test(window.navigator.userAgent)) { // 支付宝
+            if (code) {
+                setCode(code);
+                console.log(code, 'pay-----code');
+            }
+            if (!code) {
+                window.location.href = `https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=${aliAppId}&scope=auth_base&state=${configState}&redirect_uri=${encodeURIComponent(local)}`;
+            }
+        }
         else {
             props.setCode('');
             // alert('请使用微信或支付宝扫码');
@@ -69,7 +69,7 @@ function _App(props) {
 
     return (
         <div>
-            code获取中:{getCode}
+            code:{getCode}
         </div>
     )
 }
