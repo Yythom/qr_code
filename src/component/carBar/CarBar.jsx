@@ -60,7 +60,7 @@ function Carbar(props) {
     return (
         <div className='carbar'>
             {/* 每一项商品高度 */}
-            <ul className={!show ? 'none_ul float_ul' : 'float_ul'} style={{ height: `${30 + 1 * Array.length}rem` }}>
+            <ul className={!show ? 'none_ul float_ul' : 'float_ul'} style={{ height: `${16 + 8 * (cartSummary?.productList.length - 1)}rem` }}>
 
                 <div className='title'>
                     <p>已选商品 ({cartSummary?.num} {'测试'} )</p>

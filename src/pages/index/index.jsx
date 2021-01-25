@@ -44,6 +44,7 @@ function _Index(props) {
         type && message.loading({ content: '加载中', duration: 0 });
         let shop_list;
         // let banner = await bannerListApi();
+        // let tag_list = await get_tagApi();
         if (props._localtion) shop_list = await get_ShopListApi('', props._localtion.location);
         else shop_list = await get_ShopListApi('');
         if (shop_list) {
@@ -150,19 +151,19 @@ function _Index(props) {
                     />
                 </div>
                 {/* <div className="tag_wrap">
-                <ul>
-                    {
-                        tagList && tagList.map((e, i) => {
-                            return (
-                                <li key={e.tag_id}>
-                                    <img src={e.tag_logo} alt="error" />
-                                    <div>{e.tag_name}</div>
-                                </li>
-                            )
-                        })
-                    }
-                </ul>
-            </div> */}
+                    <ul>
+                        {
+                            tagList && tagList.map((e, i) => {
+                                return (
+                                    <li key={e.tag_id}>
+                                        <img src={e.tag_logo} alt="error" />
+                                        <div>{e.tag_name}</div>
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
+                </div> */}
             </div>
 
             <div className="shop_list" ref={listDOM}>

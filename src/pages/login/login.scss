@@ -15,6 +15,16 @@
         justify-content: space-around;
     }
 
+    .eyes {
+        width: 3rem;
+        height: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 8.9rem;
+        right: 1.8rem;
+    }
 
     .login_wrap {
         width: 32.5rem;

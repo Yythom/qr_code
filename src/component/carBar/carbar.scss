@@ -20,7 +20,7 @@
 
     .float_ul {
         width: 100%;
-        height: 30rem;
+        max-height: 31rem !important;
         transition: 400ms;
         background-color: #fff;
         position: absolute;
