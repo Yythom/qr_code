@@ -93,12 +93,6 @@ function Cashier(props) {
     const pay = debounce(async (coin) => {
         if (!props.shop.is_business) {
             message.error('店铺已打烊');
-            // eslint-disable-next-line no-undef
-            console.log(AP, 'zfb');
-            // eslint-disable-next-line no-undef
-            console.log(WeixinJSBridge, 'wx');
-            console.log(props.code);
-
             return;
         }
         setLoading(true);
@@ -121,7 +115,7 @@ function Cashier(props) {
             let res;
             if (!mark_id) {
                 res = await createOrderApi(list(), 7, props.useAddress, way);
-                console.log(res, '下单res ---->');
+                console.log(res, '代币下单res ---->');
 
                 if (res) {
                     setMark_id(res.order_id);
@@ -168,23 +162,23 @@ function Cashier(props) {
                 orderId = mark_id;
                 result = await payApi(paytype, mark_id, props.code);
             }
-            console.log(result, 'pay result 1');
+            console.log(result, orderId, 'pay result 1');
 
             if (result && isWexinOrAliPay === 'wx') {
                 // eslint-disable-next-line no-undef
                 if (typeof WeixinJSBridge == 'undefined') {
                     if (document.addEventListener) {
                         // eslint-disable-next-line no-undef
-                        document.addEventListener('WeixinJSBridgeReady', onBridgeReady(result), false);
+                        document.addEventListener('WeixinJSBridgeReady', onBridgeReady(result, orderId), false);
                     } else if (document.attachEvent) {
                         // eslint-disable-next-line no-undef
-                        document.attachEvent('WeixinJSBridgeReady', onBridgeReady(result));
+                        document.attachEvent('WeixinJSBridgeReady', onBridgeReady(result, orderId));
                         // eslint-disable-next-line no-undef
-                        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady(result));
+                        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady(result, orderId));
                     }
                 } else {
                     // eslint-disable-next-line no-undef
-                    onBridgeReady(result.payInfo);
+                    onBridgeReady(result.payInfo, orderId);
                 }
             } else if (result && isWexinOrAliPay === 'zfb') {
                 // eslint-disable-next-line no-undef
@@ -217,13 +211,11 @@ function Cashier(props) {
                     // }
                     // serch_order();
                 });
-            } else {
-                // setPayLoading(false);
             }
         }
     };
     // weixin
-    const onBridgeReady = (payInfo) => {
+    const onBridgeReady = (payInfo, orderId) => {
         // eslint-disable-next-line no-undef
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest', {
@@ -235,11 +227,14 @@ function Cashier(props) {
             paySign: payInfo.paySign, // 微信签名
         },
             (res) => {
-                console.log(res, mark_id, 'vx res 2');
+                console.log(res, orderId, 'vx res 2');
                 props.clearCart();
+
                 setTimeout(() => {
-                    history.push(`/integral/orderdetail?order_id=${mark_id}&shop_id=${props.shop_id}`);
+                    history.push(`/integral/orderdetail?order_id=${orderId}&shop_id=${props.shop_id}`);
                 }, 200);
+
+
                 // 支付成功 // 由点金计划待处理
             },
         );
