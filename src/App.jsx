@@ -23,7 +23,7 @@ function _App(props) {
 
     useEffect(() => {
         // console.clear();
-        const wxAppId = 'wxbc32865e2a127f25';
+        const wxAppId = 'wxaf9e884cd4ab31b0';
         // const aliAppId = '2021002101634074';
         const local = window.location.href;
         console.log(local);
@@ -41,9 +41,6 @@ function _App(props) {
                     //     console.log(res.open_id, 'open_id');
                     //     props.setCode(res.open_id);
                     // })
-                }
-                if (!code) {
-                    window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxAppId}&redirect_uri=${local}&response_type=code&scope=snsapi_base&state=${configState}#wechat_redirect`;
                 }
             } else {
                 if (code) {
