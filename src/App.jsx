@@ -2,21 +2,11 @@ import React, { useState } from 'react'
 import { mapStateToProps, mapDispatchToProps } from './redux/actionCreator'
 import { connect } from 'react-redux'
 
-// eslint-disable-next-line no-unused-vars
-import { BrowserRouter as Router, Route, Switch, Redirect, useHistory } from 'react-router-dom'
-
-
-//路由
-// import router from './router/router'
-
 //布局组件
-import BaseLayout from './component/layout/BaseLayout'
-import Login from './pages/login/Login'
 import { useEffect } from 'react'
 // import { setCookie } from './utils/utils'
 import { message } from 'antd'
 import configState from './utils/state'
-import { getOpen_idApi } from './api/indexApi'
 
 function _App(props) {
     const [getCode, setCode] = useState('')
@@ -27,7 +17,7 @@ function _App(props) {
         const wxAppId = 'wxaf9e884cd4ab31b0';
         const aliAppId = '2021002101634074';
         const local = window.location.href;
-        console.log(local);
+        console.log(local, message);
 
         const p = new URLSearchParams(window.location.search);
         console.log(window.location.href, window.location.search, 'url');
