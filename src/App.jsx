@@ -12,8 +12,6 @@ function _App(props) {
     const [getCode, setCode] = useState('')
 
     useEffect(() => {
-        // console.clear();
-        message.loading({ content: '获取code中', duration: 0 })
         const wxAppId = 'wxaf9e884cd4ab31b0';
         const aliAppId = '2021002101634074';
         const local = window.location.href;
@@ -48,9 +46,12 @@ function _App(props) {
             // alert('请使用微信或支付宝扫码');
             console.log('请使用微信或支付宝扫码');
 
-            message.error('请使用微信或支付宝扫码');
+            setTimeout(() => {
+                message.error('请使用微信或支付宝扫码');
+            }, 2000);
         }
         // message.destroy();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
@@ -61,7 +62,7 @@ function _App(props) {
 
     return (
         <div>
-
+            ...
         </div>
     )
 }
