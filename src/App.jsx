@@ -8,7 +8,8 @@ import { useEffect } from 'react'
 // import { setCookie } from './utils/utils'
 import { message } from 'antd'
 import configState from './utils/state'
-
+import { Route, Router, Switch } from 'react-router'
+import BaseLayout from './component/layout/BaseLayout'
 
 
 function _App(props) {
@@ -33,7 +34,7 @@ function _App(props) {
 
     return (
         <div>
-            ...
+            {/* ...
             <button onClick={() => {
                 wx.miniProgram.navigateBack({ delta: 1 })
                 Wx.miniProgram.getEnv(function (res) {
@@ -53,8 +54,15 @@ function _App(props) {
             }}>向小程序post ——m</button>
             <button onClick={() => {
                 wx.miniProgram.switchTab({ url: '/pages/test/index' })
-            }}>跳转</button>
+            }}>跳转</button> */}
 
+            <Router>
+                <Switch>
+                    {/* <Route path='/integral' component={BaseLayout} ></Route> */}
+                    <Route path='/404' exact component={() => <h2>404</h2>}></Route>
+
+                </Switch>
+            </Router>
         </div>
     )
 }

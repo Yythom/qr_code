@@ -16,71 +16,7 @@ import { getCookie, getAddress } from '../../utils/utils';
 
 function _Layout(props) {
     const history = useHistory();
-    function getPosition() {
-        let flag = false;
-        return new Promise((resolve, reject) => {
-            if (window.location.href.indexOf('https') === -1) { // 当用户为https时候
-                if (window.location.href.indexOf('localhost') !== -1) {
-                    flag = true;
-                } else {
-                    reject('请使用https访问获取定位');
-                    return
-                }
-            } else {
-                flag = true
-            }
 
-
-            if (!flag) return
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    let latitude = position.coords.latitude
-                    let longitude = position.coords.longitude
-                    let data = {
-                        latitude: latitude,
-                        longitude: longitude
-                    }
-                    resolve(data)
-                }, function () {
-                    reject(arguments)
-                })
-            } else {
-                reject('你的浏览器不支持当前地理位置信息获取');
-            }
-        })
-    }
-    function getLocation() {
-
-        console.log('result');
-        // 获取当前经纬度坐标
-        getPosition().then(result => {
-            console.log(result, 'result');
-
-            // 返回结果示例：
-            // {latitude: 30.318030999999998, longitude: 120.05561639999999}
-            // 一般小数点后只取六位，所以用以下代码搞定
-            let queryData = {
-                latitude: String(result.latitude).match(/\d+\.\d{0,6}/)[0],
-                longtitude: String(result.longitude).match(/\d+\.\d{0,6}/)[0],
-            }
-
-            getAddress(Number(queryData.latitude), Number(queryData.longtitude)).then(res => {
-                console.log(res);
-                message.destroy();
-                props.setLocaltion(res);
-            })
-
-            // 以下放置获取坐标后你要执行的代码:
-            // ...
-        }).catch(err => {
-            message.destroy();
-            console.log(err);
-
-            // setTimeout(() => {
-            //     message.error(err);
-            // }, 600);
-        })
-    }
 
     useEffect(() => {
         console.log('layout loading');
@@ -98,7 +34,7 @@ function _Layout(props) {
         // if (!index) {
         //     if (!localStorage.getItem('info') && !props.userStore) history.push('/integral')
         // }
-        getLocation();
+        // getLocation();
 
     }, [])
 
