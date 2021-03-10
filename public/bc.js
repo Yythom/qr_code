@@ -6,3 +6,4 @@
 // var geocoder = new qq.maps.Geocoder();
 
 var vConsole = new VConsole();
+var Wx = wx;
